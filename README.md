@@ -1,4 +1,7 @@
 # *QZin Eat*
+
+**QZin Eat** is an android app that allows a user to host or subscribe food meetups. Host can create meetup event and includes details of menu, venue, date, photos, and max guest count. Subscriber can view meetup post, search post, view detailed event and enroll for QZin Eat Meetup.    
+
 ## User Stories
 
 Login Sign Up
