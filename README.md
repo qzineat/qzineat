@@ -4,41 +4,47 @@
 
 ## User Stories
 
-Login Sign Up
-* [ ] User can Sign Up 
-* [ ] User can Sign In through Facebook/Google and Twitter 
+The following are **required** functionality
+
+* [ ] Host Features
+ * [ ] Create an event 
+   * [ ] Host can add/edit/delete details about menu, venue, date, photos, and number of guest count
+ * [ ] View list of subscribers
+ * [ ] Host can create simple profile with description and speciality 
+* [ ] Subscriber Features
+ * [ ] User can subscribe to QZin Eat
+ * [ ] User can share QZin Eat with friends
+* [ ] Common Features
+ * [ ] Show near by QZin Eat 
+ * [ ] User can see short details on listing with venue, photo, and availability
+ * [ ] User can see location of QZin Eat on map  
  
-Common Features  
-
-* [ ] Send message to other users **
-* [ ] Showcase App on first install 
-* [ ] Show near by QZin Eat based on location
-* [ ] Event Details 
- * [ ] Full Venue, map, menu, ratings of host, rating of event, criteria  
- * [ ] View avialable spots
-* [ ] Search QZin Eat and advance filters 
-* [ ] Trending 
-* [ ] Noification
- * [ ] Notification on Subcription, befor event, and 15 mins before event, any update of event
-
-Host Features
-
-* [ ] Host can create events
-  * [ ] Post venue, menu, time, photos, limit number of guest, criteria - Note: venue can show map
-  * [ ] Edit/delete an event  
-* [ ] View list of subscribers
-* [ ] Send messages to event subscriber **
-* [ ] Accept/Reject subcriber 
-* [ ] Waiting list **
-* [ ] Host Details View
-
-Subscriber Features
-
-* [ ] Subscribe to QZin Eat
-* [ ] Subscribe to host
-* [ ] Share with friends 
-* [ ] Rate and review the host as well as event
-* [ ] Show food intrest settings (profile) 
+    
+The following are **optional** functionality 
+ 
+* [ ] Host Features
+ * [ ] Host can View/Post messages to event subscribers
+ * [ ] Host can Accept/Reject subscriber 
+ * [ ] Host can Enable/Disable Waiting list 
+ * [ ] Host can create detail profile
+* [ ] Subscriber Features
+ * [ ] Subscriber can follow the Host
+ * [ ] Subscriber can rate and review the host
+ * [ ] Subscriber can rate and review the event
+ * [ ] Subscriber can add/update profile with food interest settings
+ * [ ] Subscriber can View/Post messages
+* [ ] Common Features
+ * [ ] User can see app showcase walkthrough on first install
+ * [ ] Show near by QZin Eat based on **current location**
+ * [ ] User can see short details on QZin Eat listing with event rating, host rating, and likes
+ * [ ] Search QZin Eat and advance filters
+ * [ ] User can see what is currently Trending
+ * [ ] Notification
+  * [ ] Notification on Subscription, 15 minutes before event and on any update of event
+ * [ ] Login Sign Up
+  * [ ] User can Sign In through Facebook/Google and/or Twitter 
+  * [ ] App should maintain user history
+ 
 
 
 
