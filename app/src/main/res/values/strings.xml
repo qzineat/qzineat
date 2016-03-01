@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">QzinEat</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string name="log_in">Log In</string>
+    <string name="host_event">Host an Event</string>
+    <string name="advance_filter">Advance Filter</string>
+    <string name="futurama">Futurama</string>
+    <string name="nav_title">qzineat</string>
+    <string name="simpsorama">Simpsorama</string>
+
+</resources>
