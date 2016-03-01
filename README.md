@@ -4,7 +4,7 @@
 
 ## User Stories
 
-The following are **required** functionality
+The following **required** functionality is completed:
 
 * [ ] Host Features
  * [ ] Create an event 
@@ -20,12 +20,10 @@ The following are **required** functionality
  * [ ] User can see location of QZin Eat on map  
  
     
-The following are **optional** functionality 
+The following **optional** features are implemented: 
  
 * [ ] Host Features
  * [ ] Host can View/Post messages to event subscribers
- * [ ] Host can Accept/Reject subscriber 
- * [ ] Host can Enable/Disable Waiting list 
  * [ ] Host can create detail profile
 * [ ] Subscriber Features
  * [ ] Subscriber can follow the Host
@@ -34,7 +32,6 @@ The following are **optional** functionality
  * [ ] Subscriber can add/update profile with food interest settings
  * [ ] Subscriber can View/Post messages
 * [ ] Common Features
- * [ ] User can see app showcase walkthrough on first install
  * [ ] Show near by QZin Eat based on **current location**
  * [ ] User can see short details on QZin Eat listing with event rating, host rating, and likes
  * [ ] Search QZin Eat and advance filters
@@ -43,8 +40,16 @@ The following are **optional** functionality
   * [ ] Notification on Subscription, 15 minutes before event and on any update of event
  * [ ] Login Sign Up
   * [ ] User can Sign In through Facebook/Google and/or Twitter 
-  * [ ] App should maintain user history
+  
  
+The following bonus **features** are implemented: 
+
+* [ ] Host Features
+ * [ ] Host can Enable/Disable Waiting list 
+* [ ] Common Features
+ * [ ] User can see app showcase walkthrough on first install
+* [ ] Login Sign Up 
+ * [ ] App should maintain user history
 
 
 
