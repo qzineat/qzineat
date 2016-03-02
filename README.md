@@ -50,7 +50,3 @@ The following bonus **features** are implemented:
  * [ ] User can see app showcase walkthrough on first install
 * [ ] Login Sign Up 
  * [ ] App should maintain user history
-
-
-
-
