@@ -31,6 +31,6 @@ public class QzinEatClient {
   public void getEvents(AsyncHttpResponseHandler handler){
     RequestParams params = new RequestParams();
 
-    client.get(getApiUrl("eventlist.json"), params, handler);
+    client.get(getApiUrl("master/eventlist.json"), params, handler);
   }
 }
