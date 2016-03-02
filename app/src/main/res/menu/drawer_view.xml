@@ -16,6 +16,10 @@
                 android:id="@+id/nav_advance_filter"
                 android:icon="@drawable/ic_south_park"
                 android:title="@string/advance_filter" />
+            <item
+                android:id="@+id/nav_events"
+                android:icon="@drawable/ic_south_park"
+                android:title="Events" />
         </menu>
     </item>
 

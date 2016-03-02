@@ -9,19 +9,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.codepath.android.navigationdrawerexercise.R;
 import com.codepath.android.navigationdrawerexercise.fragments.AdvanceFragment;
 import com.codepath.android.navigationdrawerexercise.fragments.HostFragment;
 import com.codepath.android.navigationdrawerexercise.fragments.LoginFragment;
-import com.codepath.qzineat.QzinEatClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
+import com.codepath.qzineat.fragments.EventListFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,26 +25,24 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView nvDrawer;
 
-  QzinEatClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
 
-        mDrawer = (DrawerLayout)  findViewById(R.id.drawer_layout);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
 
-      // Lets call API And Get Some Result Back
-      client = new QzinEatClient();
-      client.getEvents(mEventListHandler);
-
     }
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -68,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = null;
 
         Class fragmentClass = null;
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.nav_login:
                 fragmentClass = LoginFragment.class;
                 break;
@@ -78,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_advance_filter:
                 fragmentClass = AdvanceFragment.class;
                 break;
+            case R.id.nav_events:
+                fragmentClass = EventListFragment.class;
         }
 
         try {
@@ -97,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open,  R.string.drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
     @Override
@@ -114,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -121,10 +116,4 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-  private JsonHttpResponseHandler mEventListHandler = new JsonHttpResponseHandler(){
-    @Override
-    public void onSuccess(int statusCode, Header[] headers, JSONObject jsonResponse) {
-      Log.d("DEBUG", "API Response - " + jsonResponse.toString());
-    }
-  };
 }

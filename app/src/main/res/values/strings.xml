@@ -10,5 +10,7 @@
     <string name="futurama">Futurama</string>
     <string name="nav_title">qzineat</string>
     <string name="simpsorama">Simpsorama</string>
+    <string name="example_event_title">Sample Event Title</string>
+    <string name="example_place">San Francisco</string>
 
 </resources>
