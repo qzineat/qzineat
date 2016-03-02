@@ -9,12 +9,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.codepath.android.navigationdrawerexercise.R;
 import com.codepath.android.navigationdrawerexercise.fragments.AdvanceFragment;
 import com.codepath.android.navigationdrawerexercise.fragments.HostFragment;
 import com.codepath.android.navigationdrawerexercise.fragments.LoginFragment;
+import com.codepath.qzineat.QzinEatClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+
+  QzinEatClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout)  findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
+
+      // Lets call API And Get Some Result Back
+      client = new QzinEatClient();
+      client.getEvents(mEventListHandler);
 
     }
     private void setupDrawerContent(NavigationView navigationView) {
@@ -107,4 +120,11 @@ public class MainActivity extends AppCompatActivity {
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
+  private JsonHttpResponseHandler mEventListHandler = new JsonHttpResponseHandler(){
+    @Override
+    public void onSuccess(int statusCode, Header[] headers, JSONObject jsonResponse) {
+      Log.d("DEBUG", "API Response - " + jsonResponse.toString());
+    }
+  };
 }

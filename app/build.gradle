@@ -21,7 +21,7 @@ android {
 
 ext {
     supportLibVersion = '23.2.0'  // variable that can be referenced to keep support libs consistent
-    asyncHttpLibVesrion = '1.4.8'
+    asyncHttpLibVesrion = '1.4.9'
 }
 
 dependencies {
