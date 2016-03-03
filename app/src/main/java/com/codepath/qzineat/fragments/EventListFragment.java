@@ -107,8 +107,8 @@ public class EventListFragment extends Fragment {
     private void saveEvent(){
         // Parse Save
         Event event = new Event();
-        event.setEventTitle("Sunset Sushi Party!!");
-        event.setEventImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
+        event.setTitle("Sunset Sushi Party!!");
+        event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
