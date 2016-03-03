@@ -1,4 +1,4 @@
-package com.codepath.android.navigationdrawerexercise.activities;
+package com.codepath.qzineat.activities;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.codepath.android.navigationdrawerexercise.R;
-import com.codepath.android.navigationdrawerexercise.fragments.AdvanceFragment;
-import com.codepath.android.navigationdrawerexercise.fragments.HostFragment;
-import com.codepath.android.navigationdrawerexercise.fragments.LoginFragment;
+import com.codepath.qzineat.fragments.AdvanceFragment;
+import com.codepath.qzineat.fragments.HostFragment;
+import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 
 

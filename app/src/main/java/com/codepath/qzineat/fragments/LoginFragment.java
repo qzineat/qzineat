@@ -1,5 +1,4 @@
-package com.codepath.android.navigationdrawerexercise.fragments;
-
+package com.codepath.qzineat.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +8,16 @@ import android.view.ViewGroup;
 
 import com.codepath.android.navigationdrawerexercise.R;
 
-public class AdvanceFragment extends Fragment {
+/**
+ * Created by glondhe on 3/1/16.
+ */
+public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.advance_layout, container, false);
+        return inflater.inflate(R.layout.login_layout, container, false);
     }
+
 }
