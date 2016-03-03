@@ -5,6 +5,7 @@ import android.app.Application;
 import com.codepath.qzineat.models.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
 
 /**
@@ -26,5 +27,10 @@ public class QZinEatApplication extends Application {
                 .clientKey("simplechat9876")
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("https://simplechat9876.herokuapp.com/parse/").build());
+
+        // Create Anonymous users - later we can associate twitter/facebook login to it
+        ParseUser.enableAutomaticUser();
+        ParseUser.getCurrentUser().increment("RunCount");
+        ParseUser.getCurrentUser().saveInBackground();
     }
 }
