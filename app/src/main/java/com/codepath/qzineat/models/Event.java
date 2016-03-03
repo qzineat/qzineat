@@ -29,19 +29,19 @@ public class Event extends ParseObject {
     }
 
     public String getImageUrl() {
-        return getString("eventImageUrl");
+        return getString("imageUrl");
     }
 
-    public void setImageUrl(String eventImageUrl) {
-        put("eventImageUrl" , eventImageUrl);
+    public void setImageUrl(String imageUrl) {
+        put("imageUrl" , imageUrl);
     }
 
     public String getTitle() {
-        return getString("eventTitle");
+        return getString("title");
     }
 
-    public void setTitle(String eventTitle) {
-        put("eventTitle", eventTitle);
+    public void setTitle(String title) {
+        put("title", title);
     }
 
     public String getDescription() {
