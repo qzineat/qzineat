@@ -1,5 +1,4 @@
-package com.codepath.android.navigationdrawerexercise.application;
-
+package com.codepath.qzineat;
 
 import android.app.Application;
 
@@ -9,10 +8,9 @@ import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 
 /**
- * Created by glondhe on 2/18/16.
+ * Created by Shyam Rokde on 3/2/16.
  */
-public class QEApplication  extends Application {
-
+public class QZinEatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
