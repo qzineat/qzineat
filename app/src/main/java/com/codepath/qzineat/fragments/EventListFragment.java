@@ -10,22 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.android.navigationdrawerexercise.R;
-import com.codepath.qzineat.QzinEatClient;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.models.Event;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Shyam Rokde on 3/2/16.
@@ -34,7 +34,6 @@ public class EventListFragment extends Fragment {
 
     private ArrayList<Event> mEvents;
     private EventsRecyclerViewAdapter recyclerViewAdapter;
-    private QzinEatClient qzinEatClient;
 
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
@@ -56,14 +55,35 @@ public class EventListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // create client
-        qzinEatClient = new QzinEatClient();
 
         mEvents = new ArrayList<>();
         recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext());
 
-        // get data
-        qzinEatClient.getEvents(mEventListResponseHandler);
+        // Populate Data
+        getEvents();
+    }
+
+    private void getEvents() {
+        // Construct query to execute
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        // Configure limit and sort order
+        query.setLimit(20);
+        query.orderByAscending("createdAt");
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e == null) {
+                    if(events.size() > 0){
+                        int curSize = recyclerViewAdapter.getItemCount();
+                        ArrayList<Event> arrayList = new ArrayList<>(events);
+                        mEvents.addAll(arrayList);
+                        recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
+                    }
+                } else {
+                    Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
+                }
+            }
+        });
     }
 
     private void setupRecyclerView() {
@@ -75,38 +95,26 @@ public class EventListFragment extends Fragment {
         rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                qzinEatClient.getEvents(mEventListResponseHandler);
+                // TODO: Get more - pagination logic here
             }
         });
     }
 
-    private final JsonHttpResponseHandler mEventListResponseHandler = new JsonHttpResponseHandler() {
-        @Override
-        public void onStart() {
-            Log.d("DEBUG", "Request: " + super.getRequestURI().toString());
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONObject jsonObject) {
-            Log.d("DEBUG", "Response: " + jsonObject.toString());
-
-            int curSize = recyclerViewAdapter.getItemCount();
-
-            ArrayList<Event> arrayList = null;
-            try {
-                arrayList = Event.fromJSONArray(jsonObject.getJSONArray("event"));
-
-                mEvents.addAll(arrayList);
-                recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
-            } catch (JSONException e) {
-                e.printStackTrace();
+    /**
+     * Use this as example to save events
+     * TODO: We have to associate user to events...
+     */
+    private void saveEvent(){
+        // Parse Save
+        Event event = new Event();
+        event.setEventTitle("Sunset Sushi Party!!");
+        event.setEventImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
+        });
+    }
 
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-
-        }
-    };
 }

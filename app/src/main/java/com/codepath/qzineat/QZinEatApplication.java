@@ -2,7 +2,7 @@ package com.codepath.qzineat;
 
 import android.app.Application;
 
-import com.codepath.android.navigationdrawerexercise.model.Message;
+import com.codepath.qzineat.models.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
@@ -15,7 +15,8 @@ public class QZinEatApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ParseObject.registerSubclass(Message.class);
+        // Register your parse models here
+        ParseObject.registerSubclass(Event.class);
 
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured

@@ -1,5 +1,8 @@
 package com.codepath.qzineat.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,26 +12,36 @@ import java.util.ArrayList;
 /**
  * Created by Shyam Rokde on 3/2/16.
  */
-public class Event {
-    private String eventImageUrl;
-    private String eventTitle;
+@ParseClassName("Event")
+public class Event extends ParseObject {
+
+    public Event(){
+        // Required for Parse
+    }
 
     public String getEventImageUrl() {
-        return eventImageUrl;
+        return getString("eventImageUrl");
     }
 
     public void setEventImageUrl(String eventImageUrl) {
-        this.eventImageUrl = eventImageUrl;
+        put("eventImageUrl" , eventImageUrl);
     }
 
     public String getEventTitle() {
-        return eventTitle;
+        return getString("eventTitle");
     }
 
     public void setEventTitle(String eventTitle) {
-        this.eventTitle = eventTitle;
+        put("eventTitle", eventTitle);
     }
 
+
+
+
+
+
+
+    // TODO: Remove later - this is not used in parse
     public Event(JSONObject jsonObject){
         super();
         try{
@@ -39,6 +52,7 @@ public class Event {
         }
     }
 
+    // TODO: Remove later - this is not used in parse
     public static ArrayList<Event> fromJSONArray(JSONArray jsonArray) {
 
         ArrayList<Event> events = new ArrayList<>();

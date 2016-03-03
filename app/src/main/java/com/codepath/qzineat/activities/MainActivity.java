@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
-
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
