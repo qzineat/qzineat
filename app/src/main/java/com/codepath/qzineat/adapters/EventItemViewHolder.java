@@ -16,8 +16,8 @@ import butterknife.ButterKnife;
 public class EventItemViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.ivEventImage) public ImageView ivEventImage;
-    @Bind(R.id.tvEventTitle) public TextView tvEventTitle;
-    @Bind(R.id.tvPlace) public TextView tvPlace;
+    @Bind(R.id.tvTitle) public TextView tvTitle;
+    @Bind(R.id.tvCity) public TextView tvCity;
 
     public EventItemViewHolder(View itemView) {
         super(itemView);

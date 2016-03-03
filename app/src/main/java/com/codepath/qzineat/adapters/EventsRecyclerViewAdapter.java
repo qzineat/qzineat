@@ -44,9 +44,9 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         Event event = mEvents.get(position);
 
         // 2. Populate user interface
-        viewHolder.tvEventTitle.setText(event.getEventTitle());
+        viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
-        Picasso.with(mContext).load(event.getEventImageUrl()).fit().into(viewHolder.ivEventImage);
+        Picasso.with(mContext).load(event.getImageUrl()).fit().into(viewHolder.ivEventImage);
 
     }
 
