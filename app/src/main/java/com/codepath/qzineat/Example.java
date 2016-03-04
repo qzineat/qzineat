@@ -23,11 +23,11 @@ public class Example {
         ParseUser currentUser = ParseUser.getCurrentUser();
         // Parse Save
         Event event = new Event();
-        event.setTitle("Sunset Sushi Party!!");
-        event.setDescription("Throwing a sushi party might sound a little daunting, but I promise, you won't regret the effort. Lets have fun together!!!.");
-        event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
+        event.setTitle("Home made Seafood");
+        event.setDescription("Lets get together and have sea food cooked by experience last 20 year.");
+        event.setImageUrl("http://www.articlesdiscussion.com/wp-content/uploads/2014/07/seafood1.jpg");
         event.setHost(currentUser);
-        event.setGuestLimit(25);
+        event.setGuestLimit(10);
 
         event.saveInBackground(new SaveCallback() {
             @Override

@@ -16,7 +16,6 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
-import com.facebook.FacebookSdk;
 
 
 public class MainActivity extends AppCompatActivity {

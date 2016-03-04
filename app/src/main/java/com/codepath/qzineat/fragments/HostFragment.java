@@ -76,11 +76,11 @@ public class HostFragment extends Fragment {
         // Parse Save
         Event event = new Event();
         event.setTitle(etTitile.getText().toString());
-        event.setGuestLimit((Integer) spGuest.getSelectedItem());
+        event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setDescription(etDesc.getText().toString());
         event.setAddress(etVenue.getText().toString());
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
-        event.setGuestLimit((Integer) spGuest.getSelectedItem());
+        event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());
         event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
         event.setHost(currentUser);
