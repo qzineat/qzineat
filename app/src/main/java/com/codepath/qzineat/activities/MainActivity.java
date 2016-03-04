@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;

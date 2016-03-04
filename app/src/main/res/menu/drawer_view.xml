@@ -5,7 +5,6 @@
         <menu>
             <item
                 android:id="@+id/nav_login"
-                android:icon="@drawable/ic_family_guy"
                 android:title="@string/log_in"
                 android:checked="true"/>
             <item
