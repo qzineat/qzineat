@@ -54,4 +54,9 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
     public int getItemCount() {
         return mEvents.size();
     }
+
+    public void clear() {
+        mEvents.clear();
+        notifyItemRangeRemoved(0, getItemCount());
+    }
 }
