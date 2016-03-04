@@ -13,5 +13,6 @@
     <string name="example_event_title">Sample Event Title</string>
     <string name="example_place">San Francisco</string>
     <string name="facebook_app_id">1679395408995849</string>
+    <string name="drawer_event">Events</string>
 
 </resources>

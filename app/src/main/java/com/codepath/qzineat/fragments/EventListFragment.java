@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
@@ -19,7 +18,6 @@ import com.codepath.qzineat.models.Event;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +71,7 @@ public class EventListFragment extends Fragment {
             @Override
             public void done(List<Event> events, ParseException e) {
                 if (e == null) {
-                    if(events.size() > 0){
+                    if (events.size() > 0) {
                         int curSize = recyclerViewAdapter.getItemCount();
                         ArrayList<Event> arrayList = new ArrayList<>(events);
                         mEvents.addAll(arrayList);
@@ -100,21 +98,6 @@ public class EventListFragment extends Fragment {
         });
     }
 
-    /**
-     * Use this as example to save events
-     * TODO: We have to associate user to events...
-     */
-    private void saveEvent(){
-        // Parse Save
-        Event event = new Event();
-        event.setTitle("Sunset Sushi Party!!");
-        event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
-        event.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+
 
 }
