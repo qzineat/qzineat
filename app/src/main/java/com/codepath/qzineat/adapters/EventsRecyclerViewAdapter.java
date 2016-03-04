@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.navigationdrawerexercise.R;
 import com.codepath.qzineat.models.Event;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
     public Context mContext;
 
 
-    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context){
+    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context) {
         mEvents = events;
         mContext = context;
     }
@@ -46,7 +46,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
-        Picasso.with(mContext).load(event.getImageUrl()).fit().into(viewHolder.ivEventImage);
+        Glide.with(mContext).load(event.getImageUrl()).centerCrop().into(viewHolder.ivEventImage);
 
     }
 

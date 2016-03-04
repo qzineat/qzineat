@@ -1,5 +1,6 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.qzineat.activities.EventDetailActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.utils.ItemClickSupport;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -51,7 +54,15 @@ public class EventListFragment extends Fragment {
         // Setup RecyclerView
         setupRecyclerView();
 
+        // Item click support
+        setupItemClick();
+
         return view;
+    }
+
+    private void setupItemClick() {
+        // Item click Listener
+        ItemClickSupport.addTo(rvEvents).setOnItemClickListener(mEventClickListener);
     }
 
     @Override
@@ -118,6 +129,17 @@ public class EventListFragment extends Fragment {
             // Reload Data
             lastCreatedAt = null;
             getEvents();
+        }
+    };
+
+    private final ItemClickSupport.OnItemClickListener mEventClickListener = new ItemClickSupport.OnItemClickListener() {
+        @Override
+        public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+            Event event = mEvents.get(position);
+
+            Intent i = new Intent(getContext(), EventDetailActivity.class);
+            i.putExtra("eventObjectId", event.getObjectId());
+            startActivity(i);
         }
     };
 

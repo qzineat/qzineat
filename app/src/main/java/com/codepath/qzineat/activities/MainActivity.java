@@ -13,9 +13,9 @@ import android.view.MenuItem;
 
 import com.codepath.android.navigationdrawerexercise.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
+import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
-import com.codepath.qzineat.fragments.EventListFragment;
 
 
 public class MainActivity extends AppCompatActivity {
