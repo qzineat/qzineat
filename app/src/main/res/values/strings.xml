@@ -12,5 +12,6 @@
     <string name="simpsorama">Simpsorama</string>
     <string name="example_event_title">Sample Event Title</string>
     <string name="example_place">San Francisco</string>
+    <string name="drawer_event">Events</string>
 
 </resources>

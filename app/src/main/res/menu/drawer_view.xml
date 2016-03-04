@@ -5,9 +5,13 @@
         <menu>
             <item
                 android:id="@+id/nav_login"
-                android:icon="@drawable/ic_family_guy"
+                android:icon="@drawable/ic_drawer_login"
                 android:title="@string/log_in"
                 android:checked="true"/>
+            <item
+                android:id="@+id/nav_events"
+                android:icon="@drawable/ic_drawer_event"
+                android:title="@string/drawer_event" />
             <item
                 android:id="@+id/nav_host_event"
                 android:icon="@drawable/ic_simpsons"
@@ -16,10 +20,6 @@
                 android:id="@+id/nav_advance_filter"
                 android:icon="@drawable/ic_south_park"
                 android:title="@string/advance_filter" />
-            <item
-                android:id="@+id/nav_events"
-                android:icon="@drawable/ic_south_park"
-                android:title="Events" />
         </menu>
     </item>
 
