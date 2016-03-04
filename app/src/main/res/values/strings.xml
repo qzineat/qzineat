@@ -14,5 +14,12 @@
     <string name="example_place">San Francisco</string>
     <string name="facebook_app_id">1679395408995849</string>
     <string name="drawer_event">Events</string>
-
+    <string name="margin1">20dp</string>
+    <string name="prompt">Choose</string>
+    <string name="textHt">10dp</string>
+    <string-array name="yesno_Array">
+        <item>Choose</item>
+        <item>No</item>
+        <item>Yes</item>
+    </string-array>
 </resources>

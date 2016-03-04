@@ -13,9 +13,10 @@ import android.view.MenuItem;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
+import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
-import com.codepath.qzineat.fragments.EventListFragment;
+import com.facebook.FacebookSdk;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
-
 
 
     @Override
@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
+
     }
+
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
