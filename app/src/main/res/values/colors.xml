@@ -3,4 +3,5 @@
     <color name="primary_dark">#D32F2F</color>
     <color name="primary">#F44336</color>
     <color name="accent">#FF9800</color>
+    <color name="horizontalRule">#e1e1e1</color>
 </resources>

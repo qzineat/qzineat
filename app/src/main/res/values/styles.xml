@@ -17,7 +17,15 @@
         <item name="fontPath">fonts/Roboto-Regular.ttf</item>
     </style>
     <style name="DateStyle">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+    </style>
+    <style name="LocationStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+    <style name="CountStyle">
+        <item name="android:textSize">14sp</item>
         <item name="fontPath">fonts/Roboto-Regular.ttf</item>
     </style>
 

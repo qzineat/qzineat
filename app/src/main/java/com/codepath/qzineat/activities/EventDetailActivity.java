@@ -2,11 +2,14 @@ package com.codepath.qzineat.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
@@ -14,6 +17,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,7 +36,9 @@ public class EventDetailActivity extends AppCompatActivity {
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
+
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
     private Event event;
     private String eventObjectId;
@@ -48,6 +54,9 @@ public class EventDetailActivity extends AppCompatActivity {
 
         // Get Event
         getEvent();
+
+        // Sign Up
+        setupSignUpButton();
     }
 
     @Override
@@ -68,7 +77,6 @@ public class EventDetailActivity extends AppCompatActivity {
                     event = object;
                     // Start Loading Data here
                     populateEvent();
-                    Log.d("DEBUG", object.toString());
                 }
             }
         });
@@ -80,10 +88,22 @@ public class EventDetailActivity extends AppCompatActivity {
 
         tvTitle.setText(event.getTitle());
 
-        String format = "MMMM F";
-        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-        tvDate.setText(sdf.format(new Date(0)));
+        DateFormat dateFormat = new SimpleDateFormat("MMMM F @KK:mm a", Locale.US);
+        tvDate.setText(dateFormat.format(new Date()));
 
+        if(event.getAddress() != null) {
+            tvLocation.setText(event.getAddress());
+        }else{
+            tvLocation.setVisibility(View.GONE);
+        }
+
+        tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
+
+        try {
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
 
 
         //tvAvailability.setText(event.getGuestLimit() - event.getSignupCount());
@@ -91,7 +111,14 @@ public class EventDetailActivity extends AppCompatActivity {
         tvDescription.setText(event.getDescription());
     }
 
-
-
-
+    private void setupSignUpButton() {
+        fabSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: We have to ask user to Login - But Lets add user in Event table and then worry abt that later
+                //ParseUser.is
+                Toast.makeText(EventDetailActivity.this, "Cliecked on SignUp... Let me do something", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -46,6 +46,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
         Glide.with(mContext).load(event.getImageUrl()).centerCrop().into(viewHolder.ivEventImage);
+        viewHolder.tvCity.setText(event.getAddress());
 
     }
 
