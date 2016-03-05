@@ -2,7 +2,13 @@ package com.codepath.qzineat.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +29,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,11 +45,28 @@ import static java.lang.Integer.parseInt;
  */
 public class HostFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    private static final int RESULT_OK = -1 ;
+    private static final int CAMERA_REQUEST = 1888;
+    private static int RESULT_LOAD_IMAGE = 1;
+    public static StringBuilder date;
+    private int _year;
+    private int _month;
+    private int _day;
+    private String imgDecodableString;
+    private Date dateObject;
+
+
     ArrayAdapter arrayAdapter;
+    @Bind(R.id.ivEventImage)
+    ImageView ivEventImage;
     @Bind(R.id.tvTitle)
     TextView tvTitile;
     @Bind(R.id.etTitle)
     EditText etTitile;
+    @Bind(R.id.btUpload)
+    Button btUpload;
+    @Bind(R.id.btCamera)
+    Button btCamera;
     @Bind(R.id.tvDate)
     TextView tvDate;
     @Bind(R.id.tvDatePicker)
@@ -70,11 +96,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     @Bind(R.id.btCancel)
     Button btCancel;
 
-    public static StringBuilder date;
-    private int _year;
-    private int _month;
-    private int _day;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +112,29 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
+        btUpload.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+
+
+        btCamera.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
+
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +144,52 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         return view;
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+        // When an Image is picked
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
+                && null != data) {
+            // Get the Image from data
+
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            // Get the cursor
+            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            // Move to first row
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+            // Set the Image in ImageView after decoding the String
+            ivEventImage.setImageBitmap(BitmapFactory
+                    .decodeFile(imgDecodableString));
+
+        }
+        else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+                 {
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    ivEventImage.setImageBitmap(photo);
+                }
+            }
+        else {
+            Toast.makeText(getContext(), "You haven't picked Image",
+                    Toast.LENGTH_LONG).show();
+        }
+    } catch (Exception e) {
+        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG)
+                .show();
+    }
+
+
+    }
+
+
     private void saveEvent(final Context context) {
         ParseUser currentUser = ParseUser.getCurrentUser();
         // Parse Save
@@ -107,14 +197,14 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         event.setTitle(etTitile.getText().toString());
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setDescription(etDesc.getText().toString());
-        event.setDate((Date) tvDatePicker.getText());
+        dateObject = getDateObject();
+        event.setDate(dateObject);
         event.setAddress(etVenue.getText().toString());
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());
         event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
         event.setHost(currentUser);
-
 
         event.saveInBackground(new SaveCallback() {
             @Override
@@ -123,6 +213,19 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
                     Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private Date getDateObject() {
+
+        DateFormat formatter = new SimpleDateFormat("yyyy/mm/dd"); // Make sure user insert date into edittext in this format.
+        Date dateObject = null;
+        String dob_var=(tvDatePicker.getText().toString());
+        try {
+            dateObject = formatter.parse(dob_var);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return dateObject;
     }
 
     @Override
@@ -158,6 +261,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         if (_day < 10) this.date.append(0).append(_day);
         else this.date.append(_day + 1);
+
         tvDatePicker.setText(this.date);
 
     }

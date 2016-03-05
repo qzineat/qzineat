@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:isScrollContainer="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/ivEventImage"
+        android:scaleType="fitXY"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:src="@drawable/eventpic"
+        android:layout_marginTop="2dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ivEventImage"/>
+        android:layout_below="@id/ivEventImage"
+        android:minHeight="10dp"
+        android:text="Upload Photo"
+        android:textSize="7dp"
+        android:layout_marginLeft="100dp"
+        android:onClick="loadImagefromGallery"
+        android:id="@+id/btUpload"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ivEventImage"
+        android:minHeight="10dp"
+        android:layout_marginLeft="200dp"
+        android:text="Take Photo"
+        android:textSize="7dp"
+        android:id="@+id/btCamera"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -141,3 +171,4 @@
         android:textSize="15dp"
         android:id="@+id/btCancel"/>
 </RelativeLayout>
+</ScrollView>

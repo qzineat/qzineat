@@ -40,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
 
+        nvDrawer.getMenu().getItem(0).setChecked(true);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
+        setTitle(R.string.drawer_event);
     }
-
 
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_advance_filter:
                 fragmentClass = AdvanceFragment.class;
                 break;
-            case R.id.nav_events:
+            default:
                 fragmentClass = EventListFragment.class;
         }
 
