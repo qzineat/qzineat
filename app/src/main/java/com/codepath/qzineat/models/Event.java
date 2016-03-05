@@ -44,6 +44,14 @@ public class Event extends ParseObject {
         put("title", title);
     }
 
+    public int getPrice() {
+        return getInt("price");
+    }
+
+    public void setPrice(int price) {
+        put("price", price);
+    }
+
     public String getDescription() {
         return getString("description");
     }
@@ -90,6 +98,14 @@ public class Event extends ParseObject {
 
     public void setAddress(String address) {
         put("address", address);
+    }
+
+    public String getAlcohol() {
+        return getString("alcohol");
+    }
+
+    public void setAlcohol(String alcohol) {
+        put("alcohol", alcohol);
     }
 
     public ParseUser getHost() {

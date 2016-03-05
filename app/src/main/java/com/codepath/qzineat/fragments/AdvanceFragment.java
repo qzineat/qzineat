@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.android.qzineat.R;
 
 public class AdvanceFragment extends Fragment {
 

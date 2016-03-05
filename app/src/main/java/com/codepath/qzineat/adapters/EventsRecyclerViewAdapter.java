@@ -5,9 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.codepath.android.qzineat.R;
 import com.bumptech.glide.Glide;
-import com.codepath.android.navigationdrawerexercise.R;
 import com.codepath.qzineat.models.Event;
 
 import java.util.ArrayList;

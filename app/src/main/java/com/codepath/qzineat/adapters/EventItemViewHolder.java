@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.android.qzineat.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -7,9 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
 import com.parse.GetCallback;
 import com.parse.ParseException;

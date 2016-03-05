@@ -3,8 +3,7 @@ package com.codepath.qzineat.utils;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.codepath.android.navigationdrawerexercise.R;
-
+import com.codepath.android.qzineat.R;
 
 /**
  * Created by Shyam Rokde on 2/19/16.

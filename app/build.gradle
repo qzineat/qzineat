@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.codepath.android.navigationdrawerexercise"
+        applicationId "com.codepath.android.qzineat"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -35,6 +35,8 @@ dependencies {
     compile 'com.parse:parseinterceptors:0.0.2' // for logging API calls to LogCat
     compile 'com.loopj.android:android-async-http:1.4.9' // Android Async Http
     compile 'com.jakewharton:butterknife:7.0.1' // butterknife
+    compile 'com.squareup.picasso:picasso:2.5.2' // Picasso
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.github.bumptech.glide:glide:3.7.0' // Glide
     compile 'com.makeramen:roundedimageview:2.2.1' // Rounded Image
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
