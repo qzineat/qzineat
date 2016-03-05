@@ -2,7 +2,7 @@ package com.codepath.qzineat;
 
 import android.app.Application;
 
-import com.codepath.android.navigationdrawerexercise.R;
+import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
