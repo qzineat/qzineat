@@ -1,7 +1,9 @@
 package com.codepath.qzineat.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,18 +15,25 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class EventDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.ivEventImage) ImageView ivEventImage;
+    @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
     @Bind(R.id.tvTitle) TextView tvTitle;
     @Bind(R.id.tvDate) TextView tvDate;
     @Bind(R.id.tvLocation) TextView tvLocation;
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     private Event event;
     private String eventObjectId;
@@ -36,8 +45,15 @@ public class EventDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_detail);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+
         // Get Event
         getEvent();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     // Display selected Event
@@ -60,12 +76,23 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void populateEvent() {
-        Glide.with(this).load(event.getImageUrl()).centerCrop().crossFade().into(ivEventImage);
+        Glide.with(this).load(event.getImageUrl()).centerCrop().into(ivEventImage);
+        Glide.with(this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
+
         tvTitle.setText(event.getTitle());
+
+        String format = "MMMM F";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
+        tvDate.setText(sdf.format(new Date(0)));
+
+
+
         //tvAvailability.setText(event.getGuestLimit() - event.getSignupCount());
         //tvGuestCount.setText(event.getGuestLimit());
         tvDescription.setText(event.getDescription());
     }
+
+
 
 
 }
