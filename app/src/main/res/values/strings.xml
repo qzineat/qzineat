@@ -22,4 +22,5 @@
         <item>No</item>
         <item>Yes</item>
     </string-array>
+    <string name="somthing_went_wrong">Something went wrong!! Please try again later!!</string>
 </resources>

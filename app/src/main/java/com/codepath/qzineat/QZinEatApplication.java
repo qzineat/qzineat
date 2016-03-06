@@ -3,6 +3,7 @@ package com.codepath.qzineat;
 import android.app.Application;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -21,6 +22,7 @@ public class QZinEatApplication extends Application {
 
         // Register your parse models here
         ParseObject.registerSubclass(Event.class);
+        ParseObject.registerSubclass(Attendee.class);
 
         // Fonts
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

@@ -2,6 +2,7 @@ package com.codepath.qzineat.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.Date;
@@ -22,7 +23,6 @@ public class Event extends ParseObject {
     private int favouritesCount;
     private String address;
     private ParseUser host;
-
 
     public Event(){
         // Required for Parse
@@ -112,8 +112,19 @@ public class Event extends ParseObject {
         return getParseUser("host");
     }
 
-    // TODO: find out how to make current user host... Also ask login/signup before hosting
     public void setHost(ParseUser host) {
         put("host", host);
+    }
+
+    public ParseRelation<Attendee> getAttendeeRelation(){
+        return getRelation("attendees");
+    }
+
+    public void addAttendee(Attendee attendee) {
+        getAttendeeRelation().add(attendee);
+    }
+
+    public void removeAttendee(Attendee attendee){
+        getAttendeeRelation().remove(attendee);
     }
 }
