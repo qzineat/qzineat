@@ -197,6 +197,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void saveEvent(final Context context) {
+        // TODO: Lets add Login SignUp
         ParseUser currentUser = ParseUser.getCurrentUser();
         // Parse Save
         Event event = new Event();

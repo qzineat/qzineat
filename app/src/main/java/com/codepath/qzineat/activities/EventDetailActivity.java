@@ -1,8 +1,10 @@
 package com.codepath.qzineat.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,10 +14,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.fragments.SignUpDialogFragment;
+import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.utils.UserUtil;
+import com.facebook.AccessToken;
+import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,7 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends AppCompatActivity implements SignUpDialogFragment.OnLoginSignUpListener {
 
     @Bind(R.id.ivEventImage) ImageView ivEventImage;
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
@@ -54,9 +62,6 @@ public class EventDetailActivity extends AppCompatActivity {
 
         // Get Event
         getEvent();
-
-        // Sign Up
-        setupSignUpButton();
     }
 
     @Override
@@ -70,6 +75,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        // TODO: check later that we can get Event with all attendees or not
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
             @Override
             public void done(Event object, ParseException e) {
@@ -77,6 +83,8 @@ public class EventDetailActivity extends AppCompatActivity {
                     event = object;
                     // Start Loading Data here
                     populateEvent();
+                    // Fab Button
+                    setupFabButton();
                 }
             }
         });
@@ -99,26 +107,118 @@ public class EventDetailActivity extends AppCompatActivity {
 
         tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
 
-        try {
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-
-        //tvAvailability.setText(event.getGuestLimit() - event.getSignupCount());
-        //tvGuestCount.setText(event.getGuestLimit());
         tvDescription.setText(event.getDescription());
     }
 
-    private void setupSignUpButton() {
+    /**
+     * This will do sign up or login
+     */
+    private void setupFabButton() {
+
+        if(UserUtil.isUserLoggedIn()){
+            // Hello :) I am host - don't show me SignUp Button
+            if(event.getHostUserId().equals(UserUtil.getLoggedInUserId())){
+                fabSignUp.setVisibility(View.GONE);
+                return;
+            }
+            // Check I already Registered for this event or not
+            ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
+            query.whereEqualTo("eventId", eventObjectId);
+            query.whereEqualTo("userId", AccessToken.getCurrentAccessToken().getUserId());
+            query.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if (e == null) {
+                        if (count > 0) {
+                            // I am already registered for this event
+                            changeSignUpButton();
+                        }else {
+                            showFabRegister();
+                        }
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else {
+            showFabRegister();
+        }
+
+
+
+
+
+        if(AccessToken.getCurrentAccessToken() != null){
+
+        }
+    }
+
+    private void showFabRegister(){
+        fabSignUp.setVisibility(View.VISIBLE);
         fabSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: We have to ask user to Login - But Lets add user in Event table and then worry abt that later
-                //ParseUser.is
-                Toast.makeText(EventDetailActivity.this, "Cliecked on SignUp... Let me do something", Toast.LENGTH_SHORT).show();
+                if(UserUtil.isUserLoggedIn()){
+                    saveAttendee();
+                } else {
+                    showLoginSignUpDialog();
+                }
             }
         });
+    }
+
+    private void showLoginSignUpDialog() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        SignUpDialogFragment signUpDialog  = new SignUpDialogFragment();
+
+        //signUpDialog.setSearchFilter(searchFilter);
+        signUpDialog.show(fragmentManager, "loginsignup");
+    }
+
+    @Override
+    public void onLoginSignUp() {
+        // Lets add to Attendee list now...
+        saveAttendee();
+    }
+
+    private void saveAttendee(){
+        // Change Button
+        changeSignUpButton();
+
+        // Parse Save
+        final Attendee attendee = new Attendee();
+        attendee.setGuestCount(1); // TODO: Change later for adding more guests
+        attendee.setUserId(UserUtil.getLoggedInUserId());
+        attendee.setEventId(event.getObjectId());
+
+        // Save attendee
+        attendee.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException ex) {
+                if (ex == null) {
+                    // associate event
+                    event.addAttendee(attendee);
+                    event.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                e.printStackTrace();
+                                Toast.makeText(EventDetailActivity.this, getString(R.string.somthing_went_wrong), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    ex.printStackTrace();
+                    Toast.makeText(EventDetailActivity.this, getString(R.string.somthing_went_wrong), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void changeSignUpButton(){
+        fabSignUp.setBackgroundColor(Color.GREEN);
+        fabSignUp.setVisibility(View.VISIBLE);
+        fabSignUp.setEnabled(false);
+        fabSignUp.setImageResource(R.drawable.ic_check);
     }
 }
