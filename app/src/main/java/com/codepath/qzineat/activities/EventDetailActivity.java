@@ -74,15 +74,7 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
 
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        /*query.include("attendees");
-
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> objects, ParseException e) {
-
-            }
-        });
-*/
+        // TODO: check later that we can get Event with all attendees or not
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
             @Override
             public void done(Event object, ParseException e) {

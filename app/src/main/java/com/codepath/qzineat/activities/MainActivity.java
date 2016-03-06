@@ -17,23 +17,26 @@ import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle drawerToggle;
-    private Toolbar toolbar;
-    private NavigationView nvDrawer;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.nvView) NavigationView nvDrawer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
         setupDrawerContent(nvDrawer);
 
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);

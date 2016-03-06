@@ -5,6 +5,7 @@
 
     <!-- Nav Drawer Menu Items -->
     <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
     <string name="host_event">Host an Event</string>
     <string name="advance_filter">Advance Filter</string>
     <string name="futurama">Futurama</string>
