@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +29,11 @@ import android.widget.Toast;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,11 +59,13 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     private int _day;
     private String imgDecodableString;
     private Date dateObject;
-
+    Bitmap bitmap;
 
     ArrayAdapter arrayAdapter;
     @Bind(R.id.ivEventImage)
     ImageView ivEventImage;
+    @Bind(R.id.ivEventImage2)
+    ImageView ivEventImage2;
     @Bind(R.id.tvTitle)
     TextView tvTitile;
     @Bind(R.id.etTitle)
@@ -95,6 +102,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     Button btSave;
     @Bind(R.id.btCancel)
     Button btCancel;
+    private Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,7 +133,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             }
         });
 
-
         btCamera.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -138,10 +145,14 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 saveEvent(getContext());
+
             }
         });
+
         return view;
+
     }
 
 
@@ -149,46 +160,41 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         try {
-        // When an Image is picked
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
-                && null != data) {
-            // Get the Image from data
+            // When an Image is picked
+            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
+                    && null != data) {
+                // Get the Image from data
 
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            // Get the cursor
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            // Move to first row
-            cursor.moveToFirst();
+                // Get the cursor
+                Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imgDecodableString = cursor.getString(columnIndex);
-            cursor.close();
-            // Set the Image in ImageView after decoding the String
-            ivEventImage.setImageBitmap(BitmapFactory
-                    .decodeFile(imgDecodableString));
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+                // Set the Image in ImageView after decoding the String
+                ivEventImage.setImageBitmap(BitmapFactory
+                        .decodeFile(imgDecodableString));
 
-        }
-        else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-                 {
+            } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+                {
                     Bitmap photo = (Bitmap) data.getExtras().get("data");
                     ivEventImage.setImageBitmap(photo);
                 }
+            } else {
+                Toast.makeText(getContext(), "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
             }
-        else {
-            Toast.makeText(getContext(), "You haven't picked Image",
-                    Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
         }
-    } catch (Exception e) {
-        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG)
-                .show();
     }
-
-
-    }
-
 
     private void saveEvent(final Context context) {
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -203,16 +209,21 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());
-        event.setImageUrl("http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2012/10/Food.jpg");
+        bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
+        byte[] text = BitMapToString(bitmap);
+        ParseFile File = new ParseFile("EventImage.txt", text);
+        event.setImageFile(File);
         event.setHost(currentUser);
-
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null)
-                    Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                    Log.d("DEBUG",e.toString());
+
+                Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
         });
+//        new GitHub().execute("");
     }
 
     private Date getDateObject() {
@@ -243,7 +254,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             else list.add(i);
         }
         arrayAdapter = new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_spinner_item, list);
+        android.R.layout.simple_spinner_item, list);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
     }
 
@@ -264,6 +275,115 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         tvDatePicker.setText(this.date);
 
+    }
+
+
+//    public class GitHub extends AsyncTask<String, Void, String> {
+//
+//        @Override
+//        public String doInBackground(String... params) {
+////            new Thread(new Runnable() {
+////                public void run() {
+//            try {
+//
+//
+//                // based on http://swanson.github.com/blog/2011/07/23/digging-around-the-github-api-take-2.html
+//                // initialize github client
+//                GitHubClient client = new GitHubClient();
+//                client.setCredentials("londhegaurav", "rujuta1982");
+//                Log.d("DEBUGGIT", client.getUser());
+//
+//                // create needed services
+//                RepositoryService repositoryService = new RepositoryService();
+//                CommitService commitService = new CommitService(client);
+//                DataService dataService = new DataService(client);
+////                    List<Repository> repo = repositoryService.getRepositories("londhegaurav");
+////
+////                    for (int i = 0; i < repo.size(); i++) {
+////                        Log.d("DEBUGGIT", repo.get(i).getGitUrl().toString());
+////                        Log.d("DEBUGGIT", repo.get(i).getName().toString());
+////                        Log.d("DEBUGGIT", String.valueOf(repo.get(i).getId()));
+////                    }
+//
+//                // get some sha's from current state in git
+//                Repository repository = repositoryService.getRepository("londhegaurav", "qzinphotos");
+//                String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
+//                RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
+//                String treeSha = baseCommit.getSha();
+//                //        Log.d("DEBUGGIT", repositoryService.getRepositories().toString());
+//
+//                // create new blob with data
+//                Blob blob = new Blob();
+//                //blob.setContent("[\"" + System.currentTimeMillis() + "\"]").setEncoding(Blob.ENCODING_UTF8);
+//                String bitmpString = BitMapToString(bitmap);
+//                blob.setContent(bitmpString);
+//                String blob_sha = dataService.createBlob(repository, blob);
+//                Tree baseTree = dataService.getTree(repository, treeSha);
+//
+//                // create new tree entry
+//                TreeEntry treeEntry = new TreeEntry();
+//                treeEntry.setPath("photos/" + System.currentTimeMillis()+".txt");
+//                treeEntry.setMode(TreeEntry.MODE_BLOB);
+//                treeEntry.setType(TreeEntry.TYPE_BLOB);
+//                treeEntry.setSha(blob_sha);
+//                treeEntry.setSize(blob.getContent().length());
+//                Collection<TreeEntry> entries = new ArrayList<TreeEntry>();
+//                entries.add(treeEntry);
+//                Tree newTree = dataService.createTree(repository, entries, baseTree.getSha());
+//
+//                // create commit
+//                CommitUser author = new CommitUser();
+//                author.setName(client.getUser());
+//                author.setEmail("londhegaurav@gmail.com");
+//                author.setDate(new GregorianCalendar().getTime());
+//
+//                Commit commit = new Commit();
+//                commit.setMessage("Android commit at " + new Date(System.currentTimeMillis()).toLocaleString());
+//                commit.setTree(newTree);
+//                commit.setAuthor(author);
+//                commit.setCommitter(author);
+//                List<Commit> listOfCommits = new ArrayList<Commit>();
+//                listOfCommits.add(new Commit().setSha(baseCommitSha));
+//                // listOfCommits.containsAll(base_commit.getParents());
+//                commit.setParents(listOfCommits);
+//
+//                // commit.setSha(base_commit.getSha());
+//                Commit newCommit = dataService.createCommit(repository, commit);
+//
+//                // create resource
+//                TypedResource commitResource = new TypedResource();
+//                commitResource.setSha(newCommit.getSha());
+//                commitResource.setType(TypedResource.TYPE_COMMIT);
+//                commitResource.setUrl(newCommit.getUrl());
+//
+//                // get master reference and update it
+//                Reference reference = dataService.getReference(repository, "heads/master");
+//                reference.setObject(commitResource);
+//                dataService.editReference(repository, reference, true);
+//
+//                // success
+//            } catch (Exception e) {
+//                // error
+//                e.printStackTrace();
+//            }
+////                }
+////            }).start();
+//            return null;
+//        }
+//
+//    }
+    public byte [] BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        return b;
+    }
+
+    public static Bitmap decodeBase64(String input)
+    {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
 }

@@ -4,24 +4,37 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
     defaultConfig {
         applicationId "com.codepath.android.qzineat"
         minSdkVersion 19
+        multiDexEnabled true
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
+            proguardFile 'proguard-google-api-client.txt'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
 }
 
 ext {
     supportLibVersion = '23.2.0'  // variable that can be referenced to keep support libs consistent
 }
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -40,4 +53,18 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0' // Glide
     compile 'com.makeramen:roundedimageview:2.2.1' // Rounded Image
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.google.api-client:google-api-client:1.19.1'
+    compile files('libs/org.eclipse.egit.github.core-2.1.5.jar')
+    compile 'com.google.code.gson:gson:2.2.4'
 }
+
+task nativeLibsToJar(type: Zip) {
+    destinationDir file("$buildDir/native-libs")
+    baseName 'native-libs'
+    extension 'jar'
+    from fileTree(dir: 'libs', include: '**/*.so')
+    into 'lib/'
+}
+
+tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

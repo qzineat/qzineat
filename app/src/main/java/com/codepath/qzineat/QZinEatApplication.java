@@ -8,7 +8,6 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.interceptors.ParseLogInterceptor;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**

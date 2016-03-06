@@ -1,6 +1,7 @@
 package com.codepath.qzineat.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -34,6 +35,14 @@ public class Event extends ParseObject {
 
     public void setImageUrl(String imageUrl) {
         put("imageUrl" , imageUrl);
+    }
+
+    public ParseFile getImageFile() {
+        return getParseFile("imageFile");
+    }
+
+    public void setImageFile(ParseFile imageFile) {
+        put("imageFile" , imageFile);
     }
 
     public String getTitle() {

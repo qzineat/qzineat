@@ -170,5 +170,18 @@
         android:text="Cancel"
         android:textSize="15dp"
         android:id="@+id/btCancel"/>
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/ivEventImage2"
+        android:layout_below="@id/btCancel"
+        android:scaleType="fitXY"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:src="@drawable/eventpic"
+        android:layout_marginTop="2dp"
+        />
 </RelativeLayout>
 </ScrollView>
