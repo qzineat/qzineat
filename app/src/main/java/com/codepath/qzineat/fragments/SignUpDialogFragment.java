@@ -174,4 +174,6 @@ public class SignUpDialogFragment extends DialogFragment {
     public interface OnLoginSignUpListener {
         public void onLoginSignUp();
     }
+
+
 }

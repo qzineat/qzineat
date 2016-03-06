@@ -8,6 +8,11 @@ import com.facebook.AccessToken;
 
 public class UserUtil {
 
+    public static final int USER_LOG_IN_SUCCESS = 1;   // The request code
+    public static final int USER_LOG_IN_FAILED = 2;    // The request code
+    public static final int USER_LOG_IN_CANCEL = 3;    // The request code
+
+
     public static String getLoggedInUserId() {
         return AccessToken.getCurrentAccessToken().getUserId();
     }

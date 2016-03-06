@@ -1,10 +1,12 @@
 package com.codepath.qzineat;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -39,11 +41,17 @@ public class QZinEatApplication extends Application {
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("https://simplechat9876.herokuapp.com/parse/").build());
 
-        /*// Create Anonymous users - later we can associate twitter/facebook login to it
-        ParseUser.enableAutomaticUser();
-        ParseUser.getCurrentUser().increment("RunCount");
-        ParseUser.getCurrentUser().saveInBackground();*/
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        // Facebook Initialize
+        FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
+            @Override
+            public void onInitialized() {
+                if(AccessToken.getCurrentAccessToken() == null){
+                    Log.d("DEBUG", "not logged in yet");
+                } else {
+                    Log.d("DEBUG", "Logged in");
+                }
+            }
+        });
     }
 }
