@@ -206,8 +206,10 @@
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_add_circle"
             android:visibility="gone"
-            app:fabSize="normal"
+            app:fabSize="mini"
             />
+
+
 
     </android.support.design.widget.CoordinatorLayout>
 

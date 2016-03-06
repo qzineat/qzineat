@@ -1,6 +1,7 @@
 package com.codepath.qzineat.activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -16,12 +17,12 @@ import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.SignUpDialogFragment;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.utils.UserUtil;
+import com.facebook.AccessToken;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
-import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.text.DateFormat;
@@ -33,7 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class EventDetailActivity extends AppCompatActivity implements SignUpDialogFragment.OnSignUpListener {
+public class EventDetailActivity extends AppCompatActivity implements SignUpDialogFragment.OnLoginSignUpListener {
 
     @Bind(R.id.ivEventImage) ImageView ivEventImage;
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
@@ -82,8 +83,8 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
                     event = object;
                     // Start Loading Data here
                     populateEvent();
-                    // Sign Up Button
-                    setupSignUpButton();
+                    // Fab Button
+                    setupFabButton();
                 }
             }
         });
@@ -106,59 +107,76 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
 
         tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
 
-        //tvAvailability.setText(event.getGuestLimit() - event.getSignupCount());
-        //tvGuestCount.setText(event.getGuestLimit());
         tvDescription.setText(event.getDescription());
     }
 
-    private void setupSignUpButton() {
-        // Hello :) I am host - don't show me SignUp Button
-        if(event.getHost().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
-            fabSignUp.setVisibility(View.GONE);
-            return;
+    /**
+     * This will do sign up or login
+     */
+    private void setupFabButton() {
+
+        if(UserUtil.isUserLoggedIn()){
+            // Hello :) I am host - don't show me SignUp Button
+            if(event.getHostUserId().equals(UserUtil.getLoggedInUserId())){
+                fabSignUp.setVisibility(View.GONE);
+                return;
+            }
+            // Check I already Registered for this event or not
+            ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
+            query.whereEqualTo("eventId", eventObjectId);
+            query.whereEqualTo("userId", AccessToken.getCurrentAccessToken().getUserId());
+            query.countInBackground(new CountCallback() {
+                @Override
+                public void done(int count, ParseException e) {
+                    if (e == null) {
+                        if (count > 0) {
+                            // I am already registered for this event
+                            changeSignUpButton();
+                        }else {
+                            showFabRegister();
+                        }
+                    } else {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else {
+            showFabRegister();
         }
 
-        // Check if this user already signup earlier or not
-        ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
-        query.whereEqualTo("eventId", eventObjectId);
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.countInBackground(new CountCallback() {
+
+
+
+
+        if(AccessToken.getCurrentAccessToken() != null){
+
+        }
+    }
+
+    private void showFabRegister(){
+        fabSignUp.setVisibility(View.VISIBLE);
+        fabSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(int count, ParseException e) {
-                if (e == null) {
-                    if (count > 0) {
-                        // I am already registered for this event
-                        changeSignUpButton();
-                    } else {
-                        fabSignUp.setVisibility(View.VISIBLE);
-                        fabSignUp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
-                                    showSignUpDialog();
-                                } else {
-                                    saveAttendee();
-                                }
-                            }
-                        });
-                    }
+            public void onClick(View view) {
+                if(UserUtil.isUserLoggedIn()){
+                    saveAttendee();
                 } else {
-                    e.printStackTrace();
+                    showLoginSignUpDialog();
                 }
             }
         });
     }
 
-    private void showSignUpDialog() {
+    private void showLoginSignUpDialog() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         SignUpDialogFragment signUpDialog  = new SignUpDialogFragment();
 
         //signUpDialog.setSearchFilter(searchFilter);
-        signUpDialog.show(fragmentManager, "signup");
+        signUpDialog.show(fragmentManager, "loginsignup");
     }
 
     @Override
-    public void onSignUp() {
+    public void onLoginSignUp() {
         // Lets add to Attendee list now...
         saveAttendee();
     }
@@ -166,10 +184,11 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
     private void saveAttendee(){
         // Change Button
         changeSignUpButton();
+
         // Parse Save
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
-        attendee.setUser(ParseUser.getCurrentUser());
+        attendee.setUserId(UserUtil.getLoggedInUserId());
         attendee.setEventId(event.getObjectId());
 
         // Save attendee
@@ -197,6 +216,7 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
     }
 
     private void changeSignUpButton(){
+        fabSignUp.setBackgroundColor(Color.GREEN);
         fabSignUp.setVisibility(View.VISIBLE);
         fabSignUp.setEnabled(false);
         fabSignUp.setImageResource(R.drawable.ic_check);

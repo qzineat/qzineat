@@ -35,4 +35,12 @@ public class Attendee extends ParseObject {
     public void setGuestCount(int guestCount) {
         put("guestCount", guestCount);
     }
+
+    public String getUserId() {
+        return getString("userId");
+    }
+
+    public void setUserId(String userId) {
+        put("userId", userId);
+    }
 }

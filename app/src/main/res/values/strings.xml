@@ -13,7 +13,7 @@
     <string name="simpsorama">Simpsorama</string>
     <string name="example_event_title">Sample Event Title</string>
     <string name="example_place">San Francisco</string>
-    <string name="facebook_app_id">1679395408995849</string>
+
     <string name="drawer_event">Events</string>
     <string name="margin1">20dp</string>
     <string name="prompt">Choose</string>
@@ -24,4 +24,7 @@
         <item>Yes</item>
     </string-array>
     <string name="somthing_went_wrong">Something went wrong!! Please try again later!!</string>
+
+    <!-- Facebook -->
+    <string name="facebook_app_id">557168641127416</string>
 </resources>
