@@ -14,16 +14,6 @@ import java.util.Date;
 public class Event extends ParseObject {
 
 
-    private String title;
-    private String description;
-    private String imageUrl;
-    private Date date;
-    private int guestLimit;
-    private int signupCount;
-    private int favouritesCount;
-    private String address;
-    private ParseUser host;
-
     public Event(){
         // Required for Parse
     }

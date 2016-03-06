@@ -67,10 +67,12 @@ public class SignUpDialogFragment extends DialogFragment {
                             if (e == null) {
                                 // Hooray! Sing them for event now.
                                 listener.onSignUp();
+                                dismiss();
                             } else {
                                 // Sign up didn't succeed. Look at the ParseException
                                 // to figure out what went wrong
                                 Toast.makeText(getContext(), "Somthing went wrong!! Please try Again", Toast.LENGTH_SHORT).show();
+                                dismiss();
                             }
                         }
                     });

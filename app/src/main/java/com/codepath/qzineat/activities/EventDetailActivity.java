@@ -121,6 +121,7 @@ public class EventDetailActivity extends AppCompatActivity implements SignUpDial
         // Check if this user already signup earlier or not
         ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
         query.whereEqualTo("eventId", eventObjectId);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
