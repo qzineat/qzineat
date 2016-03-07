@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment {
 
                 Intent intent = new Intent();
                 intent.putExtra("result", UserUtil.USER_LOG_IN_CANCEL);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
                 getFragmentManager().popBackStack();
             }
 

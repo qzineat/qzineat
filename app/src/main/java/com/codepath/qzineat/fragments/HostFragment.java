@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,10 @@ import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.utils.FragmentCode;
+import com.codepath.qzineat.utils.UserUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -103,6 +105,8 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     Button btCancel;
     private Intent intent;
 
+    private Intent logInIntent;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,6 +114,16 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         View view = inflater.inflate(R.layout.host_layout, container, false);
         ButterKnife.bind(this, view);
+
+
+        if(logInIntent != null && !UserUtil.isUserLoggedIn()){
+            // Send me to event list
+            Fragment eventListFragment = new EventListFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.flContent, eventListFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
 
         spGuest.setAdapter(arrayAdapter);
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +172,16 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // See if it comes from Login
+
         try {
+
+            // This is login request
+            if(requestCode == FragmentCode.HOST_FRAGMENT_LOGIN_CODE){
+                logInIntent = data;
+                return;
+            }
+
             // When an Image is picked
             if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
                     && null != data) {
@@ -196,8 +219,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void saveEvent(final Context context) {
-        // TODO: Lets add Login SignUp
-        ParseUser currentUser = ParseUser.getCurrentUser();
+
         // Parse Save
         Event event = new Event();
         event.setTitle(etTitile.getText().toString());
@@ -213,7 +235,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         byte[] text = BitMapToString(bitmap);
         ParseFile File = new ParseFile("EventImage.txt", text);
         event.setImageFile(File);
-        event.setHost(currentUser);
+        event.setHostUserId(UserUtil.getLoggedInUserId());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -240,6 +262,18 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Redirect User to LoginFragment
+        if (!UserUtil.isUserLoggedIn()) {
+            Fragment fragment = new LoginFragment();
+            fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.flContent, fragment);
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
+        }
+
 
         setListAdapter();
 
