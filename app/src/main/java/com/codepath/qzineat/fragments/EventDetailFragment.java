@@ -1,12 +1,15 @@
 package com.codepath.qzineat.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +25,9 @@ import com.codepath.qzineat.utils.UserUtil;
 import com.facebook.AccessToken;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -127,6 +132,25 @@ public class EventDetailFragment extends Fragment {
         tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
 
         tvDescription.setText(event.getDescription());
+
+        //Retrieve Image
+        ParseFile imageFile = event.getImageFile();
+        if( imageFile != null) {
+            imageFile.getDataInBackground(new GetDataCallback() {
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        // data has the bytes for the resume
+                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        ivEventImage.setImageBitmap(bMap);
+                        // Tried using Glide. But it runs into error below:
+                        // ERROR: You must provide a Model of a type for which there is a registered ModelLoader, if you are using a custom model, you must first call Glide#register with a ModelLoaderFactory for your custom model class
+                        // Glide.with(mContext).load(bMap).asBitmap().centerCrop().into(viewHolder.ivEventImage);
+                    } else {
+                        Log.d("DEBUG", "Parse exception: " + e.toString());
+                    }
+                }
+            });
+        }
     }
 
     /**
