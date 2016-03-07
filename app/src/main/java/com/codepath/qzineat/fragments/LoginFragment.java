@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class LoginFragment extends Fragment {
             public void onSuccess(LoginResult loginResult) {
 
                 AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
+                Log.d("DEBUG_Activity",getActivity().toString());
 
                 // Go back to called fragment..
                 Intent intent = new Intent();
