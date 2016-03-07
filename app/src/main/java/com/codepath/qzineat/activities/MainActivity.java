@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.android.qzineat.R;
@@ -16,6 +17,7 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
+import com.codepath.qzineat.utils.UserUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,13 +45,31 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
 
-        nvDrawer.getMenu().getItem(0).setChecked(true);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
         setTitle(R.string.drawer_event);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+
+        Menu menuNav = navigationView.getMenu();
+
+        MenuItem loginItem = menuNav.findItem(R.id.nav_login);
+        MenuItem logoutItem = menuNav.findItem (R.id.nav_logout);
+        // Do something on Menu items
+        if(UserUtil.isUserLoggedIn()){
+            loginItem.setVisible(false);
+            logoutItem.setVisible(true);
+        }else {
+            loginItem.setVisible(true);
+            logoutItem.setVisible(false);
+        }
+
+
+
+
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -68,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         Class fragmentClass = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_login:
+            case R.id.nav_logout:
                 fragmentClass = LoginFragment.class;
                 break;
             case R.id.nav_host_event:
