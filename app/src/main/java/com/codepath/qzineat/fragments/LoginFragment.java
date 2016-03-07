@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.MainActivity;
 import com.codepath.qzineat.utils.UserUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -61,21 +62,45 @@ public class LoginFragment extends Fragment {
                 AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
                 Log.d("DEBUG_Activity",getActivity().toString());
 
-                // Go back to called fragment..
-                Intent intent = new Intent();
-                intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                getFragmentManager().popBackStack();
+                try {
+                    // Go back to called fragment..
+                    if(getTargetFragment() != null){
+                        Intent intent = new Intent();
+                        intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                        getFragmentManager().popBackStack();
+                    }else {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
+                        startActivity(intent);
+                    }
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
 
             @Override
             public void onCancel() {
                 Toast.makeText(getContext(), "User Canceled", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent();
-                intent.putExtra("result", UserUtil.USER_LOG_IN_CANCEL);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
-                getFragmentManager().popBackStack();
+                try {
+
+                    if(getTargetFragment() != null){
+                        Intent intent = new Intent();
+                        intent.putExtra("result", UserUtil.USER_LOG_IN_CANCEL);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
+                        getFragmentManager().popBackStack();
+                    }else {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("result", UserUtil.USER_LOG_IN_CANCEL);
+                        startActivity(intent);
+                    }
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
             }
 
             @Override
