@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.MainActivity;
 import com.codepath.qzineat.utils.UserUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -70,7 +69,7 @@ public class LoginFragment extends Fragment {
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                         getFragmentManager().popBackStack();
                     }else {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        Intent intent = new Intent(getContext(), getActivity().getClass());
                         intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
                         startActivity(intent);
                     }
@@ -92,7 +91,7 @@ public class LoginFragment extends Fragment {
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, intent);
                         getFragmentManager().popBackStack();
                     }else {
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        Intent intent = new Intent(getContext(), getActivity().getClass());
                         intent.putExtra("result", UserUtil.USER_LOG_IN_CANCEL);
                         startActivity(intent);
                     }
