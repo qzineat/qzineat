@@ -121,7 +121,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             Fragment eventListFragment = new EventListFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.flContent, eventListFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         }
 
@@ -269,7 +268,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.flContent, fragment);
-            transaction.addToBackStack(null);
             // Commit the transaction
             transaction.commit();
         }
