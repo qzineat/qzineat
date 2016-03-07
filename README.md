@@ -6,19 +6,27 @@
 
 The following **required** functionality is completed:
 
-* [ ] Host Features
- * [ ] Create an event 
-   * [ ] Host can add/edit/delete details about menu, venue, date, photos, and number of guest count
- * [ ] View list of subscribers
- * [ ] Host can create simple profile with description and speciality 
-* [ ] Subscriber Features
- * [ ] User can subscribe to QZin Eat
- * [ ] User can share QZin Eat with friends
 * [ ] Common Features
+ * [X] Login Sign Up
+  * [X] User can Sign In through Facebook
+ * [X] App data with Parse   
  * [ ] Show near by QZin Eat 
  * [ ] User can see short details on listing with venue, photo, and availability
  * [ ] User can see location of QZin Eat on map  
- 
+* [ ] Host Features
+ * [X] Create an event 
+   * [X] Host can add details about menu, venue, date, photos, and number of guest count
+   * [ ] Host can edit/delete details about menu, venue, date, photos, and number of guest count
+   * [X] Image upload on host page
+ * [ ] View list of subscribers
+ * [ ] Host can create simple profile with description and speciality 
+* [ ] Subscriber Features
+ * [X] User can view Event List
+ * [X] Recycler view, endless scrolling, swipe to refresh for event list
+ * [X] Event Detail view
+ * [X] User can subscribe to QZin Eat
+ * [ ] User can share QZin Eat with friends
+
     
 The following **optional** features are implemented: 
  
@@ -50,3 +58,33 @@ The following bonus **features** are implemented:
  * [ ] User can see app showcase walkthrough on first install
 * [ ] Login Sign Up 
  * [ ] App should maintain user history
+ 
+ 
+## Video Walkthrough 
+
+Here's a walkthrough of implemented user stories:
+
+<img src='./qzineat-app.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+ 
+## Open-source libraries used
+
+- [Glide] (http://inthecheesefactory.com/blog/get-to-know-glide-recommended-by-google/en) - Image loading and caching library for Android
+- [Butterknife annotation library](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife) - View "Injection" library for Android
+
+## License
+
+    Copyright [2016] [Shyam Rokde & Gaurav Londhe]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
