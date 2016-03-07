@@ -218,10 +218,10 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             @Override
             public void done(ParseException e) {
                 if (e == null)
+
                 Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
         });
-//        new GitHub().execute("");
     }
 
     private Date getDateObject() {
@@ -275,101 +275,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
-
-//    public class GitHub extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        public String doInBackground(String... params) {
-////            new Thread(new Runnable() {
-////                public void run() {
-//            try {
-//
-//
-//                // based on http://swanson.github.com/blog/2011/07/23/digging-around-the-github-api-take-2.html
-//                // initialize github client
-//                GitHubClient client = new GitHubClient();
-//                client.setCredentials("londhegaurav", "rujuta1982");
-//                Log.d("DEBUGGIT", client.getUser());
-//
-//                // create needed services
-//                RepositoryService repositoryService = new RepositoryService();
-//                CommitService commitService = new CommitService(client);
-//                DataService dataService = new DataService(client);
-////                    List<Repository> repo = repositoryService.getRepositories("londhegaurav");
-////
-////                    for (int i = 0; i < repo.size(); i++) {
-////                        Log.d("DEBUGGIT", repo.get(i).getGitUrl().toString());
-////                        Log.d("DEBUGGIT", repo.get(i).getName().toString());
-////                        Log.d("DEBUGGIT", String.valueOf(repo.get(i).getId()));
-////                    }
-//
-//                // get some sha's from current state in git
-//                Repository repository = repositoryService.getRepository("londhegaurav", "qzinphotos");
-//                String baseCommitSha = repositoryService.getBranches(repository).get(0).getCommit().getSha();
-//                RepositoryCommit baseCommit = commitService.getCommit(repository, baseCommitSha);
-//                String treeSha = baseCommit.getSha();
-//                //        Log.d("DEBUGGIT", repositoryService.getRepositories().toString());
-//
-//                // create new blob with data
-//                Blob blob = new Blob();
-//                //blob.setContent("[\"" + System.currentTimeMillis() + "\"]").setEncoding(Blob.ENCODING_UTF8);
-//                String bitmpString = BitMapToString(bitmap);
-//                blob.setContent(bitmpString);
-//                String blob_sha = dataService.createBlob(repository, blob);
-//                Tree baseTree = dataService.getTree(repository, treeSha);
-//
-//                // create new tree entry
-//                TreeEntry treeEntry = new TreeEntry();
-//                treeEntry.setPath("photos/" + System.currentTimeMillis()+".txt");
-//                treeEntry.setMode(TreeEntry.MODE_BLOB);
-//                treeEntry.setType(TreeEntry.TYPE_BLOB);
-//                treeEntry.setSha(blob_sha);
-//                treeEntry.setSize(blob.getContent().length());
-//                Collection<TreeEntry> entries = new ArrayList<TreeEntry>();
-//                entries.add(treeEntry);
-//                Tree newTree = dataService.createTree(repository, entries, baseTree.getSha());
-//
-//                // create commit
-//                CommitUser author = new CommitUser();
-//                author.setName(client.getUser());
-//                author.setEmail("londhegaurav@gmail.com");
-//                author.setDate(new GregorianCalendar().getTime());
-//
-//                Commit commit = new Commit();
-//                commit.setMessage("Android commit at " + new Date(System.currentTimeMillis()).toLocaleString());
-//                commit.setTree(newTree);
-//                commit.setAuthor(author);
-//                commit.setCommitter(author);
-//                List<Commit> listOfCommits = new ArrayList<Commit>();
-//                listOfCommits.add(new Commit().setSha(baseCommitSha));
-//                // listOfCommits.containsAll(base_commit.getParents());
-//                commit.setParents(listOfCommits);
-//
-//                // commit.setSha(base_commit.getSha());
-//                Commit newCommit = dataService.createCommit(repository, commit);
-//
-//                // create resource
-//                TypedResource commitResource = new TypedResource();
-//                commitResource.setSha(newCommit.getSha());
-//                commitResource.setType(TypedResource.TYPE_COMMIT);
-//                commitResource.setUrl(newCommit.getUrl());
-//
-//                // get master reference and update it
-//                Reference reference = dataService.getReference(repository, "heads/master");
-//                reference.setObject(commitResource);
-//                dataService.editReference(repository, reference, true);
-//
-//                // success
-//            } catch (Exception e) {
-//                // error
-//                e.printStackTrace();
-//            }
-////                }
-////            }).start();
-//            return null;
-//        }
-//
-//    }
     public byte [] BitMapToString(Bitmap bitmap){
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
