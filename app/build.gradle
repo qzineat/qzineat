@@ -53,7 +53,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0' // Glide
     compile 'com.makeramen:roundedimageview:2.2.1' // Rounded Image
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
-    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.melnykov:floatingactionbutton:1.3.0' // Floating Action Button
 }
 

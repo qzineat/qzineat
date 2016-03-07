@@ -31,8 +31,7 @@
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
-        <activity android:name="com.codepath.qzineat.activities.AsyncTaskActivity">
-        </activity>
+
         <activity android:name="com.codepath.qzineat.activities.EventDetailActivity"/>
     </application>
 
