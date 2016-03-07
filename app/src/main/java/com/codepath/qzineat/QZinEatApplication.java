@@ -11,7 +11,6 @@ import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
