@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
@@ -53,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawerContent(NavigationView navigationView) {
 
-        Menu menuNav = navigationView.getMenu();
-        updateMenu(menuNav);
-
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -91,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_logout:
                 UserUtil.logout();
-                updateMenu(nvDrawer.getMenu());
                 fragmentClass = EventListFragment.class;
                 break;
             case R.id.nav_host_event:
@@ -117,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
 
+
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
@@ -124,12 +122,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                updateMenu(nvDrawer.getMenu());
+                super.onDrawerStateChanged(newState);
+            }
+        };
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        // Handle other toolbar actions here
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
