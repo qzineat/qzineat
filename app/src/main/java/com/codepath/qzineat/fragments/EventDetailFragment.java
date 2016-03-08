@@ -22,7 +22,6 @@ import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.UserUtil;
-import com.facebook.AccessToken;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -160,7 +159,7 @@ public class EventDetailFragment extends Fragment {
 
         if(UserUtil.isUserLoggedIn()){
             // Hello :) I am host - don't show me SignUp Button
-            if(event.getHostUserId() != null && event.getHostUserId().equals(UserUtil.getLoggedInUserId())){
+            if(event.getHost() != null && event.getHost().getObjectId().equals(UserUtil.getLoggedInUser().getObjectId())){
                 fabSignUp.setVisibility(View.GONE);
                 return;
             }
@@ -168,7 +167,7 @@ public class EventDetailFragment extends Fragment {
             // Check I already Registered for this event or not
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
             query.whereEqualTo("eventId", eventObjectId);
-            query.whereEqualTo("userId", AccessToken.getCurrentAccessToken().getUserId());
+            query.whereEqualTo("user", UserUtil.getLoggedInUser());
             query.countInBackground(new CountCallback() {
                 @Override
                 public void done(int count, ParseException e) {
@@ -217,7 +216,7 @@ public class EventDetailFragment extends Fragment {
         // Parse Save
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
-        attendee.setUserId(UserUtil.getLoggedInUserId());
+        attendee.setUser(UserUtil.getLoggedInUser());
         attendee.setEventId(event.getObjectId());
 
         // Save attendee

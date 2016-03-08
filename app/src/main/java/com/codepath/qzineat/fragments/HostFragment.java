@@ -32,6 +32,7 @@ import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.UserUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -234,7 +235,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         byte[] text = BitMapToString(bitmap);
         ParseFile File = new ParseFile("EventImage.txt", text);
         event.setImageFile(File);
-        event.setHostUserId(UserUtil.getLoggedInUserId());
+        event.setHost(ParseUser.getCurrentUser());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

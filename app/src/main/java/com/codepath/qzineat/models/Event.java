@@ -19,15 +19,6 @@ public class Event extends ParseObject {
         // Required for Parse
     }
 
-
-    public String getHostUserId() {
-        return getString("hostUserId");
-    }
-
-    public void setHostUserId(String hostUserId) {
-        put("hostUserId", hostUserId);
-    }
-
     public String getImageUrl() {
         return getString("imageUrl");
     }
