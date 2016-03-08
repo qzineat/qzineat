@@ -159,7 +159,8 @@ public class EventDetailFragment extends Fragment {
 
         if(UserUtil.isUserLoggedIn()){
             // Hello :) I am host - don't show me SignUp Button
-            if(event.getHost() != null && event.getHost().getObjectId().equals(UserUtil.getLoggedInUser().getObjectId())){
+            if(event.getHost() != null
+                    && event.getHost().getObjectId().equals(UserUtil.getLoggedInUser().getObjectId())){
                 fabSignUp.setVisibility(View.GONE);
                 return;
             }

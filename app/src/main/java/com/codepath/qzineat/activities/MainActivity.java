@@ -54,21 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
 
         Menu menuNav = navigationView.getMenu();
-
-        MenuItem loginItem = menuNav.findItem(R.id.nav_login);
-        MenuItem logoutItem = menuNav.findItem (R.id.nav_logout);
-        // Do something on Menu items
-        if(UserUtil.isUserLoggedIn()){
-            loginItem.setVisible(false);
-            logoutItem.setVisible(true);
-        }else {
-            loginItem.setVisible(true);
-            logoutItem.setVisible(false);
-        }
-
-
-
-
+        updateMenu(menuNav);
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -80,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void updateMenu(Menu menu){
+        MenuItem loginItem = menu.findItem(R.id.nav_login);
+        MenuItem logoutItem = menu.findItem (R.id.nav_logout);
+        // Do something on Menu items
+        if(UserUtil.isUserLoggedIn()){
+            loginItem.setVisible(false);
+            logoutItem.setVisible(true);
+        }else {
+            loginItem.setVisible(true);
+            logoutItem.setVisible(false);
+        }
+    }
+
     public void selectDrawerItem(MenuItem menuItem) {
         // Create a new fragment and specify the planet to show based on
         // position
@@ -88,8 +87,12 @@ public class MainActivity extends AppCompatActivity {
         Class fragmentClass = null;
         switch (menuItem.getItemId()) {
             case R.id.nav_login:
-            case R.id.nav_logout:
                 fragmentClass = LoginFragment.class;
+                break;
+            case R.id.nav_logout:
+                UserUtil.logout();
+                updateMenu(nvDrawer.getMenu());
+                fragmentClass = EventListFragment.class;
                 break;
             case R.id.nav_host_event:
                 fragmentClass = HostFragment.class;

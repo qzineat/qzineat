@@ -20,4 +20,8 @@ public class UserUtil {
     public static boolean isUserLoggedIn() {
         return ParseUser.getCurrentUser() != null;
     }
+
+    public static void logout(){
+        ParseUser.logOut();
+    }
 }
