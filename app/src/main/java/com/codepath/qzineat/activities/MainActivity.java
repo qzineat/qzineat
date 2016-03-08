@@ -18,7 +18,7 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
-import com.codepath.qzineat.utils.UserUtil;
+import com.codepath.qzineat.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem loginItem = menu.findItem(R.id.nav_login);
         MenuItem logoutItem = menu.findItem (R.id.nav_logout);
         // Do something on Menu items
-        if(UserUtil.isUserLoggedIn()){
+        if(User.isUserLoggedIn()){
             loginItem.setVisible(false);
             logoutItem.setVisible(true);
         }else {
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = LoginFragment.class;
                 break;
             case R.id.nav_logout:
-                UserUtil.logout();
+                User.getLoggedInUser().logout();
                 fragmentClass = EventListFragment.class;
                 break;
             case R.id.nav_host_event:

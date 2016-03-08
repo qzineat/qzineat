@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.utils.UserUtil;
+import com.codepath.qzineat.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -78,12 +78,12 @@ public class LoginFragment extends Fragment {
                                 // Go back to called fragment..
                                 if (getTargetFragment() != null){
                                     Intent intent = new Intent();
-                                    intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
+                                    intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                                     getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                                     getFragmentManager().popBackStack();
                                 }else {
                                     Intent intent = new Intent(getContext(), getActivity().getClass());
-                                    intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
+                                    intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                                     startActivity(intent);
                                 }
 

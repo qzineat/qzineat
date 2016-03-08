@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
-import com.codepath.qzineat.utils.UserUtil;
+import com.codepath.qzineat.models.User;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -157,10 +157,10 @@ public class EventDetailFragment extends Fragment {
      */
     private void setupFabButton() {
 
-        if(UserUtil.isUserLoggedIn()){
+        if(User.isUserLoggedIn()){
             // Hello :) I am host - don't show me SignUp Button
             if(event.getHost() != null
-                    && event.getHost().getObjectId().equals(UserUtil.getLoggedInUser().getObjectId())){
+                    && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
                 fabSignUp.setVisibility(View.GONE);
                 return;
             }
@@ -168,7 +168,7 @@ public class EventDetailFragment extends Fragment {
             // Check I already Registered for this event or not
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
             query.whereEqualTo("eventId", eventObjectId);
-            query.whereEqualTo("user", UserUtil.getLoggedInUser());
+            query.whereEqualTo("user", User.getLoggedInUser());
             query.countInBackground(new CountCallback() {
                 @Override
                 public void done(int count, ParseException e) {
@@ -195,7 +195,7 @@ public class EventDetailFragment extends Fragment {
         fabSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (UserUtil.isUserLoggedIn()) {
+                if (User.isUserLoggedIn()) {
                     saveAttendee();
                 } else {
                     Fragment fragment = new LoginFragment();
@@ -217,7 +217,7 @@ public class EventDetailFragment extends Fragment {
         // Parse Save
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
-        attendee.setUser(UserUtil.getLoggedInUser());
+        attendee.setUser(User.getLoggedInUser());
         attendee.setEventId(event.getObjectId());
 
         // Save attendee

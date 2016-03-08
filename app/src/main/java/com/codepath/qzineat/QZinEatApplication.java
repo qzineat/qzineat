@@ -5,6 +5,7 @@ import android.app.Application;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.User;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -23,6 +24,7 @@ public class QZinEatApplication extends Application {
         // Register your parse models here
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Attendee.class);
+        ParseObject.registerSubclass(User.class);
 
         // Fonts
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -49,16 +51,6 @@ public class QZinEatApplication extends Application {
         // Facebook Initialize
         ParseFacebookUtils.initialize(getApplicationContext());
 
-        // Facebook Initialize
-        /*FacebookSdk.sdkInitialize(getApplicationContext(), new FacebookSdk.InitializeCallback() {
-            @Override
-            public void onInitialized() {
-                if(AccessToken.getCurrentAccessToken() == null){
-                    Log.d("DEBUG", "not logged in yet");
-                } else {
-                    Log.d("DEBUG", "Logged in");
-                }
-            }
-        });*/
+
     }
 }

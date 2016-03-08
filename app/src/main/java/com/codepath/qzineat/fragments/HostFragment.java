@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
-import com.codepath.qzineat.utils.UserUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -117,7 +117,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         ButterKnife.bind(this, view);
 
 
-        if(logInIntent != null && !UserUtil.isUserLoggedIn()){
+        if(logInIntent != null && !User.isUserLoggedIn()){
             // Send me to event list
             Fragment eventListFragment = new EventListFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -264,7 +264,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         super.onCreate(savedInstanceState);
 
         // Redirect User to LoginFragment
-        if (!UserUtil.isUserLoggedIn()) {
+        if (!User.isUserLoggedIn()) {
             Fragment fragment = new LoginFragment();
             fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
