@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +23,6 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
-import com.codepath.qzineat.fragments.SearchFragment;
 import com.codepath.qzineat.models.User;
 
 import butterknife.Bind;
@@ -116,10 +116,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.flContent, fragment)
-                .addToBackStack(null)
+                .addToBackStack(fragmentClass.getName())
                 .commit();
 
 
+        Log.d("DEBUG", "Fragments in stack - " + fragmentManager.getBackStackEntryCount());
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
@@ -176,11 +177,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                setContentView(R.layout.search_list);
-                SearchFragment searchListsFragment = SearchFragment.newInstance(query);
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.flContainerSearch, searchListsFragment);
-                ft.commit();
+                //TODO: We should make sure that we are not creating fragment every time..
+
+                //setContentView(R.layout.search_list);
+                Class fragmentClass = EventListFragment.class;
+
+                try {
+                    Fragment fragment = (Fragment) fragmentClass.newInstance();
+
+                    String backStateName = fragmentClass.getName();
+                    FragmentManager manager = getSupportFragmentManager();
+
+                    boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+                    FragmentTransaction ft = manager.beginTransaction();
+                    if (!fragmentPopped) { //fragment not in back stack, create it.
+                        ft.replace(R.id.flContent, fragment);
+                        ft.addToBackStack(backStateName);
+                    }
+
+                    Bundle args = new Bundle();
+                    args.putString("searchQuery", query);
+                    args.putString("searchCity", query);
+                    fragment.setArguments(args);
+                    ft.commit();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
                 searchView.clearFocus();
 

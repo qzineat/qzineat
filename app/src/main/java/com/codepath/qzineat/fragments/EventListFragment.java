@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.EventDetailActivity;
-
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 public class EventListFragment extends Fragment {
 
     private ArrayList<Event> mEvents;
-    private EventsRecyclerViewAdapter recyclerViewAdapter;
+    protected EventsRecyclerViewAdapter recyclerViewAdapter;
 
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
@@ -72,29 +72,57 @@ public class EventListFragment extends Fragment {
         mEvents = new ArrayList<>();
         recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext());
 
+        // On Search
+        if(getArguments() != null){
+            searchQuery = getArguments().getString("searchQuery");
+            searchCity = getArguments().getString("searchCity");
+            Log.d("DEBUG", searchQuery);
+        }
+
         // Populate Data
-        getEvents("", "");
+        getEvents();
     }
 
-    private Date lastCreatedAt; // used for pagination
-    public void getEvents(String queryString, String city) {
-        // Construct query to execute
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        // Configure limit and sort order
-        query.setLimit(3);
-        query.orderByDescending("createdAt");
-        if(lastCreatedAt != null){
-            query.whereLessThan("createdAt", lastCreatedAt);
+    protected Date lastCreatedAt; // used for pagination
+    protected String searchQuery;
+    protected String searchCity;
+
+    public void getEvents() {
+
+        List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
+        ParseQuery<Event> mainQuery;
+        if (searchQuery != null){
+            //query.whereStartsWith("title", searchQuery);
+            //query.whereMatches("title", "Michael", "i");
+            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("title", searchQuery);
+            queries.add(q2);
+
+            ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("address", searchQuery); // TODO: This need geo search
+            queries.add(q3);
+
+            mainQuery = ParseQuery.or(queries);
+        }else{
+            mainQuery = ParseQuery.getQuery(Event.class);
         }
-        query.findInBackground(new FindCallback<Event>() {
+
+        //ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        // Configure limit and sort order
+        mainQuery.setLimit(3);
+        mainQuery.orderByDescending("createdAt");
+        if(lastCreatedAt != null){
+            mainQuery.whereLessThan("createdAt", lastCreatedAt);
+        }
+
+        mainQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
                 if (e == null) {
+                    Log.d("DEBUG", "Response Size - " + events.size());
+                    int curSize = recyclerViewAdapter.getItemCount();
+                    ArrayList<Event> arrayList = new ArrayList<>(events);
+                    mEvents.addAll(arrayList);
+                    recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
                     if (events.size() > 0) {
-                        int curSize = recyclerViewAdapter.getItemCount();
-                        ArrayList<Event> arrayList = new ArrayList<>(events);
-                        mEvents.addAll(arrayList);
-                        recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
                         // set value for pagination
                         lastCreatedAt = mEvents.get(mEvents.size() - 1).getCreatedAt();
                     }
@@ -106,6 +134,8 @@ public class EventListFragment extends Fragment {
         });
     }
 
+
+
     private void setupRecyclerView() {
         rvEvents.setAdapter(recyclerViewAdapter);
 
@@ -116,7 +146,7 @@ public class EventListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if(lastCreatedAt != null){
-                    getEvents("", "");
+                    getEvents();
                 }
             }
         });
@@ -129,7 +159,7 @@ public class EventListFragment extends Fragment {
             recyclerViewAdapter.clear();
             // Reload Data
             lastCreatedAt = null;
-            getEvents("", "");
+            getEvents();
         }
     };
 
