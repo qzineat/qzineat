@@ -1,4 +1,5 @@
 package com.codepath.qzineat.models;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 
 /**
@@ -19,8 +20,7 @@ public class User extends ParseUser {
     public User(){}
 
     public String getPhone() {
-        return getString("phone");
-    }
+        return getString("phone");}
 
     public void setPhone(String phone) {
         put("phone", phone);
@@ -37,13 +37,19 @@ public class User extends ParseUser {
     public void logout() {
         User.logOut();
     }
-    
+
     public String getUserCity() {
         return getString("UserCity");
     }
 
     public void setUserCity(String UserCity) {
-        put("UserCity", UserCity);
+        put("UserCity", UserCity); }
 
-    }
+    public ParseFile getImageFile() {
+        return getParseFile("imageFile");}
+
+    public void setImageFile(ParseFile imageFile) {
+
+        put("imageFile" , imageFile); }
+
 }

@@ -73,11 +73,11 @@ public class EventListFragment extends Fragment {
         recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext());
 
         // Populate Data
-        getEvents();
+        getEvents("", "");
     }
 
     private Date lastCreatedAt; // used for pagination
-    private void getEvents() {
+    public void getEvents(String queryString, String city) {
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         // Configure limit and sort order
@@ -116,7 +116,7 @@ public class EventListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if(lastCreatedAt != null){
-                    getEvents();
+                    getEvents("", "");
                 }
             }
         });
@@ -129,7 +129,7 @@ public class EventListFragment extends Fragment {
             recyclerViewAdapter.clear();
             // Reload Data
             lastCreatedAt = null;
-            getEvents();
+            getEvents("", "");
         }
     };
 

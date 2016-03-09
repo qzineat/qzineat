@@ -11,19 +11,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.utils.UserUtil;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.Profile;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.codepath.qzineat.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +39,7 @@ public class LoginFragment extends Fragment {
         if(ParseUser.getCurrentUser()!=null){
             Log.d("DEBUG", "Your are Username - " + ParseUser.getCurrentUser().getUsername());
             Log.d("DEBUG", "Your are ObjectId - " + ParseUser.getCurrentUser().getObjectId());
+
         }
     }
 
@@ -59,36 +53,6 @@ public class LoginFragment extends Fragment {
 
         return view;
     }
-
-    private void setupLogin(){
-        loginButton.setReadPermissions("user_friends");
-        loginButton.setFragment(this);
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
-                Profile.fetchProfileForCurrentAccessToken();
-                
-                try {
-                    // Go back to called fragment..
-                    if(getTargetFragment() != null){
-                        Intent intent = new Intent();
-                        intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
-                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                        getFragmentManager().popBackStack();
-                    }else {
-                        Intent intent = new Intent(getContext(), getActivity().getClass());
-                        intent.putExtra("result", UserUtil.USER_LOG_IN_SUCCESS);
-                        startActivity(intent);
-                    }
-
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-
 
     private void setupLogin(){
 
@@ -105,24 +69,23 @@ public class LoginFragment extends Fragment {
                         } else {
                             if (user.isNew()) {
                                 Log.d("MyApp", "User signed up and logged in through Facebook!");
-                            }else {
+                            } else {
                                 Log.d("MyApp", "User logged in through Facebook!");
                             }
 
                             try {
                                 // Go back to called fragment..
-                                if (getTargetFragment() != null){
+                                if (getTargetFragment() != null) {
                                     Intent intent = new Intent();
                                     intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                                     getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                                     getFragmentManager().popBackStack();
-                                }else {
+                                } else {
                                     Intent intent = new Intent(getContext(), getActivity().getClass());
                                     intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                                     startActivity(intent);
                                 }
-
-                            }catch (Exception ex){
+                            } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                         }
@@ -132,13 +95,11 @@ public class LoginFragment extends Fragment {
         });
     }
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("Debug_fb", String.valueOf(data));
-                callbackManager.onActivityResult(requestCode, resultCode, data);
+
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+
     }
 }

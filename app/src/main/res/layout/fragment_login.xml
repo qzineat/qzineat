@@ -28,8 +28,6 @@
             android:text="Login with Facebook"
             />
 
-
-
     </LinearLayout>
 
 </RelativeLayout>
