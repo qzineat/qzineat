@@ -16,6 +16,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -57,10 +58,9 @@ public class LoginFragment extends Fragment {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
-                Log.d("DEBUG_Activity",getActivity().toString());
-
+                Profile.fetchProfileForCurrentAccessToken();
+                
                 try {
                     // Go back to called fragment..
                     if(getTargetFragment() != null){
@@ -113,7 +113,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        Log.d("Debug_fb", String.valueOf(data));
+                callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

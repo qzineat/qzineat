@@ -120,6 +120,7 @@ public class EventListFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private final SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
