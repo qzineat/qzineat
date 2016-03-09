@@ -28,10 +28,11 @@ import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
-import com.codepath.qzineat.utils.UserUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -116,12 +117,11 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         ButterKnife.bind(this, view);
 
 
-        if(logInIntent != null && !UserUtil.isUserLoggedIn()){
+        if(logInIntent != null && !User.isUserLoggedIn()){
             // Send me to event list
             Fragment eventListFragment = new EventListFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.flContent, eventListFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         }
 
@@ -235,7 +235,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         byte[] text = BitMapToString(bitmap);
         ParseFile File = new ParseFile("EventImage.txt", text);
         event.setImageFile(File);
-        event.setHostUserId(UserUtil.getLoggedInUserId());
+        event.setHost(ParseUser.getCurrentUser());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -264,12 +264,11 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         super.onCreate(savedInstanceState);
 
         // Redirect User to LoginFragment
-        if (!UserUtil.isUserLoggedIn()) {
+        if (!User.isUserLoggedIn()) {
             Fragment fragment = new LoginFragment();
             fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.flContent, fragment);
-            transaction.addToBackStack(null);
             // Commit the transaction
             transaction.commit();
         }

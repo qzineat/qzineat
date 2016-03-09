@@ -9,13 +9,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
+import com.codepath.qzineat.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,13 +46,14 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
 
-        nvDrawer.getMenu().getItem(0).setChecked(true);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
         setTitle(R.string.drawer_event);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -58,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+    }
+
+    private void updateMenu(Menu menu){
+        MenuItem loginItem = menu.findItem(R.id.nav_login);
+        MenuItem logoutItem = menu.findItem (R.id.nav_logout);
+        // Do something on Menu items
+        if(User.isUserLoggedIn()){
+            loginItem.setVisible(false);
+            logoutItem.setVisible(true);
+        }else {
+            loginItem.setVisible(true);
+            logoutItem.setVisible(false);
+        }
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -69,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
         switch (menuItem.getItemId()) {
             case R.id.nav_login:
                 fragmentClass = LoginFragment.class;
+                break;
+            case R.id.nav_logout:
+                User.getLoggedInUser().logout();
+                fragmentClass = EventListFragment.class;
                 break;
             case R.id.nav_host_event:
                 fragmentClass = HostFragment.class;
@@ -88,7 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flContent, fragment)
+                .addToBackStack(null)
+                .commit();
+
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -97,12 +122,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                updateMenu(nvDrawer.getMenu());
+                super.onDrawerStateChanged(newState);
+            }
+        };
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+
+        if(drawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        // Handle other toolbar actions here
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
