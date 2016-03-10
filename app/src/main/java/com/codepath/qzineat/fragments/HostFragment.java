@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +29,7 @@ import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
+import com.codepath.qzineat.utils.GeoUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -246,9 +248,19 @@ public class HostFragment extends Fragment{
         TimeObject = getTimeObject();
         event.setDate(dateObject);
         event.setTime(TimeObject);
-        event.setAddress(etVenue.getText().toString());
-        event.setCity(etCity.getText().toString());
-        event.setZip(etZip.getText().toString());
+
+        // TODO - try to append address like
+        // 500 Walnut Ave #G204, Fremont, CA, 94538
+        etCity.getText().toString(); // TODO: Append into inputAddress
+        String inputAddress = etVenue.getText().toString();
+
+        // Get Location & Correct Locality with Country code
+        Address address = GeoUtil.getGeoAddress(getContext(), inputAddress);
+        event.setLocation(GeoUtil.getLocation(address)); // This will be used as location search
+        event.setLocality(GeoUtil.getLocality(address));
+        event.setAddress(inputAddress);
+
+
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());

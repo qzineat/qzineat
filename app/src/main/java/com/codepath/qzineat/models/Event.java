@@ -2,6 +2,7 @@ package com.codepath.qzineat.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -107,29 +108,6 @@ public class Event extends ParseObject {
         put("favouritesCount", favouritesCount);
     }
 
-    public String getAddress() {
-        return getString("address");
-    }
-
-    public void setAddress(String address) {
-        put("address", address);
-    }
-
-    public String getCity() {
-        return getString("city");
-    }
-
-    public void setCity(String city) {
-        put("city", city);
-    }
-
-    public String getZip() {
-        return getString("zip");
-    }
-
-    public void setZip(String zip) {
-        put("zip", zip);
-    }
 
     public String getAlcohol() {
         return getString("alcohol");
@@ -157,5 +135,33 @@ public class Event extends ParseObject {
 
     public void removeAttendee(Attendee attendee){
         getAttendeeRelation().remove(attendee);
+    }
+
+
+    //
+    // Address
+    //
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint("location");
+    }
+
+    public void setLocation(ParseGeoPoint location) {
+        put("location", location);
+    }
+
+    public String getLocality() {
+        return getString("locality");
+    }
+
+    public void setLocality(String locality) {
+        put("locality", locality);
+    }
+
+    public String getAddress() {
+        return getString("address");
+    }
+
+    public void setAddress(String address) {
+        put("address", address);
     }
 }
