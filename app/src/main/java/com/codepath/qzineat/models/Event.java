@@ -115,6 +115,22 @@ public class Event extends ParseObject {
         put("address", address);
     }
 
+    public String getCity() {
+        return getString("city");
+    }
+
+    public void setCity(String city) {
+        put("city", city);
+    }
+
+    public String getZip() {
+        return getString("zip");
+    }
+
+    public void setZip(String zip) {
+        put("zip", zip);
+    }
+
     public String getAlcohol() {
         return getString("alcohol");
     }

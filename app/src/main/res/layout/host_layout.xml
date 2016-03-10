@@ -99,6 +99,20 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:text="City:"
+        android:id="@+id/tvCity"
+        android:layout_marginBottom="20dp"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Zip Code:"
+        android:id="@+id/tvZip"
+        android:layout_marginBottom="20dp"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:text="Menu Category:"
         android:id="@+id/tvMenuCategory"
         android:layout_marginTop="10dp"
@@ -162,7 +176,18 @@
             android:hint="Address"
             android:textSize="15dp"
             android:id="@+id/etVenue"/>
-
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:hint="City"
+            android:textSize="15dp"
+            android:id="@+id/etCity"/>
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:hint="Zip Code"
+            android:textSize="15dp"
+            android:id="@+id/etZip"/>
         <Spinner
             android:id="@+id/sMenuCategory"
             android:layout_width="fill_parent"

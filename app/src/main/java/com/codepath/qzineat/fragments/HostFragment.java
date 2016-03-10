@@ -92,6 +92,10 @@ public class HostFragment extends Fragment{
     TextView tvVenue;
     @Bind(R.id.etVenue)
     EditText etVenue;
+    @Bind(R.id.etCity)
+    EditText etCity;
+    @Bind(R.id.etZip)
+    EditText etZip;
     @Bind(R.id.sMenuCategory)
     Spinner sMenuCategory;
     @Bind(R.id.tvDesc)
@@ -243,6 +247,8 @@ public class HostFragment extends Fragment{
         event.setDate(dateObject);
         event.setTime(TimeObject);
         event.setAddress(etVenue.getText().toString());
+        event.setCity(etCity.getText().toString());
+        event.setZip(etZip.getText().toString());
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());
