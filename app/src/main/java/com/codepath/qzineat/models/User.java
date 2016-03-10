@@ -38,12 +38,12 @@ public class User extends ParseUser {
         User.logOut();
     }
 
-    public String getUserCity() {
-        return getString("UserCity");
+    public String getCity() {
+        return getString("city");
     }
 
-    public void setUserCity(String UserCity) {
-        put("UserCity", UserCity); }
+    public void setCity(String city) {
+        put("city", city); }
 
     public ParseFile getImageFile() {
         return getParseFile("imageFile");}

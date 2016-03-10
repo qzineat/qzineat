@@ -17,6 +17,7 @@ import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.ItemClickSupport;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -35,7 +36,8 @@ import butterknife.ButterKnife;
 public class EventListFragment extends Fragment {
 
     private ArrayList<Event> mEvents;
-    protected EventsRecyclerViewAdapter recyclerViewAdapter;
+    private EventsRecyclerViewAdapter recyclerViewAdapter;
+
 
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
@@ -76,7 +78,8 @@ public class EventListFragment extends Fragment {
         if(getArguments() != null){
             searchQuery = getArguments().getString("searchQuery");
             searchCity = getArguments().getString("searchCity");
-            Log.d("DEBUG", searchQuery);
+            isProfileView = getArguments().getBoolean("isProfileView");
+           // Log.d("DEBUG", searchQuery);
         }
 
         // Populate Data
@@ -86,6 +89,7 @@ public class EventListFragment extends Fragment {
     protected Date lastCreatedAt; // used for pagination
     protected String searchQuery;
     protected String searchCity;
+    private boolean isProfileView;
 
     public void getEvents() {
 
@@ -111,6 +115,9 @@ public class EventListFragment extends Fragment {
         mainQuery.orderByDescending("createdAt");
         if(lastCreatedAt != null){
             mainQuery.whereLessThan("createdAt", lastCreatedAt);
+        }
+        if(isProfileView){
+            mainQuery.whereEqualTo("host", User.getCurrentUser());
         }
 
         mainQuery.findInBackground(new FindCallback<Event>() {
