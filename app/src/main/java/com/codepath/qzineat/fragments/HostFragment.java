@@ -1,6 +1,5 @@
 package com.codepath.qzineat.fragments;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -50,7 +48,7 @@ import static java.lang.Integer.parseInt;
 /**
  * Created by glondhe on 3/1/16.
  */
-public class HostFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class HostFragment extends Fragment{
 
     private static final int RESULT_OK = -1 ;
     private static final int CAMERA_REQUEST = 1888;
@@ -80,6 +78,8 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     TextView tvDate;
     @Bind(R.id.tvDatePicker)
     TextView tvDatePicker;
+    @Bind(R.id.tvTimePicker)
+    TextView tvTimePicker;
     @Bind(R.id.tvGuest)
     TextView tvGuest;
     @Bind(R.id.spGuest)
@@ -92,6 +92,8 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     TextView tvVenue;
     @Bind(R.id.etVenue)
     EditText etVenue;
+    @Bind(R.id.sMenuCategory)
+    Spinner sMenuCategory;
     @Bind(R.id.tvDesc)
     TextView tvDesc;
     @Bind(R.id.etDesc)
@@ -107,6 +109,8 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
     private Intent intent;
 
     private Intent logInIntent;
+    private ArrayAdapter<String> MenuCategoryAdapter;
+    private Date TimeObject;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,11 +130,19 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         }
 
         spGuest.setAdapter(arrayAdapter);
+        sMenuCategory.setAdapter(MenuCategoryAdapter);
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            }
+        });
+        tvTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getActivity().getSupportFragmentManager(), "TimePicker");
             }
         });
         btUpload.setOnClickListener(new View.OnClickListener() {
@@ -224,9 +236,12 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         Event event = new Event();
         event.setTitle(etTitile.getText().toString());
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
+        event.setCategory((String) sMenuCategory.getSelectedItem());
         event.setDescription(etDesc.getText().toString());
         dateObject = getDateObject();
+        TimeObject = getTimeObject();
         event.setDate(dateObject);
+        event.setTime(TimeObject);
         event.setAddress(etVenue.getText().toString());
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
@@ -259,6 +274,21 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         return dateObject;
     }
 
+    private Date getTimeObject() {
+
+        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
+        Date dateObject = null;
+        String dob_var=(tvTimePicker.getText().toString());
+
+        try {
+            dateObject = formatter.parse(dob_var);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return dateObject;
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,9 +303,37 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
             transaction.commit();
         }
 
-
+        setMenuCategory();
         setListAdapter();
 
+    }
+
+    private void setMenuCategory() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Choose");
+        list.add("American");
+        list.add("Chinese");
+        list.add("French");
+        list.add("Japanese");
+        list.add("Korean");
+        list.add("Italian");
+        list.add("Indian");
+        list.add("Mediterranean");
+        list.add("Mexican");
+        list.add("Thai");
+        list.add("Vegan");
+        list.add("Vegetarian");
+        list.add("vietnamese");
+
+        list.add("List2");
+        list.add("List2");
+        list.add("List2");
+        list.add("List2");
+        list.add("List2");
+        MenuCategoryAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuCategoryAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
     }
 
     private void setListAdapter() {
@@ -287,25 +345,6 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         arrayAdapter = new ArrayAdapter<>(this.getActivity(),
         android.R.layout.simple_spinner_item, list);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-    }
-
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        _year = year;
-        _month = monthOfYear;
-        _day = dayOfMonth;
-
-        this.date = new StringBuilder()
-                .append(_year).append("/");
-
-        if (_month < 10) this.date.append(0).append(_month + 1).append("/");
-        else this.date.append(_month + 1).append("/");
-
-        if (_day < 10) this.date.append(0).append(_day);
-        else this.date.append(_day + 1);
-
-        tvDatePicker.setText(this.date);
-
     }
 
     public byte [] BitMapToString(Bitmap bitmap){
@@ -321,5 +360,7 @@ public class HostFragment extends Fragment implements DatePickerDialog.OnDateSet
         byte[] decodedByte = Base64.decode(input, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
+
+
 
 }

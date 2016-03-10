@@ -51,11 +51,5 @@ public class DatePickerFragment extends DialogFragment implements
         TextView tvDatePicker = (TextView) getActivity().findViewById(R.id.tvDatePicker);
         tvDatePicker.setText(this.date);
 
-        updateDisplay();
-    }
-
-    private void updateDisplay() {
-
-
     }
 }

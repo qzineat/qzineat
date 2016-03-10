@@ -51,6 +51,14 @@ public class Event extends ParseObject {
         put("price", price);
     }
 
+    public String getCategory() {
+        return getString("category");
+    }
+
+    public void setCategory(String category) {
+        put("category", category);
+    }
+
     public String getDescription() {
         return getString("description");
     }
@@ -65,6 +73,14 @@ public class Event extends ParseObject {
 
     public void setDate(Date date) {
         put("date", date);
+    }
+
+    public Date getTime() {
+        return getDate("date");
+    }
+
+    public void setTime(Date time) {
+        put("time", time);
     }
 
     public int getGuestLimit() {

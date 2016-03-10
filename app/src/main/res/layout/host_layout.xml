@@ -71,6 +71,13 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:text="Time:"
+        android:id="@+id/tvTime"
+        android:layout_marginBottom="20dp"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:text="Max No. of Guests:"
         android:id="@+id/tvGuest"
         android:layout_marginBottom="20dp"
@@ -89,6 +96,15 @@
         android:id="@+id/tvVenue"
         android:layout_marginBottom="20dp"
         />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Menu Category:"
+        android:id="@+id/tvMenuCategory"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        />
+
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -122,12 +138,18 @@
             android:text="Date:"
             android:id="@+id/tvDatePicker"
             android:layout_marginBottom="20dp"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Time:"
+            android:id="@+id/tvTimePicker"
+            android:layout_marginBottom="20dp"/>
         <Spinner
             android:id="@+id/spGuest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:drawSelectorOnTop="true" />
         <EditText
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -140,6 +162,13 @@
             android:hint="Address"
             android:textSize="15dp"
             android:id="@+id/etVenue"/>
+
+        <Spinner
+            android:id="@+id/sMenuCategory"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="true" />
+
         <EditText
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -151,7 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/yesno_Array"
-            android:spinnerMode="dropdown"/>
+            android:drawSelectorOnTop="true" />
     </LinearLayout>
     </LinearLayout>
     <Button
