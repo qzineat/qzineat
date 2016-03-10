@@ -76,8 +76,8 @@ public class EventListFragment extends Fragment {
 
         // On Search
         if(getArguments() != null){
-            searchQuery = getArguments().getString("searchQuery");
-            searchCity = getArguments().getString("searchCity");
+            searchFood = getArguments().getString("searchFood");
+            searchLocality = getArguments().getString("searchLocality");
             isProfileView = getArguments().getBoolean("isProfileView");
            // Log.d("DEBUG", searchQuery);
         }
@@ -87,22 +87,22 @@ public class EventListFragment extends Fragment {
     }
 
     protected Date lastCreatedAt; // used for pagination
-    protected String searchQuery;
-    protected String searchCity;
+    protected String searchFood;
+    protected String searchLocality;
     private boolean isProfileView;
 
     public void getEvents() {
 
         List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
         ParseQuery<Event> mainQuery;
-        if (searchQuery != null){
+        if (searchFood != null){
             //query.whereStartsWith("title", searchQuery);
             //query.whereMatches("title", "Michael", "i");
-            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("title", searchQuery);
+            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("title", searchFood);
             queries.add(q2);
 
-            ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("address", searchQuery); // TODO: This need geo search
-            queries.add(q3);
+            //ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("locality", searchLocality); // TODO: This need geo search
+            //queries.add(q3);
 
             mainQuery = ParseQuery.or(queries);
         }else{
@@ -118,6 +118,9 @@ public class EventListFragment extends Fragment {
         }
         if(isProfileView){
             mainQuery.whereEqualTo("host", User.getCurrentUser());
+        }
+        if(searchLocality != null){
+            mainQuery.whereEqualTo("locality", searchLocality);
         }
 
         mainQuery.findInBackground(new FindCallback<Event>() {

@@ -1,12 +1,12 @@
 package com.codepath.qzineat.activities;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setupDrawerContent(nvDrawer);
 
+        setupSearch();
+
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
@@ -56,6 +60,28 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
         setTitle(R.string.drawer_event);
+    }
+
+    MenuItem searchItem;
+    SearchView searchView1;
+    SearchView searchView2;
+    ImageButton btnSearchContent;
+    private void setupSearch() {
+        View view = getLayoutInflater().inflate(R.layout.qzin_search, null);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(view);
+        searchView1 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search1);
+        searchView2 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search2);
+        btnSearchContent = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.btnSearchContent);
+
+
+        searchView1.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                hideSearch();
+                return false;
+            }
+        });
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -150,6 +176,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()){
+            case R.id.menu_search:
+                searchItem = item;
+                showSearch();
+                Log.d("DEBUG", "Some one clicked on me");
+                break;
+        }
+
         if(drawerToggle.onOptionsItemSelected(item)){
             return true;
         }
@@ -174,22 +208,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.event_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        btnSearchContent.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-
-                //TODO: We should make sure that we are not creating fragment every time..
-
-                //setContentView(R.layout.search_list);
-                Class fragmentClass = EventListFragment.class;
+            public void onClick(View v) {
+                Log.d("DEBUG", "q-food:" + searchView1.getQuery());
+                Log.d("DEBUG", "q-location:" + searchView2.getQuery());
 
                 try {
-                    Fragment fragment = (Fragment) fragmentClass.newInstance();
+                    EventListFragment fragment = new EventListFragment();
 
-                    String backStateName = fragmentClass.getName();
+                    String backStateName = EventListFragment.class.getName();
                     FragmentManager manager = getSupportFragmentManager();
 
                     boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
@@ -200,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Bundle args = new Bundle();
-                    args.putString("searchQuery", query);
-                    args.putString("searchCity", query);
+                    args.putString("searchFood", searchView1.getQuery().toString());
+                    args.putString("searchLocality", searchView2.getQuery().toString());
                     fragment.setArguments(args);
                     ft.commit();
 
@@ -209,18 +238,40 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
-                searchView.clearFocus();
-
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
             }
         });
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void showSearch(){
+
+        btnSearchContent.setVisibility(View.VISIBLE); // show new button
+        searchItem.setVisible(false); // hide me
+
+        EditText etSearch1 = (EditText) searchView1.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        etSearch1.setHintTextColor(getResources().getColor(R.color.hint_color_light));
+        etSearch1.setTextColor(Color.WHITE);
+
+        searchView1.setIconified(false);
+        searchView1.setQueryHint(getString(R.string.primary_search_hint));
+        searchView1.setVisibility(View.VISIBLE);
+        searchView1.setFocusable(true);
+
+        EditText etSearch2 = (EditText) searchView2.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        etSearch2.setHintTextColor(getResources().getColor(R.color.hint_color_light));
+        etSearch2.setTextColor(Color.WHITE);
+
+        searchView2.setIconified(false);
+        searchView2.setVisibility(View.VISIBLE);
+        searchView2.setQueryHint(getString(R.string.location_search_hint));
+    }
+
+    private void hideSearch(){
+        searchView1.setVisibility(View.INVISIBLE);
+        searchView2.setVisibility(View.INVISIBLE);
+        searchItem.setVisible(true);
+        btnSearchContent.setVisibility(View.INVISIBLE); // hide new button
     }
 
 }
