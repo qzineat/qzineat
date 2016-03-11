@@ -179,6 +179,10 @@ public class HostFragment extends Fragment{
 
                 saveEvent(getContext());
 
+                HostListFragment hostListFragment = new HostListFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContent, hostListFragment);
+                transaction.commit();
             }
         });
 

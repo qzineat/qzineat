@@ -7,6 +7,7 @@
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="host_event">Host an Event</string>
+    <string name="all_hosted_event">Hosted Events</string>
     <string name="advance_filter">Advance Filter</string>
     <string name="profile">Profile</string>
     <string name="futurama">Futurama</string>
@@ -28,4 +29,5 @@
 
     <!-- Facebook -->
     <string name="facebook_app_id">557168641127416</string>
+    <string name="Edit">Edit</string>
 </resources>

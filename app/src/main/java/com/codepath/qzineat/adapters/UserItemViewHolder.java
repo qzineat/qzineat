@@ -9,18 +9,21 @@ import com.codepath.android.qzineat.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
 /**
- * Created by Shyam Rokde on 3/2/16.
+ * Created by Gaurav Londhe on 3/10/16.
  */
+public class UserItemViewHolder extends RecyclerView.ViewHolder {
 
-public class EventItemViewHolder extends RecyclerView.ViewHolder {
-
-    @Bind(R.id.ivEventImage) public ImageView ivEventImage;
     @Bind(R.id.tvTitle) public TextView tvTitle;
     @Bind(R.id.tvCity) public TextView tvCity;
+    @Bind(R.id.tvDate) public TextView tvDate;
+    @Bind(R.id.evEdit) public ImageView evEdit;
+    @Bind(R.id.ivEventImage) public ImageView ivEventImage;
 
-    public EventItemViewHolder(View itemView) {
+    public UserItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        evEdit.setVisibility(View.INVISIBLE);
     }
 }

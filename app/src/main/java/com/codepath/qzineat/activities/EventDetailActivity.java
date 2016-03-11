@@ -18,6 +18,7 @@ public class EventDetailActivity extends AppCompatActivity  {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +29,8 @@ public class EventDetailActivity extends AppCompatActivity  {
 
         // Event Detail
         if(savedInstanceState == null){
-            EventDetailFragment fragment = EventDetailFragment.newInstance(getIntent().getStringExtra("eventObjectId"));
 
+            EventDetailFragment fragment = EventDetailFragment.newInstance(getIntent().getStringExtra("eventObjectId"));
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
             ft.commit();

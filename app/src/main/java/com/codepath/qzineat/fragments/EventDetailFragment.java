@@ -51,13 +51,13 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
-
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
     private Event event;
     private String eventObjectId;
 
     private static int FRAGMENT_CODE = 100;
+    private String profileType;
 
     public static EventDetailFragment newInstance(String eventObjectId){
         EventDetailFragment fragment = new EventDetailFragment();

@@ -20,6 +20,20 @@
             android:minHeight="200dp"
             android:scaleType="fitCenter"/>
 
+        <!--<TextView-->
+            <!--android:id="@+id/tvEditEvent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginLeft="340dp"-->
+            <!--android:layout_marginEnd="20dp"-->
+            <!--android:layout_marginTop="210dp"-->
+            <!--style="@style/EditStyle"-->
+            <!--android:text="@string/Edit"-->
+           <!--/>-->
+
         <ImageView
             android:id="@+id/ivProfileImage"
             xmlns:app="http://schemas.android.com/apk/res-auto"
