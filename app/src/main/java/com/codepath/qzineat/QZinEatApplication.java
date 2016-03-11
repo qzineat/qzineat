@@ -5,6 +5,7 @@ import android.app.Application;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -25,6 +26,7 @@ public class QZinEatApplication extends Application {
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Attendee.class);
         ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Review.class);
 
         // Fonts
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

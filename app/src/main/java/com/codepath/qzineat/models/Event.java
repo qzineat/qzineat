@@ -137,6 +137,24 @@ public class Event extends ParseObject {
         getAttendeeRelation().remove(attendee);
     }
 
+    //
+    // Review
+    //
+    public int getNumberOfReviews() {
+        return getInt("numberOfReviews");
+    }
+
+    public void setNumberOfReviews(int numberOfReviews) {
+        put("numberOfReviews", numberOfReviews);
+    }
+
+    public int getRatingSum() {
+        return getInt("ratingSum");
+    }
+
+    public void setRatingSum(int ratingSum) {
+        put("ratingSum", ratingSum);
+    }
 
     //
     // Address

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
@@ -51,6 +53,12 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
+
+    @Bind(R.id.ratingBar)
+    RatingBar ratingBar;
+
+
+    @Bind(R.id.tvStarLabel) TextView tvStarLabel;
 
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
@@ -96,6 +104,7 @@ public class EventDetailFragment extends Fragment {
     private void getEvent() {
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
         // TODO: check later that we can get Event with all attendees or not
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
             @Override
@@ -176,6 +185,8 @@ public class EventDetailFragment extends Fragment {
                         if (count > 0) {
                             // I am already registered for this event
                             changeSignUpButton();
+                            // Rating
+                            setupRatingBar();
                         }else {
                             showFabRegister();
                         }
@@ -188,6 +199,87 @@ public class EventDetailFragment extends Fragment {
             showFabRegister();
         }
 
+    }
+
+    private void setupRatingBar() {
+        // Check If I am host
+        // Hello :) I am host - don't show me SignUp Button
+        if(event.getHost() != null
+                && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
+            hideRatingBar();
+            return;
+        }
+
+        // Check Date
+        Date today = new Date();
+        if(today.compareTo(event.getDate()) <= 0){
+            hideRatingBar();
+            return;
+        }
+
+        // Check User Already reviewed or not
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.whereEqualTo("reviewedBy", User.getLoggedInUser());
+        query.whereEqualTo("event", event);
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (count == 0) {
+                    // I haven't reviewed yet
+                    showRatingBar();
+
+                    ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                            saveReview(Math.round(rating));
+                        }
+                    });
+                }else {
+                    setRating();
+                }
+            }
+        });
+
+
+
+    }
+
+    private void saveReview(int rating){
+        // Update Event
+        event.increment("numberOfReviews");
+        event.increment("ratingSum", rating);
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null){
+                    setRating();
+                }
+            }
+        });
+
+        // Save Review
+        Review review = new Review();
+        review.setEvent(event);
+        review.setReviewedBy(User.getLoggedInUser());
+        review.setRating(rating);
+        review.saveInBackground();
+    }
+    private void showRatingBar(){
+        tvStarLabel.setVisibility(View.VISIBLE);
+        ratingBar.setVisibility(View.VISIBLE);
+    }
+    private void hideRatingBar(){
+        tvStarLabel.setVisibility(View.GONE);
+        ratingBar.setVisibility(View.GONE);
+    }
+
+    private void setRating(){
+        tvStarLabel.setVisibility(View.VISIBLE);
+        ratingBar.setVisibility(View.VISIBLE);
+
+        double d = event.getRatingSum() * 1.0 / event.getNumberOfReviews();
+        ratingBar.setRating((float) d);
+        ratingBar.setIsIndicator(true);
     }
 
     private void showFabRegister(){

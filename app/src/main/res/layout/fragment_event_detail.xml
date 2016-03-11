@@ -120,7 +120,6 @@
                         android:layout_gravity="center_horizontal"
                         android:text="10"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -139,6 +138,22 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvStarLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please tell us about event"
+                android:visibility="gone"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="0.0"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
