@@ -7,6 +7,7 @@
     <string name="log_in">Log In</string>
     <string name="log_out">Log Out</string>
     <string name="host_event">Host an Event</string>
+    <string name="all_hosted_event">Hosted Events</string>
     <string name="my_event">My Events</string>
     <string name="advance_filter">Advance Filter</string>
     <string name="profile">Profile</string>
@@ -15,7 +16,6 @@
     <string name="simpsorama">Simpsorama</string>
     <string name="example_event_title">Sample Event Title</string>
     <string name="example_place">San Francisco</string>
-
     <string name="drawer_event">Events</string>
     <string name="margin1">20dp</string>
     <string name="prompt">Choose</string>
@@ -29,7 +29,7 @@
 
     <!-- Facebook -->
     <string name="facebook_app_id">557168641127416</string>
-
+    <string name="Edit">Edit</string>
     <string name="primary_search_hint">sushi, chicken</string>
     <string name="location_search_hint">city, state or zip code</string>
 </resources>

@@ -14,6 +14,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.GeoUtil;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -116,6 +120,17 @@ public class HostFragment extends Fragment{
     private Intent logInIntent;
     private ArrayAdapter<String> MenuCategoryAdapter;
     private Date TimeObject;
+    private String eventObjectId = null;
+    private Event evt;
+
+    public static HostFragment newInstance(String eventObjectId){
+        HostFragment fragment = new HostFragment();
+        Bundle args = new Bundle();
+        args.putString("eventObjectId", eventObjectId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -178,6 +193,10 @@ public class HostFragment extends Fragment{
 
                 saveEvent(getContext());
 
+                HostListFragment hostListFragment = new HostListFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContent, hostListFragment);
+                transaction.commit();
             }
         });
 
@@ -319,10 +338,44 @@ public class HostFragment extends Fragment{
             // Commit the transaction
             transaction.commit();
         }
-
+        if(getArguments() != null) {
+            eventObjectId = getArguments().getString("eventObjectId");
+            if (eventObjectId != null && !eventObjectId.isEmpty()) {
+                setValues();
+            }
+        }
         setMenuCategory();
         setListAdapter();
 
+    }
+
+    private void setValues() {
+
+        Event evnt = getEvent();
+        if (evnt != null) {
+            ParseFile pf = evnt.getImageFile();
+            Glide.with(getContext()).load(pf.getUrl()).centerCrop().into(ivEventImage);
+
+            etTitile.setText(evnt.getTitle());
+        } else Log.d("DEBUG", "Event returned null");
+
+    }
+
+    private Event getEvent() {
+            // Construct query to execute
+            ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+            // TODO: check later that we can get Event with all attendees or not
+            Log.d("DEBUG_eventObjectId", eventObjectId.toString());
+            query.getInBackground(eventObjectId, new GetCallback<Event>() {
+                @Override
+                public void done(Event object, ParseException e) {
+                    if (e == null) {
+                        evt = object;
+
+                    }
+                }
+            });
+        return evt;
     }
 
     private void setMenuCategory() {

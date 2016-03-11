@@ -1,8 +1,6 @@
 package com.codepath.qzineat.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +10,6 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Event;
-import com.parse.GetDataCallback;
-import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import java.util.ArrayList;
@@ -52,31 +48,34 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
+        ParseFile pf = event.getImageFile();
+        Glide.with(mContext).load(pf.getUrl()).centerCrop().into(viewHolder.ivEventImage);
         Glide.with(mContext).load(event.getImageUrl()).centerCrop().into(viewHolder.ivEventImage);
         viewHolder.tvLocality.setText(event.getLocality());
         viewHolder.tvEventDate.setText(event.getDate().toString());
 
-
-        //Retrieve Image
-        ParseFile imageFile = event.getImageFile();
-        if( imageFile != null) {
-            imageFile.getDataInBackground(new GetDataCallback() {
-                public void done(byte[] data, ParseException e) {
-                    if (e == null) {
-                        // data has the bytes for the resume
-                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                        viewHolder.ivEventImage.setImageBitmap(bMap);
-
-                       // Tried using Glide. But it runs into error below:
-                       // ERROR: You must provide a Model of a type for which there is a registered ModelLoader, if you are using a custom model, you must first call Glide#register with a ModelLoaderFactory for your custom model class
-                       // Glide.with(mContext).load(bMap).asBitmap().centerCrop().into(viewHolder.ivEventImage);
-
-                    } else {
-                        Log.d("DEBUG", "Parse exception: " + e.toString());                    }
-                }
-            });
-        }
+        ///// COMMENTED SECTION CAN BE SAFELY DELETED AFTER TEST
+//        //Retrieve Image
+//        ParseFile imageFile = event.getImageFile();
+//        if( imageFile != null) {
+//            imageFile.getDataInBackground(new GetDataCallback() {
+//                public void done(byte[] data, ParseException e) {
+//                    if (e == null) {
+//                        // data has the bytes for the resume
+//                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                        viewHolder.ivEventImage.setImageBitmap(bMap);
+//
+//                       // Tried using Glide. But it runs into error below:
+//                       // ERROR: You must provide a Model of a type for which there is a registered ModelLoader, if you are using a custom model, you must first call Glide#register with a ModelLoaderFactory for your custom model class
+//                       // Glide.with(mContext).load(bMap).asBitmap().centerCrop().into(viewHolder.ivEventImage);
+//
+//                    } else {
+//                        Log.d("DEBUG", "Parse exception: " + e.toString());                    }
+//                }
+//            });
+//        }
     }
+    
 
 
     @Override

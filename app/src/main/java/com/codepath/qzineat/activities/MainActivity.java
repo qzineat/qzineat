@@ -25,6 +25,7 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
+import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.models.User;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
@@ -123,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_logout:
                 User.getLoggedInUser().logout();
                 fragmentClass = EventListFragment.class;
+                break;
+            case R.id.nav_all_hosted_event:
+                fragmentClass = HostListFragment.class;
                 break;
             case R.id.nav_host_event:
                 fragmentClass = HostFragment.class;
