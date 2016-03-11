@@ -1,6 +1,8 @@
 package com.codepath.qzineat.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.HostActivity;
+import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseFile;
@@ -27,7 +31,11 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
     public ArrayList<Event> mEvents;
     public Context mContext;
     private String dateTime;
-
+    private Event event;
+    private HostFragment mFragment;
+    private Bundle mBundle;
+    private Context context;
+    public int position;
 
     public UserEventRecyclerViewAdapter(ArrayList<Event> events, Context context) {
         mEvents = events;
@@ -36,7 +44,7 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
 
     @Override
     public UserItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate custom layout
@@ -47,10 +55,11 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
 
 
     @Override
-    public void onBindViewHolder(final UserItemViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final UserItemViewHolder viewHolder, final int position) {
 
         // 1. Get Event
-        Event event = mEvents.get(position);
+        this.position = position;
+        event = mEvents.get(position);
 
         Log.d("DEBUG_Current_User", User.getCurrentUser().getObjectId());
         Log.d("DEBUG_event_User", event.getHost().getObjectId());
@@ -67,6 +76,15 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
         viewHolder.tvDate.setText(dateTime);
         viewHolder.tvCity.setText(event.getLocality());
 
+        viewHolder.evEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                event = mEvents.get(position);
+                Intent i = new Intent(v.getContext(), HostActivity.class);
+                i.putExtra("eventObjectId", event.getObjectId());
+                v.getContext().startActivity(i);
+            }
+        });
     }
 
     @Override

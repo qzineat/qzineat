@@ -27,7 +27,6 @@ public class HostListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // Event List
         if(savedInstanceState == null){
             UserEventsFragment userEventsFragment = new UserEventsFragment();
