@@ -48,14 +48,10 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
-<<<<<<< HEAD
         ParseFile pf = event.getImageFile();
         Glide.with(mContext).load(pf.getUrl()).centerCrop().into(viewHolder.ivEventImage);
-        viewHolder.tvCity.setText(event.getAddress());
-=======
         Glide.with(mContext).load(event.getImageUrl()).centerCrop().into(viewHolder.ivEventImage);
         viewHolder.tvLocality.setText(event.getLocality());
->>>>>>> ab4ae9e7856889030b27b8c246e8bd13a550dcf9
 
         ///// COMMENTED SECTION CAN BE SAFELY DELETED AFTER TEST
 //        //Retrieve Image
@@ -78,10 +74,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 //            });
 //        }
     }
-
-    private void retriveImage() {
-    }
-
+    
     @Override
     public int getItemCount() {
         return mEvents.size();
