@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/ivProfileImage"
+        android:id="@+id/ivbkgImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
         android:background="@color/accent"
         android:minHeight="200dp"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter" />
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:background="@color/accent"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:src="@drawable/ic_profile_placeholder" />
 
     <LinearLayout
         android:id="@+id/llProfile"
@@ -20,20 +33,71 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="5dp">
+
     <TextView
         android:id="@+id/tvProfileName"
         style="@style/TitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ProfileName"
-        />
+        android:text="ProfileName" />
 
     <TextView
-        android:id="@+id/tvCity"
+        android:id="@+id/tvLocation"
         style="@style/LocationStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Location"/>
+        android:text="Location" />
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vwLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@id/ivProfileImage"
+        android:layout_marginTop="20dp"
+        android:background="@color/divider" />
+
+    <LinearLayout
+        android:id="@+id/llBasicInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vwLine"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/tvSpeciality"
+            style="@style/LocationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Speciality:" />
+
+        <TextView
+            android:id="@+id/tvContact"
+            style="@style/LocationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact:" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            style="@style/LocationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:" />
+
+        <TextView
+            android:id="@+id/tvWebsite"
+            style="@style/LocationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Website:" />
+
     </LinearLayout>
 
     <FrameLayout
@@ -42,12 +106,21 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivbkgImage"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_below="@+id/ivProfileImage">
-    </FrameLayout>
+        android:layout_marginStart="10dp"></FrameLayout>
+
+    <ImageView
+        android:id="@+id/evEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/flContainer"
+        android:layout_below="@+id/vwLine"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/edit_pencil"
+        android:text="@string/Edit" />
 
 </RelativeLayout>
