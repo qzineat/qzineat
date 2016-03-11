@@ -10,7 +10,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
@@ -47,6 +51,13 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
+    // Review
+    @Bind(R.id.ratingBar) RatingBar ratingBar;
+    @Bind(R.id.tvStarLabel) TextView tvStarLabel;
+    @Bind(R.id.etReviewComment) EditText etReviewComment;
+    @Bind(R.id.btnSubmit) Button btnSubmit;
+
+
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
     private Event event;
@@ -92,7 +103,6 @@ public class EventDetailFragment extends Fragment {
     private void getEvent() {
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        // TODO: check later that we can get Event with all attendees or not
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
             @Override
             public void done(Event object, ParseException e) {
@@ -156,6 +166,8 @@ public class EventDetailFragment extends Fragment {
                         if (count > 0) {
                             // I am already registered for this event
                             changeSignUpButton();
+                            // Rating
+                            setupRatingBar();
                         }else {
                             showFabRegister();
                         }
@@ -168,6 +180,98 @@ public class EventDetailFragment extends Fragment {
             showFabRegister();
         }
 
+    }
+
+    private void setupRatingBar() {
+        // Hello :) I am host - don't show me Review Button
+        if(event.getHost() != null
+                && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
+            hideReviewSubmit();
+            hideRatingBar();
+            return;
+        }
+
+        // Check Date
+        Date today = new Date();
+        if(today.compareTo(event.getDate()) <= 0){
+            hideReviewSubmit();
+            hideRatingBar();
+            return;
+        }
+
+        // Check User Already reviewed or not
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.whereEqualTo("reviewedBy", User.getLoggedInUser());
+        query.whereEqualTo("event", event);
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (count == 0) {
+                    // I haven't reviewed yet
+                    showRatingBar();
+                    showReviewSubmit();
+
+                    btnSubmit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Save Event
+                            int rating = Math.round(ratingBar.getRating());
+                            String comment = etReviewComment.getText().toString();
+                            saveReview(rating, comment);
+                        }
+                    });
+                }else {
+                    setRating();
+                }
+            }
+        });
+    }
+
+    private void saveReview(int rating, String comment){
+        // Update Event
+        event.increment("numberOfReviews");
+        event.increment("ratingSum", rating);
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e==null){
+                    setRating();
+                }
+            }
+        });
+
+        // Save Review
+        Review review = new Review();
+        review.setComment(comment);
+        review.setEvent(event);
+        review.setReviewedBy(User.getLoggedInUser());
+        review.setRating(rating);
+        review.saveInBackground();
+    }
+    private void showReviewSubmit(){
+        tvStarLabel.setVisibility(View.VISIBLE);
+        etReviewComment.setVisibility(View.VISIBLE);
+        btnSubmit.setVisibility(View.VISIBLE);
+    }
+    private void hideReviewSubmit(){
+        tvStarLabel.setVisibility(View.GONE);
+        etReviewComment.setVisibility(View.GONE);
+        btnSubmit.setVisibility(View.GONE);
+    }
+    private void showRatingBar(){
+        ratingBar.setVisibility(View.VISIBLE);
+    }
+    private void hideRatingBar(){
+        ratingBar.setVisibility(View.GONE);
+    }
+
+    private void setRating(){
+        hideReviewSubmit();
+        showRatingBar();
+
+        double d = event.getRatingSum() * 1.0 / event.getNumberOfReviews();
+        ratingBar.setRating((float) d);
+        ratingBar.setIsIndicator(true);
     }
 
     private void showFabRegister(){

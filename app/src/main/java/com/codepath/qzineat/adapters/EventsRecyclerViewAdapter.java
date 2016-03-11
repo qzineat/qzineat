@@ -51,6 +51,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         ParseFile pf = event.getImageFile();
         Glide.with(mContext).load(pf.getUrl()).centerCrop().into(viewHolder.ivEventImage);
         viewHolder.tvLocality.setText(event.getLocality());
+        viewHolder.tvEventDate.setText(event.getDate().toString());
 
         ///// COMMENTED SECTION CAN BE SAFELY DELETED AFTER TEST
 //        //Retrieve Image
@@ -74,6 +75,9 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 //        }
     }
 
+    
+
+
     @Override
     public int getItemCount() {
         return mEvents.size();
@@ -85,4 +89,6 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         Log.d("DEBUG", "Adapter and Event List is cleared...");
     }
+
+
 }
