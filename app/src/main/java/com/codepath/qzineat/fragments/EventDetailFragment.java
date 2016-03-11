@@ -1,15 +1,12 @@
 package com.codepath.qzineat.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -114,7 +110,7 @@ public class EventDetailFragment extends Fragment {
 
 
     private void populateEvent() {
-        Glide.with(this).load(event.getImageUrl()).centerCrop().into(ivEventImage);
+
         Glide.with(this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
 
         tvTitle.setText(event.getTitle());
@@ -131,25 +127,9 @@ public class EventDetailFragment extends Fragment {
         tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
 
         tvDescription.setText(event.getDescription());
+        ParseFile pf = event.getImageFile();
+        Glide.with(this).load(pf.getUrl()).centerCrop().into(ivEventImage);
 
-        //Retrieve Image
-        ParseFile imageFile = event.getImageFile();
-        if( imageFile != null) {
-            imageFile.getDataInBackground(new GetDataCallback() {
-                public void done(byte[] data, ParseException e) {
-                    if (e == null) {
-                        // data has the bytes for the resume
-                        Bitmap bMap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                        ivEventImage.setImageBitmap(bMap);
-                        // Tried using Glide. But it runs into error below:
-                        // ERROR: You must provide a Model of a type for which there is a registered ModelLoader, if you are using a custom model, you must first call Glide#register with a ModelLoaderFactory for your custom model class
-                        // Glide.with(mContext).load(bMap).asBitmap().centerCrop().into(viewHolder.ivEventImage);
-                    } else {
-                        Log.d("DEBUG", "Parse exception: " + e.toString());
-                    }
-                }
-            });
-        }
     }
 
     /**
@@ -167,7 +147,7 @@ public class EventDetailFragment extends Fragment {
 
             // Check I already Registered for this event or not
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
-            query.whereEqualTo("eventId", eventObjectId);
+            query.whereEqualTo("event", event);
             query.whereEqualTo("user", User.getLoggedInUser());
             query.countInBackground(new CountCallback() {
                 @Override
@@ -218,7 +198,7 @@ public class EventDetailFragment extends Fragment {
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
         attendee.setUser(User.getLoggedInUser());
-        attendee.setEventId(event.getObjectId());
+        attendee.setEvent(event);
 
         // Save attendee
         attendee.saveInBackground(new SaveCallback() {

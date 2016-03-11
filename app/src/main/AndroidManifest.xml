@@ -13,7 +13,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -26,7 +25,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -34,17 +32,25 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
+<<<<<<< HEAD
         <activity android:name="com.codepath.qzineat.activities.EventDetailActivity"/>
         <activity android:name="com.codepath.qzineat.activities.HostActivity"/>
 
         <uses-library android:required="true" android:name="com.google.android.maps" />
+=======
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true"/>
+>>>>>>> ab4ae9e7856889030b27b8c246e8bd13a550dcf9
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDPDzjMQrumXopEGFwEdOwbpv_RENwkBN8" />
+            android:value="AIzaSyDPDzjMQrumXopEGFwEdOwbpv_RENwkBN8"/>
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
+
+
     </application>
 
 </manifest>

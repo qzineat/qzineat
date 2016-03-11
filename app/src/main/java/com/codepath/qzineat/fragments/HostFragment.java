@@ -36,7 +36,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -287,7 +286,7 @@ public class HostFragment extends Fragment{
         byte[] text = BitMapToString(bitmap);
         ParseFile File = new ParseFile("EventImage.txt", text);
         event.setImageFile(File);
-        event.setHost(ParseUser.getCurrentUser());
+        event.setHost(User.getLoggedInUser());
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

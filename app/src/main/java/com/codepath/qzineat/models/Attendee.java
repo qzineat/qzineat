@@ -12,12 +12,15 @@ public class Attendee extends ParseObject {
 
     public Attendee(){}
 
-    public String getEventId() {
-        return getString("eventId");
+
+    Event event;
+
+    public Event getEvent() {
+        return (Event) getParseObject("event");
     }
 
-    public void setEventId(String eventId) {
-        put("eventId", eventId);
+    public void setEvent(Event event) {
+        put("event", event);
     }
 
     public ParseUser getUser() {
