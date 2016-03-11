@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
+import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
@@ -125,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_host_event:
                 fragmentClass = HostFragment.class;
+                break;
+            case R.id.nav_my_event:
+                fragmentClass = EnrollEventFragment.class;
                 break;
             case R.id.nav_advance_filter:
                 fragmentClass = AdvanceFragment.class;

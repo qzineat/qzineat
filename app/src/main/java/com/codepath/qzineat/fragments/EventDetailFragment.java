@@ -167,7 +167,7 @@ public class EventDetailFragment extends Fragment {
 
             // Check I already Registered for this event or not
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
-            query.whereEqualTo("eventId", eventObjectId);
+            query.whereEqualTo("event", event);
             query.whereEqualTo("user", User.getLoggedInUser());
             query.countInBackground(new CountCallback() {
                 @Override
@@ -218,7 +218,7 @@ public class EventDetailFragment extends Fragment {
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
         attendee.setUser(User.getLoggedInUser());
-        attendee.setEventId(event.getObjectId());
+        attendee.setEvent(event);
 
         // Save attendee
         attendee.saveInBackground(new SaveCallback() {
