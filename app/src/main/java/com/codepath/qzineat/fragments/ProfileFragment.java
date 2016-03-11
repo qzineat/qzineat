@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.models.User;
+import com.parse.ParseFile;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,7 +25,12 @@ public class ProfileFragment extends Fragment{
 
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
     @Bind(R.id.tvProfileName) TextView tvProfileName;
-    @Bind(R.id.tvCity) TextView tvCity;
+    @Bind(R.id.tvLocation) TextView tvLocation;
+    @Bind(R.id.tvSpeciality) TextView tvSpeciality;
+    @Bind(R.id.tvContact) TextView tvContact;
+    @Bind(R.id.tvEmail) TextView tvEmail;
+    @Bind(R.id.tvWebsite) TextView tvWebsite;
+    @Bind(R.id.evEdit) ImageView evEdit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,40 @@ public class ProfileFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+        ParseFile pf = User.getLoggedInUser().getImageFile();
+
+        if (pf != null) {
+            Glide.with(this).load(pf.getUrl()).centerCrop().into(ivProfileImage);
+        }
+        if (User.getLoggedInUser().getProfileName() != null) {
+            tvProfileName.setText(User.getLoggedInUser().getProfileName());
+        }
+        if (User.getLoggedInUser().getCity() != null) {
+            tvLocation.setText(User.getLoggedInUser().getCity());
+        }
+        if (User.getLoggedInUser().getSpeciality() != null) {
+            tvSpeciality.setText("Speciality: " + User.getLoggedInUser().getSpeciality());
+        }
+        if (User.getLoggedInUser().getPhone() != null) {
+            tvContact.setText("Contact: " +User.getLoggedInUser().getPhone());
+        }
+        if (User.getLoggedInUser().getEmail() != null) {
+            tvEmail.setText("Email: " +User.getLoggedInUser().getEmail());
+        }
+        if (User.getLoggedInUser().getWebsite() != null) {
+            tvWebsite.setText("Website: " +User.getLoggedInUser().getWebsite());
+        }
+
+        evEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileEditFragment profileEditFragment = new ProfileEditFragment();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, profileEditFragment);
+                fragmentTransaction.commit();
+
+            }
+        });
         //ParseFile parseFile = User.getLoggedInUser().getImageFile();
         //Glide.with(this).load(parseFile.getUrl()).centerCrop().into(ivProfileImage);
 
