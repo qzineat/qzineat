@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.nvView) NavigationView nvDrawer;
+    private ImageButton viewById;
 
 
     @Override
@@ -67,13 +68,14 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView1;
     SearchView searchView2;
     ImageButton btnSearchContent;
+
     private void setupSearch() {
         View view = getLayoutInflater().inflate(R.layout.qzin_search, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
         searchView1 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search1);
         searchView2 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search2);
-        btnSearchContent = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.btnSearchContent);
+        btnSearchContent = viewById;
 
 
         searchView1.setOnCloseListener(new SearchView.OnCloseListener() {

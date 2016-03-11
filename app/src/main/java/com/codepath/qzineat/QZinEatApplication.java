@@ -8,6 +8,7 @@ import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 
@@ -46,7 +47,7 @@ public class QZinEatApplication extends Application {
                 .applicationId("xImk5rYwJjO0a5n0XqCmeFth4xGtCpbXdetct6A2") // should correspond to APP_ID env variable
                 .clientKey("vCeZuWyXpN9ifZGTszcy8EqtAX9Tw9OyogSRhQ27")
                 .addNetworkInterceptor(new ParseLogInterceptor()).build());
-
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         // Facebook Initialize
         ParseFacebookUtils.initialize(getApplicationContext());

@@ -1,5 +1,7 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -58,7 +60,7 @@ public class ProfileFragment extends Fragment{
         ParseFile pf = User.getLoggedInUser().getImageFile();
 
         if (pf != null) {
-            Glide.with(this).load(pf.getUrl()).centerCrop().into(ivProfileImage);
+            Glide.with(this).load(pf.getUrl()).asBitmap().centerCrop().into(ivProfileImage);
         }
         if (User.getLoggedInUser().getProfileName() != null) {
             tvProfileName.setText(User.getLoggedInUser().getProfileName());
@@ -89,11 +91,16 @@ public class ProfileFragment extends Fragment{
 
             }
         });
-        //ParseFile parseFile = User.getLoggedInUser().getImageFile();
-        //Glide.with(this).load(parseFile.getUrl()).centerCrop().into(ivProfileImage);
 
+        tvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                String phone_no = tvContact.getText().toString();
+                callIntent.setData(Uri.parse("tel:" + phone_no));
+            }
+        });
         return view;
     }
-
 
 }

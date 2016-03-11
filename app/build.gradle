@@ -55,7 +55,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1' // Rounded Image
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
     compile 'com.melnykov:floatingactionbutton:1.3.0' // Floating Action Button
-
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.parse:parse-android:1.+'
     compile 'com.google.android.gms:play-services-location:8.4.0'
 }
 

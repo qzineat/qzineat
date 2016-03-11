@@ -5,14 +5,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
@@ -47,8 +49,6 @@ public class ProfileEditFragment  extends Fragment {
     EditText etWebsite;
     @Bind(R.id.btSave)
     Button btSave;
-    @Bind(R.id.btCancel)
-    Button btCancel;
 
     Bitmap bitmap;
 
@@ -64,6 +64,11 @@ public class ProfileEditFragment  extends Fragment {
             @Override
             public void onClick(View v) {
                 setNewValues();
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, profileFragment);
+                fragmentTransaction.commit();
+
             }
         });
 
@@ -71,11 +76,11 @@ public class ProfileEditFragment  extends Fragment {
     }
 
     private void setNewValues() {
+
         bitmap = ((BitmapDrawable) ivProfileImage.getDrawable()).getBitmap();
         byte[] text = BitMapToString(bitmap);
         ParseFile File = new ParseFile("EventImage.txt", text);
         User.getLoggedInUser().setImageFile(File);
-
         User.getLoggedInUser().setProfileName(etProfileName.getText().toString());
         User.getLoggedInUser().setCity(etLocation.getText().toString());
         User.getLoggedInUser().setSpeciality(etSpeciality.getText().toString());
@@ -86,8 +91,8 @@ public class ProfileEditFragment  extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null)
-
-                    Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                    Log.d("DEBUG", "Successfully created event on Parse");
+                  // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -96,7 +101,7 @@ public class ProfileEditFragment  extends Fragment {
         ParseFile pf = User.getLoggedInUser().getImageFile();
 
         if (pf != null) {
-            Glide.with(this).load(pf.getUrl()).centerCrop().into(ivProfileImage);
+            Glide.with(this).load(pf.getUrl()).asBitmap().centerCrop().into(ivProfileImage);
         }
         if (User.getLoggedInUser().getProfileName() != null) {
             etProfileName.setText(User.getLoggedInUser().getProfileName());
@@ -105,16 +110,17 @@ public class ProfileEditFragment  extends Fragment {
             etLocation.setText(User.getLoggedInUser().getCity());
         }
         if (User.getLoggedInUser().getSpeciality() != null) {
-            etSpeciality.setText("Speciality: " + User.getLoggedInUser().getSpeciality());
+            etSpeciality.setText(User.getLoggedInUser().getSpeciality());
         }
         if (User.getLoggedInUser().getPhone() != null) {
-            etContact.setText("Contact: " + User.getLoggedInUser().getPhone());
+            etContact.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+            etContact.setText(User.getLoggedInUser().getPhone());
         }
         if (User.getLoggedInUser().getEmail() != null) {
-            etEmail.setText("Email: " + User.getLoggedInUser().getEmail());
+            etEmail.setText(User.getLoggedInUser().getEmail());
         }
         if (User.getLoggedInUser().getWebsite() != null) {
-            etWebsite.setText("Website: " + User.getLoggedInUser().getWebsite());
+            etWebsite.setText(User.getLoggedInUser().getWebsite());
         }
     }
 
