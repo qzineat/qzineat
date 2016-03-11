@@ -101,7 +101,8 @@ public class EventListFragment extends Fragment {
         if (searchFood != null){
             //query.whereStartsWith("title", searchQuery);
             //query.whereMatches("title", "Michael", "i");
-            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("title", searchFood);
+            //ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("category", searchFood);
+            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
             queries.add(q2);
 
             //ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("locality", searchLocality); // TODO: This need geo search
@@ -122,7 +123,7 @@ public class EventListFragment extends Fragment {
         if(isProfileView){
             mainQuery.whereEqualTo("host", User.getCurrentUser());
         }
-        if(searchLocality != null){
+        if(searchLocality != null && !searchLocality.isEmpty()){
             mainQuery.whereEqualTo("locality", searchLocality);
         }
 
