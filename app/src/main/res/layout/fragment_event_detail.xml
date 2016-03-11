@@ -7,209 +7,234 @@
     android:layout_height="match_parent"
     >
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/ivEventImage"
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:background="@color/accent"
-            android:minHeight="200dp"
-            android:scaleType="fitCenter"/>
+            android:layout_height="wrap_content">
 
-        <!--<TextView-->
-            <!--android:id="@+id/tvEditEvent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_marginLeft="340dp"-->
-            <!--android:layout_marginEnd="20dp"-->
-            <!--android:layout_marginTop="210dp"-->
-            <!--style="@style/EditStyle"-->
-            <!--android:text="@string/Edit"-->
-           <!--/>-->
-
-        <ImageView
-            android:id="@+id/ivProfileImage"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="175dp"
-            android:background="@android:color/white"
-            android:maxHeight="75dp"
-            android:scaleType="fitCenter"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ivProfileImage"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/TitleStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                />
-
-            <TextView
-                android:id="@+id/tvDate"
-                style="@style/DateStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="date"
-                />
-
-            <TextView
-                android:id="@+id/tvLocation"
-                style="@style/LocationStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location"/>
-
-
-            <TextView
+            <ImageView
+                android:id="@+id/ivEventImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:height="1dp"
-                android:background="@color/horizontalRule"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:background="@color/accent"
+                android:minHeight="200dp"
+                android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="175dp"
+                android:background="@android:color/white"
+                android:maxHeight="75dp"
+                android:scaleType="fitCenter"
                 />
+
+        </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_below="@+id/ivProfileImage"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="5dp">
 
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/TitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    />
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    style="@style/DateStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    style="@style/LocationStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:height="1dp"
+                    android:background="@color/horizontalRule"
+                    />
+
+
+
+                <TextView
+                    android:id="@+id/tvStarLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tell us about event:"
+                    android:visibility="gone"/>
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:lines="2"
+                    android:id="@+id/etReviewComment"
+                    android:visibility="gone"/>
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:rating="0.0"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:id="@+id/btnSubmit"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:height="1dp"
+                    android:background="@color/horizontalRule"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_guest"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvGuestCount"
+                            style="@style/CountStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="20"
+                            />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_guest"
+                            />
+                        <TextView
+                            android:id="@+id/tvAvailability"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="10"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_heart"
+                            />
+                        <TextView
+                            android:id="@+id/tvFavouritesCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="10"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:height="1dp"
+                    android:background="@color/horizontalRule"
+                    />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$20"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_guest"
-                        />
-
+                    android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/tvGuestCount"
-                        style="@style/CountStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="20"
-                        />
+                        android:text="Alcohol: "/>
+                    <TextView
+                        android:id="@+id/tvAlcohol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No"/>
                 </LinearLayout>
-                <LinearLayout
+
+
+
+                <TextView
+                    android:id="@+id/tvDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_guest"
-                        />
-                    <TextView
-                        android:id="@+id/tvAvailability"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="10"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_heart"
-                        />
-                    <TextView
-                        android:id="@+id/tvFavouritesCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="10"/>
-                </LinearLayout>
-
+                    android:text="Description"/>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvStarLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Please tell us about event"
-                android:visibility="gone"/>
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="1.0"
-                android:rating="0.0"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:height="1dp"
-                android:background="@color/horizontalRule"
-                />
-
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$20"/>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alcohol: "/>
-                <TextView
-                    android:id="@+id/tvAlcohol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"/>
-            </LinearLayout>
-
-
-
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"/>
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
+    </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabSignUp"

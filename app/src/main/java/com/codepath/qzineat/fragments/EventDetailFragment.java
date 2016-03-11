@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -49,12 +51,12 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvAvailability) TextView tvAvailability;
     @Bind(R.id.tvGuestCount) TextView tvGuestCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
-
-    @Bind(R.id.ratingBar)
-    RatingBar ratingBar;
-
-
+    // Review
+    @Bind(R.id.ratingBar) RatingBar ratingBar;
     @Bind(R.id.tvStarLabel) TextView tvStarLabel;
+    @Bind(R.id.etReviewComment) EditText etReviewComment;
+    @Bind(R.id.btnSubmit) Button btnSubmit;
+
 
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
@@ -101,8 +103,6 @@ public class EventDetailFragment extends Fragment {
     private void getEvent() {
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-
-        // TODO: check later that we can get Event with all attendees or not
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
             @Override
             public void done(Event object, ParseException e) {
@@ -183,10 +183,10 @@ public class EventDetailFragment extends Fragment {
     }
 
     private void setupRatingBar() {
-        // Check If I am host
-        // Hello :) I am host - don't show me SignUp Button
+        // Hello :) I am host - don't show me Review Button
         if(event.getHost() != null
                 && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
+            hideReviewSubmit();
             hideRatingBar();
             return;
         }
@@ -194,6 +194,7 @@ public class EventDetailFragment extends Fragment {
         // Check Date
         Date today = new Date();
         if(today.compareTo(event.getDate()) <= 0){
+            hideReviewSubmit();
             hideRatingBar();
             return;
         }
@@ -208,11 +209,15 @@ public class EventDetailFragment extends Fragment {
                 if (count == 0) {
                     // I haven't reviewed yet
                     showRatingBar();
+                    showReviewSubmit();
 
-                    ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    btnSubmit.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                            saveReview(Math.round(rating));
+                        public void onClick(View v) {
+                            // Save Event
+                            int rating = Math.round(ratingBar.getRating());
+                            String comment = etReviewComment.getText().toString();
+                            saveReview(rating, comment);
                         }
                     });
                 }else {
@@ -220,12 +225,9 @@ public class EventDetailFragment extends Fragment {
                 }
             }
         });
-
-
-
     }
 
-    private void saveReview(int rating){
+    private void saveReview(int rating, String comment){
         // Update Event
         event.increment("numberOfReviews");
         event.increment("ratingSum", rating);
@@ -240,23 +242,32 @@ public class EventDetailFragment extends Fragment {
 
         // Save Review
         Review review = new Review();
+        review.setComment(comment);
         review.setEvent(event);
         review.setReviewedBy(User.getLoggedInUser());
         review.setRating(rating);
         review.saveInBackground();
     }
-    private void showRatingBar(){
+    private void showReviewSubmit(){
         tvStarLabel.setVisibility(View.VISIBLE);
+        etReviewComment.setVisibility(View.VISIBLE);
+        btnSubmit.setVisibility(View.VISIBLE);
+    }
+    private void hideReviewSubmit(){
+        tvStarLabel.setVisibility(View.GONE);
+        etReviewComment.setVisibility(View.GONE);
+        btnSubmit.setVisibility(View.GONE);
+    }
+    private void showRatingBar(){
         ratingBar.setVisibility(View.VISIBLE);
     }
     private void hideRatingBar(){
-        tvStarLabel.setVisibility(View.GONE);
         ratingBar.setVisibility(View.GONE);
     }
 
     private void setRating(){
-        tvStarLabel.setVisibility(View.VISIBLE);
-        ratingBar.setVisibility(View.VISIBLE);
+        hideReviewSubmit();
+        showRatingBar();
 
         double d = event.getRatingSum() * 1.0 / event.getNumberOfReviews();
         ratingBar.setRating((float) d);

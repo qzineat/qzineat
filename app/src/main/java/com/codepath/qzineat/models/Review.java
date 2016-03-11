@@ -16,6 +16,7 @@ public class Review extends ParseObject{
     private ParseUser reviewedBy;
     private Event event;
     private int rating;
+    private String comment;
 
     public ParseUser getReviewedBy() {
         return getParseUser("reviewedBy");
@@ -39,5 +40,13 @@ public class Review extends ParseObject{
 
     public void setRating(int rating) {
         put("rating", rating);
+    }
+
+    public String getComment() {
+        return getString("comment");
+    }
+
+    public void setComment(String comment) {
+        put("comment", comment);
     }
 }
