@@ -9,13 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.AdvanceFragment;
@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.nvView) NavigationView nvDrawer;
 
+    LinearLayout llSearch;
+    EditText etSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,34 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
+
         setTitle(R.string.drawer_event);
 
         setupSearch();
     }
 
     private void setupSearch(){
-        View view = getLayoutInflater().inflate(R.layout.search_fake, null);
+        View view = getLayoutInflater().inflate(R.layout.search_bar_home, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
 
-        EditText etSearch = (EditText) findViewById(R.id.etSearch);
+        etSearch = (EditText) findViewById(R.id.etSearch);
+        llSearch = (LinearLayout) findViewById(R.id.llSearch);
 
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    v.clearFocus();
+                    // Send to another activity
+                    Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DEBUG", "Clicked on me .. redirect me ...");
-
                 // Send to another activity
                 Intent i = new Intent(getApplicationContext(), EventListActivity.class);
                 startActivity(i);
@@ -106,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void selectDrawerItem(MenuItem menuItem) {
+        llSearch.setVisibility(View.GONE);
         // Create a new fragment and specify the planet to show based on
         // position
         Fragment fragment = null;
@@ -136,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             default:
                 fragmentClass = EventListFragment.class;
+                llSearch.setVisibility(View.VISIBLE);
         }
 
         try {
@@ -178,14 +194,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.menu_search:
-                //searchItem = item;
-                //showSearch();
-                Log.d("DEBUG", "Some one clicked on me");
-                break;
-        }
-
         if(drawerToggle.onOptionsItemSelected(item)){
             return true;
         }
@@ -206,7 +214,6 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    SearchView searchView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

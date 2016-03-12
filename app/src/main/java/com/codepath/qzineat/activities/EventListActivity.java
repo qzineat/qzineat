@@ -81,22 +81,7 @@ public class EventListActivity extends AppCompatActivity {
                 @Override
                 public void onMapReady(GoogleMap map) {
                     map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-                    //LatLng sydney = new LatLng(-33.867, 151.206);
-
-                    //map.setMyLocationEnabled(true);
-                    //map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-
-                    /*map.addMarker(new MarkerOptions()
-                            .title("Sydney")
-                            .snippet("The most populous city in Australia.")
-                            .position(sydney));*/
-
-
                     loadMap(map, searchFood, searchLocality);
-
-                    // set the info window adapter
-                    //map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
                 }
             });
         } else {
@@ -173,7 +158,6 @@ public class EventListActivity extends AppCompatActivity {
         });
 
     }
-
 
     /**
      * EventList - List View

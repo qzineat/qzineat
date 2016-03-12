@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <View
+        android:id="@+id/focus_thief"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:id="@+id/llSearch"
+        >
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/search_icon"/>
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="@string/primary_search_hint"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/hint_color_light"/>
+    </LinearLayout>
+
+</LinearLayout>
