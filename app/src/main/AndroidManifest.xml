@@ -34,11 +34,12 @@
         <activity android:name="com.codepath.qzineat.activities.EventDetailActivity"/>
         <activity android:name="com.codepath.qzineat.activities.HostActivity"/>
 
-        <uses-library android:required="true" android:name="com.google.android.maps" />
         <uses-library
             android:name="com.google.android.maps"
             android:required="true"/>
-
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true"/>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -47,7 +48,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-
+        <activity android:name="com.codepath.qzineat.activities.EventListActivity">
+        </activity>
     </application>
 
 </manifest>

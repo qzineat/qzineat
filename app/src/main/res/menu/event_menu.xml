@@ -7,5 +7,8 @@
         android:id="@+id/menu_search"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always"
-        android:title="search" />
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:iconifiedByDefault="false"
+        />
 </menu>

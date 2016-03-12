@@ -14,16 +14,14 @@
             android:textColorHint="@android:color/white"
             android:id="@+id/search1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="invisible"/>
+            android:layout_height="match_parent"/>
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search2"
             android:queryHint="@string/location_search_hint"
             android:textColorHint="@android:color/white"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="invisible"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <ImageButton
@@ -31,7 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_search_btn"
-        android:visibility="invisible"/>
+        android:src="@drawable/ic_search_btn"/>
 
 </LinearLayout>
