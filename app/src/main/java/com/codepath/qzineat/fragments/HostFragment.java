@@ -35,7 +35,6 @@ import com.codepath.qzineat.utils.GeoUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -45,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,8 +70,6 @@ public class HostFragment extends Fragment{
     ArrayAdapter arrayAdapter;
     @Bind(R.id.ivEventImage)
     ImageView ivEventImage;
-    @Bind(R.id.ivEventImage2)
-    ImageView ivEventImage2;
     @Bind(R.id.tvTitle)
     TextView tvTitile;
     @Bind(R.id.etTitle)
@@ -150,6 +148,13 @@ public class HostFragment extends Fragment{
             transaction.commit();
         }
 
+        if(getArguments() != null) {
+            eventObjectId = getArguments().getString("eventObjectId");
+            if (eventObjectId != null && !eventObjectId.isEmpty()) {
+                getEvent();
+            }
+        }
+
         spGuest.setAdapter(arrayAdapter);
         sMenuCategory.setAdapter(MenuCategoryAdapter);
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
@@ -194,11 +199,11 @@ public class HostFragment extends Fragment{
 
                 saveEvent(getContext());
 
-                ParsePush.subscribeInBackground("Giants");
-                ParsePush push = new ParsePush();
-                push.setChannel("Giants");
-                push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
-                push.sendInBackground();
+//                ParsePush.subscribeInBackground("Giants");
+//                ParsePush push = new ParsePush();
+//                push.setChannel("Giants");
+//                push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
+//                push.sendInBackground();
 
                 HostListFragment hostListFragment = new HostListFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -264,12 +269,35 @@ public class HostFragment extends Fragment{
     private void saveEvent(final Context context) {
 
         // Parse Save
-        Event event = new Event();
+        if(getArguments() != null) {
+            eventObjectId = getArguments().getString("eventObjectId");
+            if (eventObjectId != null && !eventObjectId.isEmpty()) {
+                ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+                // TODO: check later that we can get Event with all attendees or not
+                Log.d("DEBUG_eventObjectId", eventObjectId.toString());
+                query.getInBackground(eventObjectId, new GetCallback<Event>() {
+                    @Override
+                    public void done(Event object, ParseException e) {
+                        if (e == null) {
+                            evt = object;
+                        }
+                    }
+                });
+            }
+        } else {
+            evt = new Event();
+        }
+        setEventDetails(evt, context);
+    }
+
+    private void setEventDetails(Event event, Context context) {
+
         event.setTitle(etTitile.getText().toString());
         event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setCategory((String) sMenuCategory.getSelectedItem());
         event.setDescription(etDesc.getText().toString());
-        dateObject = getDateObject();
+        String dateString = tvDatePicker.getText().toString();
+        dateObject = getDateObject(dateString);
         TimeObject = getTimeObject();
         event.setDate(dateObject);
         event.setTime(TimeObject);
@@ -298,39 +326,11 @@ public class HostFragment extends Fragment{
             @Override
             public void done(ParseException e) {
                 if (e == null)
-
-                Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+            Log.d("DEBUG", "Successfully created event on Parse");
+                    //Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-    private Date getDateObject() {
-
-        DateFormat formatter = new SimpleDateFormat("yyyy/mm/dd"); // Make sure user insert date into edittext in this format.
-        Date dateObject = null;
-        String dob_var=(tvDatePicker.getText().toString());
-        try {
-            dateObject = formatter.parse(dob_var);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        return dateObject;
-    }
-
-    private Date getTimeObject() {
-
-        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
-        Date dateObject = null;
-        String dob_var=(tvTimePicker.getText().toString());
-
-        try {
-            dateObject = formatter.parse(dob_var);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        return dateObject;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -345,26 +345,9 @@ public class HostFragment extends Fragment{
             // Commit the transaction
             transaction.commit();
         }
-        if(getArguments() != null) {
-            eventObjectId = getArguments().getString("eventObjectId");
-            if (eventObjectId != null && !eventObjectId.isEmpty()) {
-                setValues();
-            }
-        }
+
         setMenuCategory();
         setListAdapter();
-
-    }
-
-    private void setValues() {
-
-        Event evnt = getEvent();
-        if (evnt != null) {
-            ParseFile pf = evnt.getImageFile();
-            Glide.with(getContext()).load(pf.getUrl()).centerCrop().into(ivEventImage);
-
-            etTitile.setText(evnt.getTitle());
-        } else Log.d("DEBUG", "Event returned null");
 
     }
 
@@ -378,11 +361,107 @@ public class HostFragment extends Fragment{
                 public void done(Event object, ParseException e) {
                     if (e == null) {
                         evt = object;
-
+                        setValues();
                     }
                 }
             });
         return evt;
+    }
+
+    private void setValues() {
+
+        Event evnt = getEvent();
+        if (evnt != null) {
+            ParseFile pf = evnt.getImageFile();
+            Glide.with(getContext()).load(pf.getUrl()).asBitmap().centerCrop().into(ivEventImage);
+            etTitile.setText(evnt.getTitle());
+            etTitile.setCursorVisible(false);
+            Log.d("DEBUG_date", evnt.getDate().toString());
+            tvDatePicker.setText(getDate(evnt.getDate().toString()));
+            tvTimePicker.setText(getTime(evnt.getDate().toString()));
+
+            Log.d("DEBUG_charge", String.valueOf(evnt.getPrice()));
+
+            etCharge.setText(String.valueOf(evnt.getPrice()));
+            etVenue.setText(evnt.getAddress());
+
+            etDesc.setText(evnt.getDescription().toString());
+            int pos;
+            if (evnt.getAlcohol().toString() == "Yes") pos = 2;
+                    else pos =1;
+            spAlcohol.setSelection(pos);
+            spGuest.setSelection(arrayAdapter.getPosition(evnt.getGuestLimit()));
+            sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory()));
+
+        } else Log.d("DEBUG", "Event returned null");
+
+    }
+
+    private Date getDateObject(String dateString) {
+
+        DateFormat formatter = new SimpleDateFormat("yyyy/mm/dd"); // Make sure user insert date into edittext in this format.
+        Date dateObject = null;
+        String dob_var=(dateString);
+        try {
+            dateObject = formatter.parse(dob_var);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return dateObject;
+    }
+
+    private String getTime(String dateString) {
+
+        String plainFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        String qzinFormat = "hh:mm aa";
+        SimpleDateFormat sf = new SimpleDateFormat(plainFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeTime = "";
+        try {
+            Date date = sf.parse(dateString);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(qzinFormat);
+            relativeTime = simpleDateFormat.format(date).toString();
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeTime;
+    }
+
+    private String getDate(String dateString) {
+
+        String plainFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        String qzinFormat = "yyyy/mm/dd";
+        SimpleDateFormat sf = new SimpleDateFormat(plainFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            Date date = sf.parse(dateString);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(qzinFormat);
+            relativeDate = simpleDateFormat.format(date).toString();
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
+    }
+
+    private Date getTimeObject() {
+
+        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
+        Date dateObject = null;
+        String dob_var=(tvTimePicker.getText().toString());
+
+        try {
+            dateObject = formatter.parse(dob_var);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return dateObject;
     }
 
     private void setMenuCategory() {
@@ -403,11 +482,6 @@ public class HostFragment extends Fragment{
         list.add("Vegetarian");
         list.add("vietnamese");
 
-        list.add("List2");
-        list.add("List2");
-        list.add("List2");
-        list.add("List2");
-        list.add("List2");
         MenuCategoryAdapter = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_list_item_1, list);
         MenuCategoryAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
