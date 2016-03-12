@@ -1,5 +1,6 @@
 package com.codepath.qzineat.activities;
 
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.utils.GeoUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -49,6 +51,8 @@ public class EventListActivity extends AppCompatActivity {
     private ImageButton btnSearchContent;
     private ImageView ivSearchClear1;
     private ImageView ivSearchClear2;
+    private ImageView ibListView;
+    private ImageView ibMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +66,11 @@ public class EventListActivity extends AppCompatActivity {
 
         setupSearch();
 
-        // TODO: implement flag for which to show when
-        if(true){
-            //setupMap();
-        }else {
-            //setupEventList();
-        }
-        setupEventList(null);
+        isMapView = true;
+        setupMap(null, null);
     }
 
-    public void setupMap(){
+    public void setupMap(final String searchFood, final String searchLocality){
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         mapFragment = SupportMapFragment.newInstance();
@@ -94,7 +93,7 @@ public class EventListActivity extends AppCompatActivity {
                             .position(sydney));*/
 
 
-                    loadMap(map);
+                    loadMap(map, searchFood, searchLocality);
 
                     // set the info window adapter
                     //map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
@@ -105,22 +104,44 @@ public class EventListActivity extends AppCompatActivity {
         }
     }
 
-    protected void loadMap(final GoogleMap map){
+    // TODO: based on current location
+    protected void loadMap(final GoogleMap map, final String searchFood, final String searchLocality){
         // Load Event Near to San Francisco
         final BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
-        Double sfLatitude = 37.773972;
-        Double sfLongitude = -122.431297;
-        LatLng SanFrancisco = new LatLng(sfLatitude, sfLongitude);
-        map.addMarker(new MarkerOptions()
-                .title("San Francisco")
-                .snippet("The most beautiful city in USA.")
-                .position(SanFrancisco));
+
+        Double sLatitude = null;
+        Double sLongitude = null;
+        if(searchLocality != null && !searchLocality.isEmpty()){
+            // Get Location & Correct Locality with Country code
+            Address address = GeoUtil.getGeoAddress(getApplicationContext(), searchLocality);
+            if(address != null){
+                sLatitude = address.getLatitude();
+                sLongitude = address.getLongitude();
+            }
+
+        }else {
+            // Default San Francisco
+            sLatitude = 37.773972;
+            sLongitude = -122.431297;
+            LatLng SanFrancisco = new LatLng(sLatitude, sLongitude);
+            map.addMarker(new MarkerOptions()
+                    .title("San Francisco")
+                    .snippet("The most beautiful city in USA.")
+                    .position(SanFrancisco));
+        }
+        if(sLatitude == null || sLongitude == null){
+            return;
+        }
 
         // Get Events
         ParseGeoPoint point = new ParseGeoPoint();
-        point.setLatitude(sfLatitude);
-        point.setLongitude(sfLongitude);
+        point.setLatitude(sLatitude);
+        point.setLongitude(sLongitude);
+
         ParseQuery<Event> locationQuery = ParseQuery.getQuery(Event.class);
+        if(searchFood != null && !searchFood.isEmpty()){
+            locationQuery.whereEqualTo("category", searchLocality);
+        }
         locationQuery.whereWithinMiles("location", point, 50);
         //locationQuery.whereNear("location", point); // this is 100 miles - but we can do whereWithinMiles if needed less
         locationQuery.setLimit(100);
@@ -178,13 +199,32 @@ public class EventListActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private boolean isMapView;
 
     private void setupSearch() {
         View view = getLayoutInflater().inflate(R.layout.search_bar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
 
+        ibListView = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ibListView);
+        ibMapView = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ibMapView);
+        ibMapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMapView = true;
+                setupMap(null, null);
+            }
+        });
+        ibListView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMapView = false;
+                setupEventList(null);
+            }
+        });
+
         btnSearchContent = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.btnSearchContent);
+
         etSearch1 = (EditText) getSupportActionBar().getCustomView().findViewById(R.id.etSearch1);
         etSearch2 = (EditText) getSupportActionBar().getCustomView().findViewById(R.id.etSearch2);
         ivSearchClear1 = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ivSearchClear1);
@@ -251,11 +291,17 @@ public class EventListActivity extends AppCompatActivity {
                 Log.d("DEBUG", "q-location:" + etSearch2.getText());
 
                 try {
-                    Bundle args = new Bundle();
-                    args.putString("searchFood", etSearch1.getText().toString());
-                    args.putString("searchLocality", etSearch2.getText().toString());
 
-                    setupEventList(args);
+
+                    if(isMapView){
+                        setupMap(etSearch1.getText().toString(), etSearch2.getText().toString());
+                    }else {
+                        Bundle args = new Bundle();
+                        args.putString("searchFood", etSearch1.getText().toString());
+                        args.putString("searchLocality", etSearch2.getText().toString());
+                        setupEventList(args);
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
