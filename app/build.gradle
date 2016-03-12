@@ -56,7 +56,9 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
     compile 'com.melnykov:floatingactionbutton:1.3.0' // Floating Action Button
 
-    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0' // Google Map
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.github.hotchemi:permissionsdispatcher:2.0.7'
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         />
 
+
     <!-- The main content view where fragments are loaded -->
     <FrameLayout
         android:id="@+id/flContent"

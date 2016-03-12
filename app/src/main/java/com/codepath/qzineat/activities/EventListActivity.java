@@ -13,16 +13,36 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.EventListFragment;
+import com.codepath.qzineat.models.Event;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class EventListActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+
+    private SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +56,98 @@ public class EventListActivity extends AppCompatActivity {
 
         setupSearch();
 
-        setupFragment();
+        // TODO: implement flag for which to show when
+        if(true){
+            setupMap();
+        }else {
+            setupEventList();
+        }
+    }
+
+    public void setupMap(){
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mapFragment = SupportMapFragment.newInstance();
+        fragmentManager.beginTransaction().replace(R.id.flContent, mapFragment).commit();
+
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+                    //LatLng sydney = new LatLng(-33.867, 151.206);
+
+                    //map.setMyLocationEnabled(true);
+                    //map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+                    /*map.addMarker(new MarkerOptions()
+                            .title("Sydney")
+                            .snippet("The most populous city in Australia.")
+                            .position(sydney));*/
+
+
+                    loadMap(map);
+
+                    // set the info window adapter
+                    //map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+                }
+            });
+        } else {
+            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void loadMap(final GoogleMap map){
+        // Load Event Near to San Francisco
+        final BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE);
+        Double sfLatitude = 37.773972;
+        Double sfLongitude = -122.431297;
+        LatLng SanFrancisco = new LatLng(sfLatitude, sfLongitude);
+        map.addMarker(new MarkerOptions()
+                .title("San Francisco")
+                .snippet("The most beautiful city in USA.")
+                .position(SanFrancisco));
+
+        // Get Events
+        ParseGeoPoint point = new ParseGeoPoint();
+        point.setLatitude(sfLatitude);
+        point.setLongitude(sfLongitude);
+        ParseQuery<Event> locationQuery = ParseQuery.getQuery(Event.class);
+        locationQuery.whereWithinMiles("location", point, 50);
+        //locationQuery.whereNear("location", point); // this is 100 miles - but we can do whereWithinMiles if needed less
+        locationQuery.setLimit(100);
+        locationQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e == null) {
+                    Log.d("DEBUG", "Events Count - " + events.size());
+                    boolean first = true;
+                    for(Event ev: events){
+                        if(ev.getLocation()!=null){
+                            LatLng place = new LatLng(ev.getLocation().getLatitude(), ev.getLocation().getLongitude());
+                            map.addMarker(new MarkerOptions()
+                                    .title(ev.getLocality())
+                                    .snippet(ev.getTitle())
+                                    .position(place)
+                                    .icon(defaultMarker));
+                            if(first){
+                                // Move camera to nearest place
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 10));
+                            }
+                        }
+                        first = false;
+                    }
+                } else {
+                    Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
+                }
+            }
+        });
 
     }
 
-    public void setupFragment(){
+
+    public void setupEventList(){
         Fragment fragment = new EventListFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -149,8 +256,6 @@ public class EventListActivity extends AppCompatActivity {
     private void closeSearch(){
 
     }
-
-
 
 
 }
