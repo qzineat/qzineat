@@ -57,7 +57,11 @@ public class ProfileFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-        ParseFile pf = User.getLoggedInUser().getImageFile();
+
+        ParseFile pf = null;
+        if (User.getLoggedInUser().getImageFile() != null) {
+            pf = User.getLoggedInUser().getImageFile();
+        }
 
         if (pf != null) {
             Glide.with(this).load(pf.getUrl()).asBitmap().centerCrop().into(ivProfileImage);

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -65,6 +68,7 @@ public class EventDetailFragment extends Fragment {
 
     private static int FRAGMENT_CODE = 100;
     private String profileType;
+    private String host;
 
     public static EventDetailFragment newInstance(String eventObjectId){
         EventDetailFragment fragment = new EventDetailFragment();
@@ -103,7 +107,9 @@ public class EventDetailFragment extends Fragment {
     private void getEvent() {
         // Construct query to execute
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include("host");
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
+
             @Override
             public void done(Event object, ParseException e) {
                 if (e == null) {
@@ -116,8 +122,6 @@ public class EventDetailFragment extends Fragment {
             }
         });
     }
-
-
 
     private void populateEvent() {
 
@@ -220,7 +224,7 @@ public class EventDetailFragment extends Fragment {
                             saveReview(rating, comment);
                         }
                     });
-                }else {
+                } else {
                     setRating();
                 }
             }
@@ -281,6 +285,7 @@ public class EventDetailFragment extends Fragment {
             public void onClick(View view) {
                 if (User.isUserLoggedIn()) {
                     saveAttendee();
+
                 } else {
                     Fragment fragment = new LoginFragment();
                     fragment.setTargetFragment(EventDetailFragment.this, FRAGMENT_CODE);
@@ -303,6 +308,7 @@ public class EventDetailFragment extends Fragment {
         attendee.setGuestCount(1); // TODO: Change later for adding more guests
         attendee.setUser(User.getLoggedInUser());
         attendee.setEvent(event);
+        host = event.getHost().getUsername();
 
         // Save attendee
         attendee.saveInBackground(new SaveCallback() {
@@ -326,6 +332,20 @@ public class EventDetailFragment extends Fragment {
                 }
             }
         });
+        sendNotification();
+    }
+
+    private void sendNotification() {
+        // Associate the device with a user
+
+        ParsePush parsePush = new ParsePush();
+        String id = ParseInstallation.getCurrentInstallation().getInstallationId();
+        Log.d("Debug_id", id);
+        Log.d("Debug_UserName", host);
+        ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
+        Log.d("Debug_pQuery", pQuery.toString());
+        pQuery.whereEqualTo("username", host); // <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        parsePush.sendMessageInBackground("Hey your Event has a subscriber", pQuery);
     }
 
     private void changeSignUpButton(){

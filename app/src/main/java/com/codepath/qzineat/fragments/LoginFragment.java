@@ -12,9 +12,12 @@ import android.widget.Button;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.User;
+import com.parse.CountCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.login_button) Button loginButton;
 
     List<String> permissions = new ArrayList<>();
-
+    public ParseInstallation installation;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +72,13 @@ public class LoginFragment extends Fragment {
                         } else {
                             if (user.isNew()) {
                                 Log.d("MyApp", "User signed up and logged in through Facebook!");
+
                             } else {
                                 Log.d("MyApp", "User logged in through Facebook!");
+                                installation = ParseInstallation.getCurrentInstallation();
+                                installation.put("username", User.getLoggedInUser().getUsername());
+                                installation.saveInBackground();
+                                //checkIfAlreadyInstalled();
                             }
 
                             try {
@@ -91,6 +99,24 @@ public class LoginFragment extends Fragment {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    private void checkIfAlreadyInstalled() {
+        // Check User Already reviewed or not
+        ParseQuery pushQuery = ParseInstallation.getQuery();
+        pushQuery.whereEqualTo("username", User.getLoggedInUser());
+        pushQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                if (count == 0) {
+                    // I haven't reviewed yet
+                    installation = ParseInstallation.getCurrentInstallation();
+                    installation.put("username", User.getLoggedInUser().getUsername());
+                    installation.saveInBackground();
+                }
+                else Log.d("DEBUG_Count", String.valueOf(count));
             }
         });
     }

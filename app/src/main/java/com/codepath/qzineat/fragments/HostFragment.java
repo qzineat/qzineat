@@ -35,6 +35,7 @@ import com.codepath.qzineat.utils.GeoUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -192,6 +193,12 @@ public class HostFragment extends Fragment{
             public void onClick(View v) {
 
                 saveEvent(getContext());
+
+                ParsePush.subscribeInBackground("Giants");
+                ParsePush push = new ParsePush();
+                push.setChannel("Giants");
+                push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
+                push.sendInBackground();
 
                 HostListFragment hostListFragment = new HostListFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

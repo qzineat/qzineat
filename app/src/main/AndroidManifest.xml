@@ -56,7 +56,8 @@
             android:name="com.google.android.maps"
             android:required="true"/>
 
-
+        <meta-data android:name="com.parse.push.gcm_sender_id"
+            android:value="id:1048385718986" />;
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDPDzjMQrumXopEGFwEdOwbpv_RENwkBN8"/>
