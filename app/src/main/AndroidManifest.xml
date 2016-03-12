@@ -24,6 +24,14 @@
     <uses-permission android:name="com.codepath.android.qzineat.permission.C2D_MESSAGE" />
 
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <permission android:name="com.codepath.android.qzineat.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+    <permission android:name="android.permission.ACCESS_FINE_LOCATION" android:protectionLevel="dangerous"/>
+    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:protectionLevel="dangerous"/>
+
     <application
         android:name="com.codepath.qzineat.QZinEatApplication"
         android:allowBackup="true"
@@ -51,16 +59,19 @@
         <activity android:name="com.codepath.qzineat.activities.EventDetailActivity"/>
         <activity android:name="com.codepath.qzineat.activities.HostActivity"/>
 
-        <uses-library android:required="true" android:name="com.google.android.maps" />
         <uses-library
             android:name="com.google.android.maps"
             android:required="true"/>
 
         <meta-data android:name="com.parse.push.gcm_sender_id"
-            android:value="id:1048385718986" />;
+            android:value="id:1048385718986" />
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true"/>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDPDzjMQrumXopEGFwEdOwbpv_RENwkBN8"/>
+            android:value="AIzaSyBZ1IF3qaNn9GrO73or5BIZ3hcAqCejfTo"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
@@ -86,6 +97,11 @@
                 <category android:name="com.codepath.android.qzineat" />
             </intent-filter>
         </receiver>
+
+        <activity android:name="com.codepath.qzineat.activities.EventListActivity"
+            android:parentActivityName="com.codepath.qzineat.activities.MainActivity">
+        </activity>
+
     </application>
 
 </manifest>
