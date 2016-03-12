@@ -1,18 +1,18 @@
 package com.codepath.qzineat.activities;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
@@ -42,7 +42,13 @@ public class EventListActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
+    private EventListFragment eventListFragment;
     private SupportMapFragment mapFragment;
+    private EditText etSearch1;
+    private EditText etSearch2;
+    private ImageButton btnSearchContent;
+    private ImageView ivSearchClear1;
+    private ImageView ivSearchClear2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +64,11 @@ public class EventListActivity extends AppCompatActivity {
 
         // TODO: implement flag for which to show when
         if(true){
-            setupMap();
+            //setupMap();
         }else {
-            setupEventList();
+            //setupEventList();
         }
+        setupEventList(null);
     }
 
     public void setupMap(){
@@ -147,37 +154,89 @@ public class EventListActivity extends AppCompatActivity {
     }
 
 
-    public void setupEventList(){
-        Fragment fragment = new EventListFragment();
+    /**
+     * EventList - List View
+     * @param args
+     */
+    public void setupEventList(Bundle args){
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.flContent, fragment)
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+
+        if(fragmentManager.findFragmentByTag("eventListFragment") != null){
+            fragmentTransaction.remove(fragmentManager.findFragmentByTag("eventListFragment"));
+        }
+
+        eventListFragment = new EventListFragment();
+
+        if(args != null){
+            eventListFragment.setArguments(args);
+        }
+
+        fragmentTransaction.replace(R.id.flContent, eventListFragment, "eventListFragment")
                 .commit();
     }
 
-    //MenuItem searchItem;
-    SearchView searchView1;
-    SearchView searchView2;
-    ImageButton btnSearchContent;
+
     private void setupSearch() {
-        View view = getLayoutInflater().inflate(R.layout.qzin_search, null);
+        View view = getLayoutInflater().inflate(R.layout.search_bar, null);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
-        searchView1 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search1);
-        searchView2 = (SearchView) getSupportActionBar().getCustomView().findViewById(R.id.search2);
-
-        searchView1.setIconified(false);
-        searchView1.setFocusable(true);
-        searchView2.setIconified(false);
-        searchView2.clearFocus();
 
         btnSearchContent = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.btnSearchContent);
-
-        searchView1.setOnCloseListener(new SearchView.OnCloseListener() {
+        etSearch1 = (EditText) getSupportActionBar().getCustomView().findViewById(R.id.etSearch1);
+        etSearch2 = (EditText) getSupportActionBar().getCustomView().findViewById(R.id.etSearch2);
+        ivSearchClear1 = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ivSearchClear1);
+        ivSearchClear2 = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ivSearchClear2);
+        etSearch1.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onClose() {
-                closeSearch();
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Enable clear button
+                ivSearchClear1.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ivSearchClear1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch1.setText("");
+                ivSearchClear1.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        etSearch2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ivSearchClear2.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ivSearchClear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSearch2.setText("");
+                ivSearchClear2.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -185,32 +244,18 @@ public class EventListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        showSearch();
-
         btnSearchContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DEBUG", "q-food:" + searchView1.getQuery());
-                Log.d("DEBUG", "q-location:" + searchView2.getQuery());
+                Log.d("DEBUG", "q-food:" + etSearch1.getText());
+                Log.d("DEBUG", "q-location:" + etSearch2.getText());
 
                 try {
-                    EventListFragment fragment = new EventListFragment();
-
-                    String backStateName = EventListFragment.class.getName();
-                    FragmentManager manager = getSupportFragmentManager();
-
-                    boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-                    FragmentTransaction ft = manager.beginTransaction();
-                    if (!fragmentPopped) { //fragment not in back stack, create it.
-                        ft.replace(R.id.flContent, fragment);
-                        ft.addToBackStack(backStateName);
-                    }
-
                     Bundle args = new Bundle();
-                    args.putString("searchFood", searchView1.getQuery().toString());
-                    args.putString("searchLocality", searchView2.getQuery().toString());
-                    fragment.setArguments(args);
-                    ft.commit();
+                    args.putString("searchFood", etSearch1.getText().toString());
+                    args.putString("searchLocality", etSearch2.getText().toString());
+
+                    setupEventList(args);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -222,40 +267,6 @@ public class EventListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void showSearch(){
-
-        btnSearchContent.setVisibility(View.VISIBLE); // show new button
-        //searchItem.setVisible(false); // hide me
-
-        EditText etSearch1 = (EditText) searchView1.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        etSearch1.setHintTextColor(getResources().getColor(R.color.hint_color_light));
-        etSearch1.setTextColor(Color.WHITE);
-
-        searchView1.setIconified(false);
-        searchView1.setQueryHint(getString(R.string.primary_search_hint));
-        searchView1.setVisibility(View.VISIBLE);
-
-
-        EditText etSearch2 = (EditText) searchView2.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        etSearch2.setHintTextColor(getResources().getColor(R.color.hint_color_light));
-        etSearch2.setTextColor(Color.WHITE);
-
-        searchView2.setIconified(false);
-        searchView2.setVisibility(View.VISIBLE);
-        searchView2.setQueryHint(getString(R.string.location_search_hint));
-        searchView2.clearFocus();
-    }
-
-    private void hideSearch(){
-        searchView1.setVisibility(View.INVISIBLE);
-        searchView2.setVisibility(View.INVISIBLE);
-        //searchItem.setVisible(true);
-        btnSearchContent.setVisibility(View.INVISIBLE); // hide new button
-    }
-
-    private void closeSearch(){
-
-    }
 
 
 }
