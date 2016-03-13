@@ -12,10 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:id="@+id/ivEventImage"
-        android:scaleType="fitXY"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:src="@drawable/eventpic"
         android:layout_marginTop="2dp"
         />
 
@@ -32,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ll"
         android:paddingLeft="30dp"
-        android:paddingTop="60dp"
+        android:paddingTop="20dp"
         android:orientation="vertical">
 
     <TextView
