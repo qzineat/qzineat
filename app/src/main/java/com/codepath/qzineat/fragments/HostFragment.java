@@ -327,7 +327,7 @@ public class HostFragment extends Fragment{
     private void setEventDetails(Event event, Context context) {
 
         event.setTitle(etTitile.getText().toString());
-        event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
+        event.setAttendeesMaxCount(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setCategory((String) sMenuCategory.getSelectedItem());
         event.setDescription(etDesc.getText().toString());
         String dateString = tvDatePicker.getText().toString();
@@ -349,7 +349,7 @@ public class HostFragment extends Fragment{
 
 
         event.setPrice(parseInt(String.valueOf(etCharge.getText())));
-        event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
+        event.setAttendeesMaxCount(parseInt(String.valueOf(spGuest.getSelectedItem())));
         event.setAlcohol(spAlcohol.getSelectedItem().toString());
         bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
         byte[] text = BitMapToString(bitmap);
@@ -423,7 +423,7 @@ public class HostFragment extends Fragment{
             if (evnt.getAlcohol().toString() == "Yes") pos = 2;
                     else pos =1;
             spAlcohol.setSelection(pos);
-            spGuest.setSelection(arrayAdapter.getPosition(evnt.getGuestLimit()));
+            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount()));
             sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory()));
 
         } else Log.d("DEBUG", "Event returned null");

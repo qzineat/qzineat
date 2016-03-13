@@ -36,14 +36,12 @@
 
     <TextView
         android:id="@+id/tvProfileName"
-        style="@style/TitleStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ProfileName" />
 
     <TextView
         android:id="@+id/tvLocation"
-        style="@style/LocationStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location" />
@@ -71,7 +69,6 @@
 
         <TextView
             android:id="@+id/tvSpeciality"
-            style="@style/LocationStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -79,21 +76,18 @@
 
         <TextView
             android:id="@+id/tvContact"
-            style="@style/LocationStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact:" />
 
         <TextView
             android:id="@+id/tvEmail"
-            style="@style/LocationStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email:" />
 
         <TextView
             android:id="@+id/tvWebsite"
-            style="@style/LocationStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Website:" />
@@ -111,7 +105,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"></FrameLayout>
+        android:layout_marginStart="10dp"/>
 
     <ImageView
         android:id="@+id/evEdit"

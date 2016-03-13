@@ -84,21 +84,23 @@ public class Event extends ParseObject {
         put("time", time);
     }
 
-    public int getGuestLimit() {
-        return getInt("guestLimit");
+
+    public int getAttendeesMaxCount() {
+        return getInt("attendeesMaxCount");
     }
 
-    public void setGuestLimit(int guestLimit) {
-        put("guestLimit", guestLimit);
+    public void setAttendeesMaxCount(int guestLimit) {
+        put("attendeesMaxCount", guestLimit);
     }
 
-    public int getSignupCount() {
-        return getInt("signupCount");
+    public int getAttendeesAvailableCount() {
+        return getInt("attendeesAvailableCount");
     }
 
-    public void setSignupCount(int signupCount) {
-        put("signupCount", signupCount);
+    public void setAttendeesAvailableCount(int signupCount) {
+        put("attendeesAvailableCount", signupCount);
     }
+
 
     public int getFavouritesCount() {
         return getInt("favouritesCount");
