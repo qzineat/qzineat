@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.codepath.android.qzineat.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by glondhe on 3/4/16.
@@ -47,9 +49,13 @@ public class DatePickerFragment extends DialogFragment implements
         else this.date.append(_month + 1).append("/");
 
         if (_day < 10) this.date.append(0).append(_day);
-        else this.date.append(_day + 1);
+        else this.date.append(_day);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy");
+        String formatedDate = sdf.format(new Date(_year, _month, _day));
+
         TextView tvDatePicker = (TextView) getActivity().findViewById(R.id.tvDatePicker);
-        tvDatePicker.setText(this.date);
+        tvDatePicker.setText(formatedDate);
 
     }
 }

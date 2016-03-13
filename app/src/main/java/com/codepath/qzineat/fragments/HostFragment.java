@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -183,7 +182,6 @@ public class HostFragment extends Fragment{
                 DailogFragment dailogFragment = new DailogFragment();
                 dailogFragment.setTargetFragment(HostFragment.this, DAILOG_FRAGMENT);
                 dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
-                Log.d("DEBUG", "I'm here");
             }
         });
 
@@ -205,28 +203,28 @@ public class HostFragment extends Fragment{
         return view;
 
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getArguments() != null) {
-            Bundle b = getArguments();
-            if (b != null) {
-                Log.d("DEBUG", b.size() + "");
-                if (null != b.getString("imgDecodableString")) {
-                    imgDecodableString = b.getString("imgDecodableString");
-                    ivEventImage.setImageBitmap(BitmapFactory
-                            .decodeFile(imgDecodableString));
-                } else if (null != b.getByteArray("bitMapPhoto")) {
-                    imageData = b.getByteArray("bitMapPhoto");
-                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-                    ivEventImage.setImageBitmap(photo);
-                }
-            } else {
-                Log.d("DEBUG", "Bundle is null. selected photo not passed from Dailog fragment");
-            }
-        }
-    }
+//
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//        if (getArguments() != null) {
+//            Bundle b = getArguments();
+//            if (b != null) {
+//                Log.d("DEBUG", b.size() + "");
+//                if (null != b.getString("imgDecodableString")) {
+//                    imgDecodableString = b.getString("imgDecodableString");
+//                    ivEventImage.setImageBitmap(BitmapFactory
+//                            .decodeFile(imgDecodableString));
+//                } else if (null != b.getByteArray("bitMapPhoto")) {
+//                    imageData = b.getByteArray("bitMapPhoto");
+//                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+//                    ivEventImage.setImageBitmap(photo);
+//                }
+//            } else {
+//                Log.d("DEBUG", "Bundle is null. selected photo not passed from Dailog fragment");
+//            }
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -288,7 +286,7 @@ public class HostFragment extends Fragment{
         setEventDetails(evt, context);
     }
 
-    private void setEventDetails(Event event, Context context) {
+    private void setEventDetails(Event event, final Context context) {
 
         Boolean FLAG = true;
 
@@ -332,9 +330,24 @@ public class HostFragment extends Fragment{
             tvDesc.setTextColor(Color.RED);
             FLAG = false;
         }
+//
+//        if (tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
+//            String timeString = tvTimePicker.getText().toString();
+//            TimeObject = getTimeObject(timeString);
+////            event.setTime(TimeObject);
+//            tvTime.setText(tvTime.getText().toString().replace("*", ""));
+//            tvTime.setTextColor(Color.BLACK);
+//        }else {
+//            tvTime.setText(tvTime.getText()+"*");
+//            tvTime.setTextColor(Color.RED);
+//            FLAG = false;
+//        }
 
-        if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty()) {
+
+        if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty() && tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
             String dateString = tvDatePicker.getText().toString();
+            String timeString = tvTimePicker.getText().toString();
+            dateString = dateString + " " + timeString;
             dateObject = getDateObject(dateString);
             event.setDate(dateObject);
             tvDate.setText(tvDate.getText().toString().replace("*", ""));
@@ -345,17 +358,7 @@ public class HostFragment extends Fragment{
             FLAG = false;
         }
 
-        if (tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
-            String timeString = tvTimePicker.getText().toString();
-            TimeObject = getTimeObject(timeString);
-            event.setTime(TimeObject);
-            tvTime.setText(tvTime.getText().toString().replace("*", ""));
-            tvTime.setTextColor(Color.BLACK);
-        }else {
-            tvTime.setText(tvTime.getText()+"*");
-            tvTime.setTextColor(Color.RED);
-            FLAG = false;
-        }
+
 
 
         // TODO - try to append address like
@@ -377,10 +380,22 @@ public class HostFragment extends Fragment{
 
         if (etCharge.getText().toString() != null && !etCharge.getText().toString().isEmpty()) {
             event.setPrice(parseInt(String.valueOf(etCharge.getText())));
+            tvCharge.setText(tvCharge.getText().toString().replace("*", ""));
+            tvCharge.setTextColor(Color.BLACK);
+        }else {
+            tvCharge.setText(tvCharge.getText() + "*");
+            tvCharge.setTextColor(Color.RED);
+            FLAG = false;
         }
 
         if (!String.valueOf(spAlcohol.getSelectedItem()).equalsIgnoreCase("Choose")){
             event.setAlcohol(spAlcohol.getSelectedItem().toString());
+            tvAlcohol.setText(tvAlcohol.getText().toString().replace("*", ""));
+            tvAlcohol.setTextColor(Color.BLACK);
+        }else {
+            tvAlcohol.setText(tvAlcohol.getText() + "*");
+            tvAlcohol.setTextColor(Color.RED);
+            FLAG = false;
         }
 
         if (ivEventImage.getDrawable() != null) {
@@ -390,7 +405,6 @@ public class HostFragment extends Fragment{
             event.setImageFile(File);
         }
 
-
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
             event.saveInBackground(new SaveCallback() {
@@ -398,7 +412,7 @@ public class HostFragment extends Fragment{
                 public void done(ParseException e) {
                     if (e == null)
                         Log.d("DEBUG", "Successfully created event on Parse");
-                    //Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -476,7 +490,7 @@ public class HostFragment extends Fragment{
 
     private Date getDateObject(String dateString) {
 
-        DateFormat formatter = new SimpleDateFormat("yyyy/mm/dd"); // Make sure user insert date into edittext in this format.
+        DateFormat formatter = new SimpleDateFormat("dd MMM yy hh:mm aa"); // Make sure user insert date into edittext in this format.
         Date dateObject = null;
         String dob_var=(dateString);
         try {
@@ -510,7 +524,7 @@ public class HostFragment extends Fragment{
     private String getDate(String dateString) {
 
         String plainFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        String qzinFormat = "yyyy/mm/dd";
+        String qzinFormat = "dd MMM yy";
         SimpleDateFormat sf = new SimpleDateFormat(plainFormat, Locale.ENGLISH);
         sf.setLenient(true);
 

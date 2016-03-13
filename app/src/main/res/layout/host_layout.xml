@@ -130,15 +130,15 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Date:"
             android:id="@+id/tvDatePicker"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:hint="Select Date"/>
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Time:"
             android:id="@+id/tvTimePicker"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:hint="Select Time"/>
         <Spinner
             android:id="@+id/spGuest"
             android:layout_width="wrap_content"
