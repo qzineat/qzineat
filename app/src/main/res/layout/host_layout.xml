@@ -1,198 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:isScrollContainer="false"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/ivEventImage"
-        android:layout_marginTop="2dp"
-        />
+    android:isScrollContainer="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/pll"
-        android:layout_below="@id/ivEventImage"
-        android:weightSum="2">
-
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll"
-        android:paddingLeft="30dp"
-        android:paddingTop="20dp"
         android:orientation="vertical">
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Event Name"
-        android:id="@+id/tvTitle"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Date:"
-        android:id="@+id/tvDate"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Time:"
-        android:id="@+id/tvTime"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Max No. of Guests:"
-        android:id="@+id/tvGuest"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Charge Per Person:"
-        android:id="@+id/tvCharge"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Venue:"
-        android:id="@+id/tvVenue"
-        android:layout_marginBottom="20dp"
-        />
-    <!--<TextView-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:text="City:"-->
-        <!--android:id="@+id/tvCity"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--/>-->
-    <!--<TextView-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:text="Zip Code:"-->
-        <!--android:id="@+id/tvZip"-->
-        <!--android:layout_marginBottom="20dp"-->
-        <!--/>-->
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Menu Category:"
-        android:id="@+id/tvMenuCategory"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        />
-
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Menu Description:"
-        android:id="@+id/tvDesc"
-        android:layout_marginBottom="30dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Alcohol?"
-        android:id="@+id/tvAlcohol"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/ll2"
-        android:paddingLeft="30dp"
-        android:paddingTop="50dp"
-        android:orientation="vertical">
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="Title"
-            android:textSize="15dp"
-            android:id="@+id/etTitle"
+        <ImageView
+            android:id="@+id/ivEventImage"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="2dp"
             />
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/tvDatePicker"
-            android:layout_marginBottom="20dp"
-            android:hint="Select Date"/>
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/tvTimePicker"
-            android:layout_marginBottom="20dp"
-            android:hint="Select Time"/>
-        <Spinner
-            android:id="@+id/spGuest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:drawSelectorOnTop="true" />
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="$$"
-            android:textSize="15dp"
-            android:id="@+id/etCharge"/>
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="Address"
-            android:textSize="15dp"
-            android:id="@+id/etVenue"/>
-        <!--<EditText-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:hint="City"-->
-            <!--android:textSize="15dp"-->
-            <!--android:id="@+id/etCity"/>-->
-        <!--<EditText-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:hint="Zip Code"-->
-            <!--android:textSize="15dp"-->
-            <!--android:id="@+id/etZip"/>-->
-        <Spinner
-            android:id="@+id/sMenuCategory"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="true" />
 
-        <EditText
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="Menu Description"
-            android:textSize="15dp"
-            android:id="@+id/etDesc"/>
-        <Spinner
-            android:id="@+id/spAlcohol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/yesno_Array"
-            android:drawSelectorOnTop="true" />
-    </LinearLayout>
-    </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pll"
-        android:text="Save"
-        android:textSize="15dp"
-        android:layout_marginLeft="180dp"
-        android:id="@+id/btSave"/>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-</RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Event Name"
+                    android:singleLine="true"
+                    style="?textEditText"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date/Time:"
+                android:layout_marginTop="10dp"
+                style="?textEditTextLabel"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvDatePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date"
+                    style="?textEditText"/>
+                <TextView
+                    android:id="@+id/tvTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:hint="Select Time"
+                    style="?textEditText"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvGuest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?textEditTextLabel"
+                android:layout_marginTop="10dp"
+                android:text="Max No. of Guests:"
+                />
+            <Spinner
+                android:id="@+id/spGuest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilCharge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etCharge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="$$"
+                android:singleLine="true"
+                style="?textEditText"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilVenue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etVenue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                style="?textEditText"/>
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/tvMenuCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?textEditTextLabel"
+                android:layout_marginTop="10dp"
+                android:text="Menu Category:"
+                />
+            <Spinner
+                android:id="@+id/sMenuCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/etDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Menu Description"
+                style="?textEditText"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvAlcohol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?textEditTextLabel"
+                android:layout_marginTop="10dp"
+                android:text="Alcohol:"/>
+            <Spinner
+                android:id="@+id/spAlcohol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/yesno_Array"/>
+
+
+            <Button
+                android:id="@+id/btSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </ScrollView>

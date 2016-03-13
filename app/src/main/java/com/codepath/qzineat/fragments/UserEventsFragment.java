@@ -45,7 +45,7 @@ public class UserEventsFragment extends Fragment {
     private UserEventRecyclerViewAdapter recyclerViewAdapter;
     protected String searchFood;
     protected String searchLocality;
-    private boolean isSubscriberView;
+    public boolean isSubscriberView;
 
 
 
@@ -94,7 +94,7 @@ public class UserEventsFragment extends Fragment {
     protected Date lastCreatedAt; // used for pagination
     protected String searchQuery;
     protected String searchCity;
-    private boolean isProfileView;
+    public boolean isProfileView;
 
     public void getEvents() {
 

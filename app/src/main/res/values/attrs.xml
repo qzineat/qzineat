@@ -7,6 +7,8 @@
     <attr name="textTitle" format="reference" />
     <attr name="textSubTitle" format="reference"/>
     <attr name="textTiny" format="reference"/>
+    <attr name="textEditTextLabel" format="reference"/>
+    <attr name="textEditText" format="reference"/>
 
 
 </resources>

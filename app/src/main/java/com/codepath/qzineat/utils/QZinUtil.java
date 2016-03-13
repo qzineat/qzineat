@@ -30,6 +30,10 @@ public class QZinUtil {
             )
     );
 
+    /**
+     * Get Random Image URL
+     * @return
+     */
     public static String getQZinImageUrl(){
         Random rand = new Random();
         int randomNum = rand.nextInt((3 - 1) + 1);
