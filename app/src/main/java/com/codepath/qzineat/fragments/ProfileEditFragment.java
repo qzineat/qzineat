@@ -1,6 +1,7 @@
 package com.codepath.qzineat.fragments;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -115,6 +116,7 @@ public class ProfileEditFragment  extends Fragment {
         if (User.getLoggedInUser().getPhone() != null) {
             etContact.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
             etContact.setText(User.getLoggedInUser().getPhone());
+            etContact.setTextColor(Color.parseColor("#1976D2"));
         }
         if (User.getLoggedInUser().getEmail() != null) {
             etEmail.setText(User.getLoggedInUser().getEmail());
