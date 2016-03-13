@@ -1,15 +1,14 @@
 package com.codepath.qzineat.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -56,6 +55,7 @@ import static java.lang.Integer.parseInt;
  */
 public class HostFragment extends Fragment{
 
+    public static final int DAILOG_FRAGMENT = 1;
     private static final int RESULT_OK = -1 ;
     private static final int CAMERA_REQUEST = 1888;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -121,6 +121,8 @@ public class HostFragment extends Fragment{
     private Date TimeObject;
     private String eventObjectId = null;
     private Event evt;
+    private byte[] imageData;
+    private String etTitile_string;
 
     public static HostFragment newInstance(String eventObjectId){
         HostFragment fragment = new HostFragment();
@@ -136,6 +138,9 @@ public class HostFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        int count = this.getFragmentManager().getBackStackEntryCount();
+        final Fragment frag = getFragmentManager().getFragments().get(count>0?count-1:count);
+        
         View view = inflater.inflate(R.layout.host_layout, container, false);
         ButterKnife.bind(this, view);
 
@@ -192,6 +197,16 @@ public class HostFragment extends Fragment{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+        ivEventImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DailogFragment dailogFragment = new DailogFragment();
+                dailogFragment.setTargetFragment(HostFragment.this, DAILOG_FRAGMENT);
+                dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
+                Log.d("DEBUG", "I'm here");
+            }
+        });
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +230,39 @@ public class HostFragment extends Fragment{
         return view;
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
 
+        savedInstanceState.putString(etTitile_string, etTitile.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        // Restore state members from saved instance
+        etTitile.setText(savedInstanceState.getInt(etTitile_string));
+    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+            Bundle b = getArguments();
+            if (b != null) {
+                Log.d("DEBUG", b.size() + "");
+                if (null != b.getString("imgDecodableString")) {
+                    imgDecodableString = b.getString("imgDecodableString");
+                    ivEventImage.setImageBitmap(BitmapFactory
+                            .decodeFile(imgDecodableString));
+                } else if (null != b.getByteArray("bitMapPhoto")) {
+                    imageData = b.getByteArray("bitMapPhoto");
+                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                    ivEventImage.setImageBitmap(photo);
+                }
+            } else {
+                Log.d("DEBUG", "Bundle is null. selected photo not passed from Dailog fragment");
+            }
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -224,39 +271,26 @@ public class HostFragment extends Fragment{
 
         try {
 
+
             // This is login request
             if(requestCode == FragmentCode.HOST_FRAGMENT_LOGIN_CODE){
                 logInIntent = data;
                 return;
             }
 
-            // When an Image is picked
-            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
-                    && null != data) {
-                // Get the Image from data
-
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                // Get the cursor
-                Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                // Move to first row
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgDecodableString = cursor.getString(columnIndex);
-                cursor.close();
-                // Set the Image in ImageView after decoding the String
-                ivEventImage.setImageBitmap(BitmapFactory
-                        .decodeFile(imgDecodableString));
-
-            } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-                {
-                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                Log.d("DEBUG", b.size() + "");
+                if (null != b.getString("imgDecodableString")) {
+                    imgDecodableString = b.getString("imgDecodableString");
+                    ivEventImage.setImageBitmap(BitmapFactory
+                            .decodeFile(imgDecodableString));
+                } else if (null != b.getByteArray("bitMapPhoto")) {
+                    imageData = b.getByteArray("bitMapPhoto");
+                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
                     ivEventImage.setImageBitmap(photo);
                 }
-            } else {
+            } else if (resultCode == Activity.RESULT_CANCELED){
                 Toast.makeText(getContext(), "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
             }
@@ -361,16 +395,15 @@ public class HostFragment extends Fragment{
                 public void done(Event object, ParseException e) {
                     if (e == null) {
                         evt = object;
-                        setValues();
+                        setValues(evt);
                     }
                 }
             });
         return evt;
     }
 
-    private void setValues() {
+    private void setValues(Event evnt) {
 
-        Event evnt = getEvent();
         if (evnt != null) {
             ParseFile pf = evnt.getImageFile();
             Glide.with(getContext()).load(pf.getUrl()).asBitmap().centerCrop().into(ivEventImage);

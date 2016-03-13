@@ -32,6 +32,10 @@
         <item name="android:textSize">12sp</item>
         <item name="fontPath">fonts/Roboto-Regular.ttf</item>
     </style>
+    <style name="DailogFragmentStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+    </style>
     <style name="UserListDateStyle">
         <item name="android:textSize">10sp</item>
         <item name="fontPath">fonts/Roboto-Regular.ttf</item>
