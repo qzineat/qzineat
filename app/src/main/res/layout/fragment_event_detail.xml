@@ -213,13 +213,17 @@
                     style="?textSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description"/>
+                    android:text="Description"
+                    android:paddingBottom="16dp"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvReviews"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
         </LinearLayout>
     </ScrollView>

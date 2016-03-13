@@ -1,8 +1,11 @@
 package com.codepath.qzineat.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by Shyam Rokde on 3/12/16.
@@ -17,4 +20,21 @@ public class QZinUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
         return sdf.format(inputDate).replace("AM", "am").replace("PM","pm");
     }
+
+    private static ArrayList<String> qzinImages = new ArrayList<>(
+            Arrays.asList(
+                    "http://i.imgur.com/3VgvbDo.png",
+                    "http://i.imgur.com/umtpLWn.jpg",
+                    "http://i.imgur.com/3VgvbDo.png",
+                    "http://i.imgur.com/umtpLWn.jpg"
+            )
+    );
+
+    public static String getQZinImageUrl(){
+        Random rand = new Random();
+        int randomNum = rand.nextInt((3 - 1) + 1);
+
+        return qzinImages.get(randomNum);
+    }
+
 }

@@ -31,6 +31,7 @@ import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.GeoUtil;
+import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -184,6 +185,8 @@ public class HostFragment extends Fragment{
                 dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
             }
         });
+
+        Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -395,12 +398,18 @@ public class HostFragment extends Fragment{
             FLAG = false;
         }
 
-        if (ivEventImage.getDrawable() != null) {
-            bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
-            byte[] text = BitMapToString(bitmap);
-            ParseFile File = new ParseFile("EventImage.txt", text);
-            event.setImageFile(File);
+        try{
+            if ( ivEventImage.getDrawable() != null) {
+                bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
+                byte[] text = BitMapToString(bitmap);
+                ParseFile File = new ParseFile("EventImage.txt", text);
+                event.setImageFile(File);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            // GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
+
 
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());

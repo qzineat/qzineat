@@ -50,7 +50,16 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
         ParseFile pf = event.getImageFile();
-        Glide.with(mContext).load(pf.getUrl()).centerCrop().into(viewHolder.ivEventImage);
+
+        String imgUrl;
+        if(pf != null && !pf.getUrl().isEmpty()){
+            imgUrl = pf.getUrl();
+        }else {
+            imgUrl = QZinUtil.getQZinImageUrl();
+        }
+
+        Glide.with(mContext).load(imgUrl).centerCrop().into(viewHolder.ivEventImage);
+
         viewHolder.tvLocality.setText(event.getLocality());
         viewHolder.tvEventDate.setText(QZinUtil.getShortDate(event.getDate()));
         if(event.getPrice() > 0){

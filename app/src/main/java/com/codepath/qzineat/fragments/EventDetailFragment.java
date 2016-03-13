@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.models.Attendee;
@@ -136,14 +137,14 @@ public class EventDetailFragment extends Fragment {
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         rvReviews.setLayoutManager(layoutManager);
 
-        /*rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        rvReviews.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (lastCreatedAt != null) {
-                    getEvents();
+                if (reviewLastCreatedAt != null) {
+                    getReviews();
                 }
             }
-        });*/
+        });
 
     }
 
@@ -178,10 +179,13 @@ public class EventDetailFragment extends Fragment {
         query.whereEqualTo("event", event);
         query.setLimit(3);
         query.orderByDescending("createdAt");
+        if(reviewLastCreatedAt != null){
+            query.whereLessThan("createdAt", reviewLastCreatedAt);
+        }
         query.findInBackground(new FindCallback<Review>() {
             @Override
             public void done(List<Review> reviewList, ParseException e) {
-                if(e==null){
+                if (e == null) {
                     Log.d("DEBUG", "Review size -" + reviewList.size());
                     int curSize = recyclerViewAdapter.getItemCount();
                     ArrayList<Review> arrayList = new ArrayList<>(reviewList);
