@@ -225,7 +225,13 @@ public class EventDetailFragment extends Fragment {
         tvAlcohol.setText(event.getAlcohol());
         tvDescription.setText(event.getDescription());
         ParseFile pf = event.getImageFile();
-        Glide.with(this).load(pf.getUrl()).centerCrop().into(ivEventImage);
+        String imgUrl;
+        if(pf != null && !pf.getUrl().isEmpty()){
+            imgUrl = pf.getUrl();
+        }else {
+            imgUrl = QZinUtil.getQZinImageUrl();
+        }
+        Glide.with(this).load(imgUrl).centerCrop().into(ivEventImage);
 
     }
 
