@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,6 +60,9 @@ public class EventListFragment extends Fragment {
 
         // Item click support
         setupItemClick();
+
+        // Shining UI.....
+        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
 
         return view;
     }

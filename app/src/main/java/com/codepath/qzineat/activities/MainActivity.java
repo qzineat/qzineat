@@ -1,5 +1,6 @@
 package com.codepath.qzineat.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.codepath.qzineat.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
+                if (hasFocus) {
                     v.clearFocus();
                     // Send to another activity
                     Intent i = new Intent(getApplicationContext(), EventListActivity.class);
@@ -214,58 +216,8 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        /*MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.event_menu, menu);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setIconified(false);
-        searchView.clearFocus();*/
-
-
-
-
-
-        /*searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("DEBUG", "Clicked on me .. redirect me ...");
-            }
-        });*/
-
-        //MenuItem searchMenuItem = menu.findItem( R.id.menu_search);
-        //searchMenuItem.expandActionView();
-
-
-        /*btnSearchContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("DEBUG", "q-food:" + searchView1.getQuery());
-                Log.d("DEBUG", "q-location:" + searchView2.getQuery());
-                try {
-                    EventListFragment fragment = new EventListFragment();
-                    String backStateName = EventListFragment.class.getName();
-                    FragmentManager manager = getSupportFragmentManager();
-                    boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-                    FragmentTransaction ft = manager.beginTransaction();
-                    if (!fragmentPopped) { //fragment not in back stack, create it.
-                        ft.replace(R.id.flContent, fragment);
-                        ft.addToBackStack(backStateName);
-                    }
-                    Bundle args = new Bundle();
-                    args.putString("searchFood", searchView1.getQuery().toString());
-                    args.putString("searchLocality", searchView2.getQuery().toString());
-                    fragment.setArguments(args);
-                    ft.commit();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });*/
-
-        return super.onCreateOptionsMenu(menu);
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

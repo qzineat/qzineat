@@ -2,55 +2,116 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/cv"
-        >
-        <!--cardview:cardElevation="4dp"
-                cardview:cardCornerRadius="5dp"-->
-    <LinearLayout
+        style="?eventCardBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp"
+        cardview:cardCornerRadius="0dp"
+        cardview:cardElevation="4dp"
         >
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:minHeight="200dp"
-            android:id="@+id/ivEventImage"
-            android:adjustViewBounds="true"
-            android:background="@color/accent"
-            android:scaleType="fitCenter"/>
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/example_event_title"
-            android:id="@+id/tvTitle" />
+            android:orientation="vertical"
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1/1/1990"
-            android:id="@+id/tvEventDate" />
+            <ImageView
+                android:id="@+id/ivEventImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:minHeight="200dp"
+                android:scaleType="fitCenter"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/example_place"
-            android:id="@+id/tvLocality" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="?textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="@string/example_event_title"/>
+
+                <RelativeLayout
+                    android:id="@+id/RelativeLayout01"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tvLocality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/example_place"
+                        android:layout_alignParentStart="true"
+                        style="?textSubTitle"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvEventDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/tvLocality"
+                        android:gravity="end"
+                        style="?textSubTitle"
+                        android:text="23 Mar"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/RelativeLayout02"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        style="?textSubTitle"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivSubscribe"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@mipmap/ic_check_circle_outline"
+                        android:layout_toLeftOf="@+id/ivShare"
+                        />
+
+                    <ImageView
+                        android:id="@+id/ivShare"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@mipmap/ic_share_variant"
+
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
 
 
-    </LinearLayout>
+            </LinearLayout>
 
+
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
