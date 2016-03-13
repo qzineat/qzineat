@@ -19,26 +19,6 @@
         android:layout_marginTop="2dp"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivEventImage"
-        android:minHeight="10dp"
-        android:text="Upload Photo"
-        android:textSize="7dp"
-        android:layout_marginLeft="100dp"
-        android:onClick="loadImagefromGallery"
-        android:id="@+id/btUpload"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ivEventImage"
-        android:minHeight="10dp"
-        android:layout_marginLeft="200dp"
-        android:text="Take Photo"
-        android:textSize="7dp"
-        android:id="@+id/btCamera"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,10 +34,11 @@
         android:paddingLeft="30dp"
         android:paddingTop="60dp"
         android:orientation="vertical">
+
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Event Name:"
+        android:text="Event Name"
         android:id="@+id/tvTitle"
         android:layout_marginBottom="20dp"
         />
@@ -96,20 +77,20 @@
         android:id="@+id/tvVenue"
         android:layout_marginBottom="20dp"
         />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="City:"
-        android:id="@+id/tvCity"
-        android:layout_marginBottom="20dp"
-        />
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Zip Code:"
-        android:id="@+id/tvZip"
-        android:layout_marginBottom="20dp"
-        />
+    <!--<TextView-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="City:"-->
+        <!--android:id="@+id/tvCity"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--/>-->
+    <!--<TextView-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:text="Zip Code:"-->
+        <!--android:id="@+id/tvZip"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--/>-->
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
@@ -149,15 +130,15 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Date:"
             android:id="@+id/tvDatePicker"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:hint="Select Date"/>
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Time:"
             android:id="@+id/tvTimePicker"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:hint="Select Time"/>
         <Spinner
             android:id="@+id/spGuest"
             android:layout_width="wrap_content"
@@ -176,18 +157,18 @@
             android:hint="Address"
             android:textSize="15dp"
             android:id="@+id/etVenue"/>
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="City"
-            android:textSize="15dp"
-            android:id="@+id/etCity"/>
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:hint="Zip Code"
-            android:textSize="15dp"
-            android:id="@+id/etZip"/>
+        <!--<EditText-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:hint="City"-->
+            <!--android:textSize="15dp"-->
+            <!--android:id="@+id/etCity"/>-->
+        <!--<EditText-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:hint="Zip Code"-->
+            <!--android:textSize="15dp"-->
+            <!--android:id="@+id/etZip"/>-->
         <Spinner
             android:id="@+id/sMenuCategory"
             android:layout_width="fill_parent"
@@ -216,14 +197,6 @@
         android:textSize="15dp"
         android:layout_marginLeft="180dp"
         android:id="@+id/btSave"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pll"
-        android:layout_marginLeft="20dp"
-        android:text="Cancel"
-        android:textSize="15dp"
-        android:id="@+id/btCancel"/>
 
 </RelativeLayout>
 </ScrollView>
