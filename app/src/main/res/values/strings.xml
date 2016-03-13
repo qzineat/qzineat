@@ -27,10 +27,14 @@
     </string-array>
     <string name="somthing_went_wrong">Something went wrong!! Please try again later!!</string>
 
+    <string name="err_msg_required">Required</string>
+
     <!-- Facebook -->
     <string name="facebook_app_id">557168641127416</string>
     <string name="Edit">Edit</string>
     <string name="primary_search_hint">sushi, chicken</string>
     <string name="location_search_hint">city, state or zip code</string>
     <string name="search_icon">search icon</string>
+
+
 </resources>

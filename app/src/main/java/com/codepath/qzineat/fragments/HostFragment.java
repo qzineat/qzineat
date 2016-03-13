@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,14 +73,16 @@ public class HostFragment extends Fragment{
     ArrayAdapter arrayAdapter;
     @Bind(R.id.ivEventImage)
     ImageView ivEventImage;
-    @Bind(R.id.tvTitle)
-    TextView tvTitile;
+
+    @Bind(R.id.tilTitle) TextInputLayout tilTitle;
+    @Bind(R.id.tilCharge) TextInputLayout tilCharge;
+    @Bind(R.id.tilVenue) TextInputLayout tilVenue;
+    @Bind(R.id.tilDesc) TextInputLayout tilDesc;
+
     @Bind(R.id.etTitle)
     EditText etTitile;
     @Bind(R.id.tvDate)
     TextView tvDate;
-    @Bind(R.id.tvTime)
-    TextView tvTime;
     @Bind(R.id.tvDatePicker)
     TextView tvDatePicker;
     @Bind(R.id.tvTimePicker)
@@ -87,24 +91,18 @@ public class HostFragment extends Fragment{
     TextView tvGuest;
     @Bind(R.id.spGuest)
     Spinner spGuest;
-    @Bind(R.id.tvCharge)
-    TextView tvCharge;
+
     @Bind(R.id.etCharge)
     EditText etCharge;
-    @Bind(R.id.tvVenue)
-    TextView tvVenue;
+
     @Bind(R.id.etVenue)
     EditText etVenue;
-//    @Bind(R.id.etCity)
-//    EditText etCity;
-//    @Bind(R.id.etZip)
-//    EditText etZip;
+
     @Bind(R.id.sMenuCategory)
     Spinner sMenuCategory;
     @Bind(R.id.tvMenuCategory)
     TextView tvMenuCategory;
-    @Bind(R.id.tvDesc)
-    TextView tvDesc;
+
     @Bind(R.id.etDesc)
     EditText etDesc;
     @Bind(R.id.tvAlcohol)
@@ -291,17 +289,23 @@ public class HostFragment extends Fragment{
 
     private void setEventDetails(Event event, final Context context) {
 
+        // Validations
+        if (!validateTitle()) {
+            return;
+        }
+        if (!validateCharge()) {
+            return;
+        }
+        if (!validateVenue()) {
+            return;
+        }
+        if (!validateDesc()) {
+            return;
+        }
+
+
         Boolean FLAG = true;
 
-        if (etTitile.getText().toString() != null && !etTitile.getText().toString().equalsIgnoreCase("") && !etTitile.getText().toString().isEmpty()) {
-            event.setTitle(etTitile.getText().toString());
-            tvTitile.setText(tvTitile.getText().toString().replace("*", ""));
-            tvTitile.setTextColor(Color.BLACK);
-        }else {
-            tvTitile.setText(tvTitile.getText() + "*");
-            tvTitile.setTextColor(Color.RED);
-            FLAG = false;
-        }
 
         if (!String.valueOf(spGuest.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setAttendeesMaxCount(parseInt(String.valueOf(spGuest.getSelectedItem())));
@@ -324,29 +328,6 @@ public class HostFragment extends Fragment{
         }
 
 
-        if (etDesc.getText().toString() != null && !etDesc.getText().toString().isEmpty()) {
-            event.setDescription(etDesc.getText().toString());
-            tvDesc.setText(tvDesc.getText().toString().replace("*", ""));
-            tvDesc.setTextColor(Color.BLACK);
-        }else {
-            tvDesc.setText(tvDesc.getText() + "*");
-            tvDesc.setTextColor(Color.RED);
-            FLAG = false;
-        }
-//
-//        if (tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
-//            String timeString = tvTimePicker.getText().toString();
-//            TimeObject = getTimeObject(timeString);
-////            event.setTime(TimeObject);
-//            tvTime.setText(tvTime.getText().toString().replace("*", ""));
-//            tvTime.setTextColor(Color.BLACK);
-//        }else {
-//            tvTime.setText(tvTime.getText()+"*");
-//            tvTime.setTextColor(Color.RED);
-//            FLAG = false;
-//        }
-
-
         if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty() && tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
             String dateString = tvDatePicker.getText().toString();
             String timeString = tvTimePicker.getText().toString();
@@ -361,32 +342,14 @@ public class HostFragment extends Fragment{
             FLAG = false;
         }
 
-        // TODO - try to append address like
+        // Get Location & Correct Locality with Country code
         // 500 Walnut Ave #G204, Fremont, CA, 94538
-        if (etVenue.getText().toString() != null && !etVenue.getText().toString().isEmpty()) {
-            String inputAddress = etVenue.getText().toString();
-            // Get Location & Correct Locality with Country code
-            Address address = GeoUtil.getGeoAddress(getContext(), inputAddress);
-            event.setLocation(GeoUtil.getLocation(address)); // This will be used as location search
-            event.setLocality(GeoUtil.getLocality(address));
-            event.setAddress(inputAddress);
-            tvVenue.setText(tvVenue.getText().toString().replace("*", ""));
-            tvVenue.setTextColor(Color.BLACK);
-        }else {
-            tvVenue.setText(tvVenue.getText() + "*");
-            tvVenue.setTextColor(Color.RED);
-            FLAG = false;
-        }
+        String inputAddress = etVenue.getText().toString();
+        Address address = GeoUtil.getGeoAddress(getContext(), inputAddress);
+        event.setLocation(GeoUtil.getLocation(address)); // This will be used as location search
+        event.setLocality(GeoUtil.getLocality(address));
+        event.setAddress(inputAddress);
 
-        if (etCharge.getText().toString() != null && !etCharge.getText().toString().isEmpty()) {
-            event.setPrice(parseInt(String.valueOf(etCharge.getText())));
-            tvCharge.setText(tvCharge.getText().toString().replace("*", ""));
-            tvCharge.setTextColor(Color.BLACK);
-        }else {
-            tvCharge.setText(tvCharge.getText() + "*");
-            tvCharge.setTextColor(Color.RED);
-            FLAG = false;
-        }
 
         if (!String.valueOf(spAlcohol.getSelectedItem()).equalsIgnoreCase("Choose")){
             event.setAlcohol(spAlcohol.getSelectedItem().toString());
@@ -407,7 +370,7 @@ public class HostFragment extends Fragment{
             }
         }catch (Exception ex){
             ex.printStackTrace();
-            // GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
+            // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
 
 
@@ -429,6 +392,59 @@ public class HostFragment extends Fragment{
             transaction.commit();
 
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean validateTitle() {
+        if (etTitile.getText().toString().trim().isEmpty()) {
+            tilTitle.setError(getString(R.string.err_msg_required));
+            requestFocus(etTitile);
+            return false;
+        } else {
+            tilTitle.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+    private boolean validateCharge() {
+        if (etCharge.getText().toString().trim().isEmpty()) {
+            tilCharge.setError(getString(R.string.err_msg_required));
+            requestFocus(etCharge);
+            return false;
+        } else {
+            tilCharge.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateVenue() {
+        if (etVenue.getText().toString().trim().isEmpty()) {
+            tilVenue.setError(getString(R.string.err_msg_required));
+            requestFocus(etVenue);
+            return false;
+        } else {
+            tilVenue.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateDesc() {
+        if (etDesc.getText().toString().trim().isEmpty()) {
+            tilDesc.setError(getString(R.string.err_msg_required));
+            requestFocus(etDesc);
+            return false;
+        } else {
+            tilDesc.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
     @Override

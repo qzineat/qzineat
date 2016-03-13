@@ -23,6 +23,16 @@
         <item name="android:textSize">@dimen/text_tiny_text_size</item>
         <item name="fontPath">fonts/Roboto-Light.ttf</item>
     </style>
+    <style name="edit_text_lable_light">
+        <item name="android:textSize">@dimen/text_sub_title_text_size</item>
+        <item name="fontPath">fonts/Roboto-Light.ttf</item>
+    </style>
+    <style name="text_edit_text">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_edit_text_size</item>
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+    </style>
+
 
 
 
