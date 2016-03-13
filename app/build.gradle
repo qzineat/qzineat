@@ -60,6 +60,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0' // Google Map
     compile 'com.google.android.gms:play-services-maps:8.4.0'
     compile 'com.github.hotchemi:permissionsdispatcher:2.0.7'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

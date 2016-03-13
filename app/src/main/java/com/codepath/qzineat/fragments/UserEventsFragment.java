@@ -16,6 +16,7 @@ import com.codepath.qzineat.activities.EventDetailActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.UserEventRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
+import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.ItemClickSupport;
@@ -42,6 +43,10 @@ public class UserEventsFragment extends Fragment {
 
     private ArrayList<Event> mEvents;
     private UserEventRecyclerViewAdapter recyclerViewAdapter;
+    protected String searchFood;
+    protected String searchLocality;
+    private boolean isSubscriberView;
+
 
 
     @Nullable
@@ -74,9 +79,14 @@ public class UserEventsFragment extends Fragment {
         mEvents = new ArrayList<>();
         recyclerViewAdapter = new UserEventRecyclerViewAdapter(mEvents, getContext());
 
-        isProfileView = true;
-
-
+        // On Search
+        if(getArguments() != null){
+            searchFood = getArguments().getString("searchFood");
+            searchLocality = getArguments().getString("searchLocality");
+            isProfileView = getArguments().getBoolean("isProfileView");
+            isSubscriberView = getArguments().getBoolean("isSubscriberView");
+            // Log.d("DEBUG", searchQuery);
+        }
         // Populate Data
         getEvents();
     }
@@ -90,14 +100,15 @@ public class UserEventsFragment extends Fragment {
 
         List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
         ParseQuery<Event> mainQuery;
-        if (searchQuery != null){
+        if (searchFood != null){
             //query.whereStartsWith("title", searchQuery);
             //query.whereMatches("title", "Michael", "i");
-            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("title", searchQuery);
+            //ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("category", searchFood);
+            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
             queries.add(q2);
 
-            ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("address", searchQuery); // TODO: This need geo search
-            queries.add(q3);
+            //ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("locality", searchLocality); // TODO: This need geo search
+            //queries.add(q3);
 
             mainQuery = ParseQuery.or(queries);
         }else{
@@ -114,27 +125,65 @@ public class UserEventsFragment extends Fragment {
         if(isProfileView){
             mainQuery.whereEqualTo("host", User.getCurrentUser());
         }
+        if(searchLocality != null && !searchLocality.isEmpty()){
+            mainQuery.whereEqualTo("locality", searchLocality);
+        }
 
-        mainQuery.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e == null) {
-                    Log.d("DEBUG", "Response Size - " + events.size());
-                    int curSize = recyclerViewAdapter.getItemCount();
-                    ArrayList<Event> arrayList = new ArrayList<>(events);
-                    mEvents.addAll(arrayList);
-                    recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
-                    if (events.size() > 0) {
-                        // set value for pagination
-                        lastCreatedAt = mEvents.get(mEvents.size() - 1).getCreatedAt();
-                    }
-                } else {
-                    Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
-                }
-                swipeContainer.setRefreshing(false);
+        if(isSubscriberView){
+            Log.d("DEBIG","I am in Subscriber");
+            // Search on Attendee
+            ParseQuery<Attendee> attendeeParseQuery = ParseQuery.getQuery(Attendee.class);
+            attendeeParseQuery.whereEqualTo("user", User.getLoggedInUser());
+            attendeeParseQuery.include("event");
+            attendeeParseQuery.orderByDescending("createdAt");
+            if(lastCreatedAt != null){
+                attendeeParseQuery.whereLessThan("createdAt", lastCreatedAt);
             }
-        });
+            attendeeParseQuery.findInBackground(new FindCallback<Attendee>() {
+                @Override
+                public void done(List<Attendee> attendees, ParseException e) {
+                    if (e == null) {
+                        ArrayList<Event> arrayList = new ArrayList<>();
+                        for(Attendee a: attendees){
+                            if(a.getEvent()!= null){
+                                arrayList.add(a.getEvent());
+                            }
+                        }
+
+                        int curSize = recyclerViewAdapter.getItemCount();
+                        mEvents.addAll(arrayList);
+                        recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
+                        if (attendees.size() > 0) {
+                            // set value for pagination
+                            lastCreatedAt = attendees.get(attendees.size() - 1).getCreatedAt();
+                        }
+                    }
+                }
+            });
+        }else {
+            mainQuery.findInBackground(new FindCallback<Event>() {
+                @Override
+                public void done(List<Event> events, ParseException e) {
+                    if (e == null) {
+                        Log.d("DEBUG", "Response Size - " + events.size());
+                        int curSize = recyclerViewAdapter.getItemCount();
+                        ArrayList<Event> arrayList = new ArrayList<>(events);
+                        mEvents.addAll(arrayList);
+                        recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
+                        if (events.size() > 0) {
+                            // set value for pagination
+                            lastCreatedAt = mEvents.get(mEvents.size() - 1).getCreatedAt();
+                        }
+                    } else {
+                        Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
+                    }
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+        }
     }
+
+
 
 
 

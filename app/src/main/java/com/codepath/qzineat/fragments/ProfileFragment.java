@@ -5,13 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.User;
@@ -39,16 +43,16 @@ public class ProfileFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         // Event List
-        if(savedInstanceState == null){
-            EventListFragment eventListFragment = new EventListFragment();
-            Bundle args = new Bundle();
-            args.putBoolean("isProfileView", true);
-            eventListFragment.setArguments(args);
-
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.flContainer, eventListFragment);
-            ft.commit();
-        }
+//        if(savedInstanceState == null){
+//            UserEventsFragment userEventsFragment = new UserEventsFragment();
+//            Bundle args = new Bundle();
+//            args.putBoolean("isSubscriberView", true);
+//            userEventsFragment.setArguments(args);
+//
+//            FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            ft.replace(R.id.flContainer, userEventsFragment);
+//            ft.commit();
+//        }
     }
 
     @Nullable
@@ -57,6 +61,10 @@ public class ProfileFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+        ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
+        vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabStrip.setViewPager(vpPager);
 
         ParseFile pf = null;
         if (User.getLoggedInUser().getImageFile() != null) {
@@ -106,5 +114,32 @@ public class ProfileFragment extends Fragment{
         });
         return view;
     }
+
+    public class TweetsPagerAdapter extends FragmentPagerAdapter {
+
+        private String tabTitles[] = {"Home", "Mentions"};
+
+        public TweetsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return null;
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+
+    }
+
 
 }

@@ -17,7 +17,7 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
-
+    <color name="pager">#03A9F4</color>
     <color name="hint_color_light">#dedede</color>
 
     <color name="card_layout_background">#E3E3E3</color>

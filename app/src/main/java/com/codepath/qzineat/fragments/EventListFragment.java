@@ -40,11 +40,8 @@ public class EventListFragment extends Fragment {
     private ArrayList<Event> mEvents;
     private EventsRecyclerViewAdapter recyclerViewAdapter;
 
-
-
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
     @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
-
 
     @Nullable
     @Override
