@@ -93,6 +93,16 @@ public class EventDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
 
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.flContent, profileFragment);
+                transaction.commit();
+            }
+        });
+
         // Get Event
         getEvent();
 
@@ -355,8 +365,8 @@ public class EventDetailFragment extends Fragment {
     }
 
     private void sendNotification() {
-        // Associate the device with a user
 
+        // Associate the device with a user
         ParsePush parsePush = new ParsePush();
         String id = ParseInstallation.getCurrentInstallation().getInstallationId();
         Log.d("Debug_id", id);
