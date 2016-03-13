@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.os.Bundle;
@@ -78,17 +77,18 @@ public class HostFragment extends Fragment{
     @Bind(R.id.tilCharge) TextInputLayout tilCharge;
     @Bind(R.id.tilVenue) TextInputLayout tilVenue;
     @Bind(R.id.tilDesc) TextInputLayout tilDesc;
+    @Bind(R.id.tilDate)
+    TextInputLayout tilDate;
+    @Bind(R.id.tilTime)
+    TextInputLayout tilTime;
 
     @Bind(R.id.etTitle)
     EditText etTitile;
-    @Bind(R.id.tvDate)
-    TextView tvDate;
+
     @Bind(R.id.tvDatePicker)
     TextView tvDatePicker;
     @Bind(R.id.tvTimePicker)
     TextView tvTimePicker;
-    @Bind(R.id.tvGuest)
-    TextView tvGuest;
     @Bind(R.id.spGuest)
     Spinner spGuest;
 
@@ -100,13 +100,9 @@ public class HostFragment extends Fragment{
 
     @Bind(R.id.sMenuCategory)
     Spinner sMenuCategory;
-    @Bind(R.id.tvMenuCategory)
-    TextView tvMenuCategory;
 
     @Bind(R.id.etDesc)
     EditText etDesc;
-    @Bind(R.id.tvAlcohol)
-    TextView tvAlcohol;
     @Bind(R.id.spAlcohol)
     Spinner spAlcohol;
     @Bind(R.id.btSave)
@@ -302,31 +298,29 @@ public class HostFragment extends Fragment{
         if (!validateDesc()) {
             return;
         }
-
+        if (!validateDate()) {
+            return;
+        }
+        if (!validateTime()) {
+            return;
+        }
 
         Boolean FLAG = true;
 
+        String inputTitle = etTitile.getText().toString();
+        event.setTitle(inputTitle);
+        int inputCharge = Integer.valueOf(String.valueOf(etCharge.getText()));
+        event.setPrice(inputCharge);
+        String inputDesc = etDesc.getText().toString();
+        event.setDescription(inputDesc);
 
         if (!String.valueOf(spGuest.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setAttendeesMaxCount(parseInt(String.valueOf(spGuest.getSelectedItem())));
-            tvGuest.setText(tvGuest.getText().toString().replace("*", ""));
-            tvGuest.setTextColor(Color.BLACK);
-        }else {
-            tvGuest.setText(tvGuest.getText()+"*");
-            tvGuest.setTextColor(Color.RED);
-            FLAG = false;
         }
 
         if (!String.valueOf(sMenuCategory.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setCategory((String) sMenuCategory.getSelectedItem());
-            tvMenuCategory.setText(tvMenuCategory.getText().toString().replace("*", ""));
-            tvMenuCategory.setTextColor(Color.BLACK);
-        }else {
-            tvMenuCategory.setText(tvMenuCategory.getText()+"*");
-            tvMenuCategory.setTextColor(Color.RED);
-            FLAG = false;
         }
-
 
         if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty() && tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
             String dateString = tvDatePicker.getText().toString();
@@ -334,12 +328,6 @@ public class HostFragment extends Fragment{
             dateString = dateString + " " + timeString;
             dateObject = getDateObject(dateString);
             event.setDate(dateObject);
-            tvDate.setText(tvDate.getText().toString().replace("*", ""));
-            tvDate.setTextColor(Color.BLACK);
-        }else {
-            tvDate.setText(tvDate.getText()+"*");
-            tvDate.setTextColor(Color.RED);
-            FLAG = false;
         }
 
         // Get Location & Correct Locality with Country code
@@ -351,16 +339,9 @@ public class HostFragment extends Fragment{
         event.setAddress(inputAddress);
 
 
-        if (!String.valueOf(spAlcohol.getSelectedItem()).equalsIgnoreCase("Choose")){
+        if (!String.valueOf(spAlcohol.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setAlcohol(spAlcohol.getSelectedItem().toString());
-            tvAlcohol.setText(tvAlcohol.getText().toString().replace("*", ""));
-            tvAlcohol.setTextColor(Color.BLACK);
-        }else {
-            tvAlcohol.setText(tvAlcohol.getText() + "*");
-            tvAlcohol.setTextColor(Color.RED);
-            FLAG = false;
         }
-
         try{
             if ( ivEventImage.getDrawable() != null) {
                 bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
@@ -398,6 +379,28 @@ public class HostFragment extends Fragment{
         if (etTitile.getText().toString().trim().isEmpty()) {
             tilTitle.setError(getString(R.string.err_msg_required));
             requestFocus(etTitile);
+            return false;
+        } else {
+            tilTitle.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+    private boolean validateDate() {
+        if (tvDatePicker.getText().toString().trim().isEmpty()) {
+            tilDate.setError(getString(R.string.err_msg_required));
+            requestFocus(tvDatePicker);
+            return false;
+        } else {
+            tilTitle.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+    private boolean validateTime() {
+        if (tvTimePicker.getText().toString().trim().isEmpty()) {
+            tilTime.setError(getString(R.string.err_msg_required));
+            requestFocus(tvTimePicker);
             return false;
         } else {
             tilTitle.setErrorEnabled(false);
@@ -487,7 +490,14 @@ public class HostFragment extends Fragment{
 
         if (evnt != null) {
             ParseFile pf = evnt.getImageFile();
-            Glide.with(getContext()).load(pf.getUrl()).asBitmap().centerCrop().into(ivEventImage);
+            String imgUrl;
+            if(pf != null && !pf.getUrl().isEmpty()){
+                imgUrl = pf.getUrl();
+            }else {
+                imgUrl = QZinUtil.getQZinImageUrl();
+            }
+
+            Glide.with(getContext()).load(imgUrl).asBitmap().centerCrop().into(ivEventImage);
             etTitile.setText(evnt.getTitle());
             etTitile.setCursorVisible(false);
             Log.d("DEBUG_date", evnt.getDate().toString());
@@ -502,7 +512,7 @@ public class HostFragment extends Fragment{
             etDesc.setText(evnt.getDescription().toString());
             int pos;
             if (evnt.getAlcohol().toString() == "Yes") pos = 2;
-                    else pos =1;
+                    else pos = 1;
             spAlcohol.setSelection(pos);
             spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount()));
             sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory()));

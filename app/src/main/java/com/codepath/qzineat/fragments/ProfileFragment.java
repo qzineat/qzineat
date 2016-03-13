@@ -1,6 +1,7 @@
 package com.codepath.qzineat.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,12 +26,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by glondhe on 3/6/16.
+ * Created by glondhe on 3/13/16.
  */
-public class ProfileFragment extends Fragment{
+public class ProfileFragment extends Fragment {
 
-    @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
-    @Bind(R.id.tvProfileName) TextView tvProfileName;
+
+    @Bind(R.id.ivProfileImage)
+    ImageView ivProfileImage;
+    @Bind(R.id.tvProfileName)
+    TextView tvProfileName;
     @Bind(R.id.tvLocation) TextView tvLocation;
     @Bind(R.id.tvSpeciality) TextView tvSpeciality;
     @Bind(R.id.tvContact) TextView tvContact;
@@ -38,33 +42,13 @@ public class ProfileFragment extends Fragment{
     @Bind(R.id.tvWebsite) TextView tvWebsite;
     @Bind(R.id.evEdit) ImageView evEdit;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        // Event List
-//        if(savedInstanceState == null){
-//            UserEventsFragment userEventsFragment = new UserEventsFragment();
-//            Bundle args = new Bundle();
-//            args.putBoolean("isSubscriberView", true);
-//            userEventsFragment.setArguments(args);
-//
-//            FragmentTransaction ft = getFragmentManager().beginTransaction();
-//            ft.replace(R.id.flContainer, userEventsFragment);
-//            ft.commit();
-//        }
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-
-        ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
-        vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabStrip.setViewPager(vpPager);
 
         ParseFile pf = null;
         if (User.getLoggedInUser().getImageFile() != null) {
@@ -81,16 +65,17 @@ public class ProfileFragment extends Fragment{
             tvLocation.setText(User.getLoggedInUser().getCity());
         }
         if (User.getLoggedInUser().getSpeciality() != null) {
-            tvSpeciality.setText("Speciality: " + User.getLoggedInUser().getSpeciality());
+            tvSpeciality.setText(User.getLoggedInUser().getSpeciality());
         }
         if (User.getLoggedInUser().getPhone() != null) {
-            tvContact.setText("Contact: " +User.getLoggedInUser().getPhone());
+            tvContact.setText(User.getLoggedInUser().getPhone());
+            tvContact.setTextColor(Color.parseColor("#1976D2"));
         }
         if (User.getLoggedInUser().getEmail() != null) {
-            tvEmail.setText("Email: " +User.getLoggedInUser().getEmail());
+            tvEmail.setText(User.getLoggedInUser().getEmail());
         }
         if (User.getLoggedInUser().getWebsite() != null) {
-            tvWebsite.setText("Website: " +User.getLoggedInUser().getWebsite());
+            tvWebsite.setText(User.getLoggedInUser().getWebsite());
         }
 
         evEdit.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +97,25 @@ public class ProfileFragment extends Fragment{
                 callIntent.setData(Uri.parse("tel:" + phone_no));
             }
         });
-        return view;
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
+        vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabStrip.setViewPager(vpPager);
+
+        return  view;
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
 
-        private String tabTitles[] = {"Home", "Mentions"};
+        private String tabTitles[] = {"Upcoming Events", "Hosted Events"};
 
         public TweetsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -125,9 +123,12 @@ public class ProfileFragment extends Fragment{
 
         @Override
         public Fragment getItem(int position) {
-            return null;
+            if (position == 0) {
+                return new UpComingEventsTimelineFragment();
+            } else if (position == 1) {
+                return new HostedEventsTimelineFragment();
+            } else return null;
         }
-
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -139,7 +140,7 @@ public class ProfileFragment extends Fragment{
             return tabTitles.length;
         }
 
+
+
     }
-
-
 }

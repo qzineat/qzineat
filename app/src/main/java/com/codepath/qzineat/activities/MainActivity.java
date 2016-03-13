@@ -26,7 +26,6 @@ import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
-import com.codepath.qzineat.fragments.testViewPager;
 import com.codepath.qzineat.models.User;
 
 import butterknife.Bind;
@@ -151,9 +150,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_profile:
                 fragmentClass = ProfileFragment.class;
-                break;
-            case R.id.nav_testview:
-                fragmentClass = testViewPager.class;
                 break;
             default:
                 fragmentClass = EventListFragment.class;

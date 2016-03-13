@@ -39,13 +39,15 @@
             android:id="@+id/tvProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ProfileName" />
+            android:text="ProfileName"
+            style="?textLargeTitle"/>
 
         <TextView
             android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location" />
+            android:text="Location"
+            style="?textTiny"    />
 
 
     </LinearLayout>
@@ -68,60 +70,153 @@
         android:paddingRight="16dp"
         android:paddingTop="5dp">
 
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <TextView
-            android:id="@+id/tvSpeciality"
+            android:id="@+id/tvSpecialityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            style="?textTiny"
             android:text="Speciality:" />
+
+        <TextView
+            android:id="@+id/tvSpeciality"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_height="wrap_content"
+            />
+           </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+           >
+        <TextView
+            android:id="@+id/tvContactText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?textTiny"
+            android:text="Contact:" />
+
 
         <TextView
             android:id="@+id/tvContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact:" />
+            android:layout_marginLeft="3dp"
+            />
+
+            <!--android:autoLink="phone"-->
+            <!--android:background="#ADD8E6"-->
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+        <TextView
+            android:id="@+id/tvEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?textTiny"
+            android:text="Email:"
+           />
 
         <TextView
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Email:" />
+            android:layout_marginLeft="3dp"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp">
+        <TextView
+            android:id="@+id/tvWebsiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?textTiny"
+            android:text="Website:"
+            />
 
         <TextView
             android:id="@+id/tvWebsite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Website:" />
-
+            android:layout_marginLeft="3dp"
+             />
+        </LinearLayout>
     </LinearLayout>
 
     <!--<FrameLayout-->
-        <!--android:id="@+id/flContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_below="@+id/ivbkgImage"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:layout_marginEnd="10dp"-->
-        <!--android:layout_marginLeft="10dp"-->
-        <!--android:layout_marginRight="10dp"-->
-        <!--android:layout_marginStart="10dp"-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
+    <!--android:id="@+id/flContainer"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_below="@+id/ivbkgImage"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:layout_marginEnd="10dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_marginStart="10dp"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
 
 
     <!--</FrameLayout>-->
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:orientation="vertical"
+        android:id="@+id/ll"
+        android:layout_below="@id/ivbkgImage">
+
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            app:pstsShouldExpand="true"
+            app:pstsTextAllCaps="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:pstsDividerColor="@android:color/black"
+            app:pstsIndicatorColor="@android:color/holo_blue_light"
+            app:pstsUnderlineColor="@android:color/holo_blue_light"
+            app:pstsTabPaddingLeftRight="14dip"/>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_below="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/evEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/flContainer"
+        android:layout_alignEnd="@+id/ll"
         android:layout_below="@+id/vwLine"
         android:layout_marginTop="10dp"
         android:src="@drawable/edit_pencil"
         android:text="@string/Edit" />
-
-
-
 </RelativeLayout>
