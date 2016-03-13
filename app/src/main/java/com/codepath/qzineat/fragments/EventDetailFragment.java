@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +21,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
+import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,7 +38,9 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,7 +66,7 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvHr) TextView tvHr;
     @Bind(R.id.etReviewComment) EditText etReviewComment;
     @Bind(R.id.btnSubmit) Button btnSubmit;
-
+    @Bind(R.id.rvReviews) RecyclerView rvReviews;
 
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
@@ -68,8 +74,12 @@ public class EventDetailFragment extends Fragment {
     private String eventObjectId;
 
     private static int FRAGMENT_CODE = 100;
-    private String profileType;
     private String host;
+
+
+    private ArrayList<Review> mReviews;
+    private ReviewsRecyclerViewAdapter recyclerViewAdapter;
+
 
     public static EventDetailFragment newInstance(String eventObjectId){
         EventDetailFragment fragment = new EventDetailFragment();
@@ -85,6 +95,9 @@ public class EventDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         eventObjectId = getArguments().getString("eventObjectId");
+
+        mReviews = new ArrayList<>();
+        recyclerViewAdapter = new ReviewsRecyclerViewAdapter(mReviews, getContext());
     }
 
     @Nullable
@@ -92,6 +105,9 @@ public class EventDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
+
+        // Setup RecyclerView
+        setupRecyclerView();
 
         // Get Event
         getEvent();
@@ -102,6 +118,23 @@ public class EventDetailFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setupRecyclerView() {
+        rvReviews.setAdapter(recyclerViewAdapter);
+
+        WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
+        rvReviews.setLayoutManager(layoutManager);
+
+        /*rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                if (lastCreatedAt != null) {
+                    getEvents();
+                }
+            }
+        });*/
+
     }
 
     // Display selected Event
@@ -119,7 +152,37 @@ public class EventDetailFragment extends Fragment {
                     populateEvent();
                     // Fab Button
                     setupFabButton();
+                    // Get Reviews Async if possible
+                    getReviews();
                 }
+            }
+        });
+        // TODO: Add Reviews Here..
+    }
+
+    private Date reviewLastCreatedAt;
+
+    private void getReviews(){
+        ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
+        query.include("reviewedBy");
+        query.whereEqualTo("event", event);
+        query.setLimit(3);
+        query.orderByDescending("createdAt");
+        query.findInBackground(new FindCallback<Review>() {
+            @Override
+            public void done(List<Review> reviewList, ParseException e) {
+                if(e==null){
+                    Log.d("DEBUG", "Review size -" + reviewList.size());
+                    int curSize = recyclerViewAdapter.getItemCount();
+                    ArrayList<Review> arrayList = new ArrayList<>(reviewList);
+                    mReviews.addAll(arrayList);
+                    recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
+                    if (reviewList.size() > 0) {
+                        // set value for pagination
+                        reviewLastCreatedAt = mReviews.get(mReviews.size() - 1).getCreatedAt();
+                    }
+                }
+
             }
         });
     }

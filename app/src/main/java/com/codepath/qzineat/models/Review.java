@@ -18,8 +18,8 @@ public class Review extends ParseObject{
     private int rating;
     private String comment;
 
-    public ParseUser getReviewedBy() {
-        return getParseUser("reviewedBy");
+    public User getReviewedBy() {
+        return (User) getParseUser("reviewedBy");
     }
 
     public void setReviewedBy(ParseUser reviewedBy) {

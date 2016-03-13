@@ -60,8 +60,6 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         }
     }
 
-    
-
 
     @Override
     public int getItemCount() {
@@ -74,6 +72,5 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         Log.d("DEBUG", "Adapter and Event List is cleared...");
     }
-
 
 }
