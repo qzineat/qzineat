@@ -20,4 +20,6 @@
 
     <color name="hint_color_light">#dedede</color>
 
+    <color name="card_layout_background">#E3E3E3</color>
+
 </resources>

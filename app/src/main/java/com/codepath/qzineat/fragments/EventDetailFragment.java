@@ -24,6 +24,7 @@ import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -33,10 +34,7 @@ import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,12 +49,15 @@ public class EventDetailFragment extends Fragment {
     @Bind(R.id.tvTitle) TextView tvTitle;
     @Bind(R.id.tvDate) TextView tvDate;
     @Bind(R.id.tvLocation) TextView tvLocation;
-    @Bind(R.id.tvAvailability) TextView tvAvailability;
-    @Bind(R.id.tvGuestCount) TextView tvGuestCount;
+    @Bind(R.id.tvPrice) TextView tvPrice;
+    @Bind(R.id.tvAttendeesMaxCount) TextView tvAttendeesMaxCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
+    @Bind(R.id.tvAlcohol) TextView tvAlcohol;
+
     // Review
     @Bind(R.id.ratingBar) RatingBar ratingBar;
     @Bind(R.id.tvStarLabel) TextView tvStarLabel;
+    @Bind(R.id.tvHr) TextView tvHr;
     @Bind(R.id.etReviewComment) EditText etReviewComment;
     @Bind(R.id.btnSubmit) Button btnSubmit;
 
@@ -128,9 +129,7 @@ public class EventDetailFragment extends Fragment {
         Glide.with(this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
 
         tvTitle.setText(event.getTitle());
-
-        DateFormat dateFormat = new SimpleDateFormat("MMMM F @KK:mm a", Locale.US);
-        tvDate.setText(dateFormat.format(new Date()));
+        tvDate.setText(QZinUtil.getShortDate(event.getDate()));
 
         if(event.getAddress() != null) {
             tvLocation.setText(event.getAddress());
@@ -138,12 +137,23 @@ public class EventDetailFragment extends Fragment {
             tvLocation.setVisibility(View.GONE);
         }
 
-        tvGuestCount.setText(String.valueOf(event.getGuestLimit()));
+        if(event.getPrice() > 0){
+            tvPrice.setText(String.format("$%d", event.getPrice()));
+        }else {
+            tvPrice.setText("FREE");
+        }
 
+        int availability = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount();
+        setAvalCount(availability);
+        tvAlcohol.setText(event.getAlcohol());
         tvDescription.setText(event.getDescription());
         ParseFile pf = event.getImageFile();
         Glide.with(this).load(pf.getUrl()).centerCrop().into(ivEventImage);
 
+    }
+
+    public void setAvalCount(int availability){
+        tvAttendeesMaxCount.setText(String.format("%d avl./%d", availability, event.getAttendeesMaxCount()));
     }
 
     /**
@@ -256,17 +266,21 @@ public class EventDetailFragment extends Fragment {
         tvStarLabel.setVisibility(View.VISIBLE);
         etReviewComment.setVisibility(View.VISIBLE);
         btnSubmit.setVisibility(View.VISIBLE);
+        tvHr.setVisibility(View.VISIBLE);
     }
     private void hideReviewSubmit(){
         tvStarLabel.setVisibility(View.GONE);
         etReviewComment.setVisibility(View.GONE);
         btnSubmit.setVisibility(View.GONE);
+        tvHr.setVisibility(View.GONE);
     }
     private void showRatingBar(){
         ratingBar.setVisibility(View.VISIBLE);
+        tvHr.setVisibility(View.VISIBLE);
     }
     private void hideRatingBar(){
         ratingBar.setVisibility(View.GONE);
+        tvHr.setVisibility(View.GONE);
     }
 
     private void setRating(){
@@ -315,8 +329,11 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void done(ParseException ex) {
                 if (ex == null) {
-                    // associate event
+                    int avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - 1;
+                    setAvalCount(avl); // update text box
+                    // save event
                     event.addAttendee(attendee);
+                    event.setAttendeesAvailableCount(avl);
                     event.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -332,6 +349,8 @@ public class EventDetailFragment extends Fragment {
                 }
             }
         });
+
+        // Lets Send Notification
         sendNotification();
     }
 

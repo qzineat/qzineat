@@ -77,6 +77,8 @@ public class HostFragment extends Fragment{
     EditText etTitile;
     @Bind(R.id.tvDate)
     TextView tvDate;
+    @Bind(R.id.tvTime)
+    TextView tvTime;
     @Bind(R.id.tvDatePicker)
     TextView tvDatePicker;
     @Bind(R.id.tvTimePicker)
@@ -99,6 +101,8 @@ public class HostFragment extends Fragment{
 //    EditText etZip;
     @Bind(R.id.sMenuCategory)
     Spinner sMenuCategory;
+    @Bind(R.id.tvMenuCategory)
+    TextView tvMenuCategory;
     @Bind(R.id.tvDesc)
     TextView tvDesc;
     @Bind(R.id.etDesc)
@@ -299,7 +303,7 @@ public class HostFragment extends Fragment{
         }
 
         if (!String.valueOf(spGuest.getSelectedItem()).equalsIgnoreCase("Choose")) {
-            event.setGuestLimit(parseInt(String.valueOf(spGuest.getSelectedItem())));
+            event.setAttendeesMaxCount(parseInt(String.valueOf(spGuest.getSelectedItem())));
             tvGuest.setText(tvGuest.getText().toString().replace("*", ""));
             tvGuest.setTextColor(Color.BLACK);
         }else {
@@ -310,22 +314,47 @@ public class HostFragment extends Fragment{
 
         if (!String.valueOf(sMenuCategory.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setCategory((String) sMenuCategory.getSelectedItem());
+            tvMenuCategory.setText(tvMenuCategory.getText().toString().replace("*", ""));
+            tvMenuCategory.setTextColor(Color.BLACK);
+        }else {
+            tvMenuCategory.setText(tvMenuCategory.getText()+"*");
+            tvMenuCategory.setTextColor(Color.RED);
+            FLAG = false;
         }
+
 
         if (etDesc.getText().toString() != null && !etDesc.getText().toString().isEmpty()) {
             event.setDescription(etDesc.getText().toString());
+            tvDesc.setText(tvDesc.getText().toString().replace("*", ""));
+            tvDesc.setTextColor(Color.BLACK);
+        }else {
+            tvDesc.setText(tvDesc.getText() + "*");
+            tvDesc.setTextColor(Color.RED);
+            FLAG = false;
         }
 
         if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty()) {
             String dateString = tvDatePicker.getText().toString();
             dateObject = getDateObject(dateString);
             event.setDate(dateObject);
+            tvDate.setText(tvDate.getText().toString().replace("*", ""));
+            tvDate.setTextColor(Color.BLACK);
+        }else {
+            tvDate.setText(tvDate.getText()+"*");
+            tvDate.setTextColor(Color.RED);
+            FLAG = false;
         }
 
         if (tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
             String timeString = tvTimePicker.getText().toString();
             TimeObject = getTimeObject(timeString);
             event.setTime(TimeObject);
+            tvTime.setText(tvTime.getText().toString().replace("*", ""));
+            tvTime.setTextColor(Color.BLACK);
+        }else {
+            tvTime.setText(tvTime.getText()+"*");
+            tvTime.setTextColor(Color.RED);
+            FLAG = false;
         }
 
 
@@ -338,6 +367,12 @@ public class HostFragment extends Fragment{
             event.setLocation(GeoUtil.getLocation(address)); // This will be used as location search
             event.setLocality(GeoUtil.getLocality(address));
             event.setAddress(inputAddress);
+            tvVenue.setText(tvVenue.getText().toString().replace("*", ""));
+            tvVenue.setTextColor(Color.BLACK);
+        }else {
+            tvVenue.setText(tvVenue.getText() + "*");
+            tvVenue.setTextColor(Color.RED);
+            FLAG = false;
         }
 
         if (etCharge.getText().toString() != null && !etCharge.getText().toString().isEmpty()) {
@@ -354,6 +389,8 @@ public class HostFragment extends Fragment{
             ParseFile File = new ParseFile("EventImage.txt", text);
             event.setImageFile(File);
         }
+
+
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
             event.saveInBackground(new SaveCallback() {
@@ -430,7 +467,7 @@ public class HostFragment extends Fragment{
             if (evnt.getAlcohol().toString() == "Yes") pos = 2;
                     else pos =1;
             spAlcohol.setSelection(pos);
-            spGuest.setSelection(arrayAdapter.getPosition(evnt.getGuestLimit()));
+            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount()));
             sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory()));
 
         } else Log.d("DEBUG", "Event returned null");
