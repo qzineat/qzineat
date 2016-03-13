@@ -358,9 +358,6 @@ public class HostFragment extends Fragment{
             FLAG = false;
         }
 
-
-
-
         // TODO - try to append address like
         // 500 Walnut Ave #G204, Fremont, CA, 94538
         if (etVenue.getText().toString() != null && !etVenue.getText().toString().isEmpty()) {
@@ -407,6 +404,7 @@ public class HostFragment extends Fragment{
 
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
+            User.getLoggedInUser().setIsHost(true);
             event.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -541,19 +539,19 @@ public class HostFragment extends Fragment{
         return relativeDate;
     }
 
-    private Date getTimeObject(String timeString) {
-
-        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
-        Date dateObject = null;
-        String dob_var=(timeString);
-
-        try {
-            dateObject = formatter.parse(dob_var);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        return dateObject;
-    }
+//    private Date getTimeObject(String timeString) {
+//
+//        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
+//        Date dateObject = null;
+//        String dob_var=(timeString);
+//
+//        try {
+//            dateObject = formatter.parse(dob_var);
+//        } catch (java.text.ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return dateObject;
+//    }
 
     private void setMenuCategory() {
 
@@ -597,11 +595,11 @@ public class HostFragment extends Fragment{
         return b;
     }
 
-    public static Bitmap decodeBase64(String input)
-    {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
+//    public static Bitmap decodeBase64(String input)
+//    {
+//        byte[] decodedByte = Base64.decode(input, 0);
+//        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
+//    }
 
 
 

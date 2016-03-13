@@ -90,4 +90,12 @@ public class User extends ParseUser {
         put("Website", Website);
     }
 
+    public Boolean getIsHost() {
+        return getBoolean("isHost");
+    }
+
+    public void setIsHost(boolean isHost) {
+        put("isHost", isHost);
+    }
+
 }
