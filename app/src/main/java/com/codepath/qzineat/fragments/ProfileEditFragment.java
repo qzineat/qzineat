@@ -1,6 +1,9 @@
 package com.codepath.qzineat.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
@@ -34,6 +38,7 @@ import butterknife.ButterKnife;
  */
 public class ProfileEditFragment  extends Fragment {
 
+    public static final int DAILOG_FRAGMENT = 1;
     @Bind(R.id.ivProfileImage)
     ImageView ivProfileImage;
     @Bind(R.id.etProfileName)
@@ -52,6 +57,7 @@ public class ProfileEditFragment  extends Fragment {
     Button btSave;
 
     Bitmap bitmap;
+    private String imgDecodableString;
 
     @Nullable
     @Override
@@ -72,6 +78,15 @@ public class ProfileEditFragment  extends Fragment {
 
             }
         });
+
+//        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DailogFragment dailogFragment = new DailogFragment();
+//                dailogFragment.setTargetFragment(ProfileEditFragment.this, DAILOG_FRAGMENT);
+//                dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
+//            }
+//        });
 
         return view;
     }
@@ -127,8 +142,33 @@ public class ProfileEditFragment  extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // See if it comes from Login
+
+        try {
+
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle b = data.getExtras();
+                Log.d("DEBUG", b.size() + "");
+                if (null != b.getString("imgDecodableString")) {
+                    imgDecodableString = b.getString("imgDecodableString");
+                    ivProfileImage.setImageBitmap(BitmapFactory
+                            .decodeFile(imgDecodableString));
+
+                } else if (null != b.getByteArray("bitMapPhoto")) {
+                    byte[] imageData = b.getByteArray("bitMapPhoto");
+                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                    ivProfileImage.setImageBitmap(photo);
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED){
+                Toast.makeText(getContext(), "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
     }
 
     public byte [] BitMapToString(Bitmap bitmap){

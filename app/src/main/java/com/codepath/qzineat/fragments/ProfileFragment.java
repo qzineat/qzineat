@@ -98,13 +98,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ivProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
         vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);

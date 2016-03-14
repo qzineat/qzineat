@@ -159,6 +159,7 @@ public class EventDetailFragment extends Fragment {
             public void done(Event object, ParseException e) {
                 if (e == null) {
                     event = object;
+
                     // Start Loading Data here
                     populateEvent();
                     // Fab Button
@@ -170,6 +171,8 @@ public class EventDetailFragment extends Fragment {
         });
         // TODO: Add Reviews Here..
     }
+
+
 
     private Date reviewLastCreatedAt;
 
@@ -203,7 +206,25 @@ public class EventDetailFragment extends Fragment {
 
     private void populateEvent() {
 
-        Glide.with(this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereEqualTo("objectId", event.getHost().getObjectId());
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> UserList, ParseException e) {
+                if (e == null) {
+                    Log.d("DEBUG", "Review size -" + UserList.size());
+                    ArrayList<User> arrayList = new ArrayList<>(UserList);
+
+                    Log.d("DEBUG", "User object" + arrayList.get(0).getEmail());
+                    Log.d("DEBUG", "User object" + arrayList.get(0).getImageFile());
+
+                    Glide.with(EventDetailFragment.this).load(arrayList.get(0).getImageFile().getUrl()).centerCrop().into(ivProfileImage);
+                }
+                else
+                    Glide.with(EventDetailFragment.this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
+            }
+        });
+
 
         tvTitle.setText(event.getTitle());
         tvDate.setText(QZinUtil.getShortDate(event.getDate()));
