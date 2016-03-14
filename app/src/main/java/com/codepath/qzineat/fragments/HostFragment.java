@@ -200,28 +200,7 @@ public class HostFragment extends Fragment{
         return view;
 
     }
-//
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        if (getArguments() != null) {
-//            Bundle b = getArguments();
-//            if (b != null) {
-//                Log.d("DEBUG", b.size() + "");
-//                if (null != b.getString("imgDecodableString")) {
-//                    imgDecodableString = b.getString("imgDecodableString");
-//                    ivEventImage.setImageBitmap(BitmapFactory
-//                            .decodeFile(imgDecodableString));
-//                } else if (null != b.getByteArray("bitMapPhoto")) {
-//                    imageData = b.getByteArray("bitMapPhoto");
-//                    Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-//                    ivEventImage.setImageBitmap(photo);
-//                }
-//            } else {
-//                Log.d("DEBUG", "Bundle is null. selected photo not passed from Dailog fragment");
-//            }
-//        }
-//    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -362,15 +341,15 @@ public class HostFragment extends Fragment{
                 @Override
                 public void done(ParseException e) {
                     if (e == null)
-                        Log.d("DEBUG", "Successfully created event on Parse");
-                    Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
-                }
-            });
 
-            HostListFragment hostListFragment = new HostListFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.flContent, hostListFragment);
-            transaction.commit();
+                        Log.d("DEBUG", "Successfully created event on Parse");
+                        Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                        HostListFragment hostListFragment = new HostListFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.flContent, hostListFragment);
+                        transaction.commit();
+                    }
+            });
 
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }
@@ -574,19 +553,6 @@ public class HostFragment extends Fragment{
         return relativeDate;
     }
 
-//    private Date getTimeObject(String timeString) {
-//
-//        DateFormat formatter = new SimpleDateFormat("hh:mm aa");
-//        Date dateObject = null;
-//        String dob_var=(timeString);
-//
-//        try {
-//            dateObject = formatter.parse(dob_var);
-//        } catch (java.text.ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return dateObject;
-//    }
 
     private void setMenuCategory() {
 
