@@ -71,22 +71,17 @@ public class ProfileEditFragment  extends Fragment {
             @Override
             public void onClick(View v) {
                 setNewValues();
-                ProfileFragment profileFragment = new ProfileFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.flContent, profileFragment);
-                fragmentTransaction.commit();
-
             }
         });
 
-//        ivProfileImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DailogFragment dailogFragment = new DailogFragment();
-//                dailogFragment.setTargetFragment(ProfileEditFragment.this, DAILOG_FRAGMENT);
-//                dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
-//            }
-//        });
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DailogFragment dailogFragment = new DailogFragment();
+                dailogFragment.setTargetFragment(ProfileEditFragment.this, DAILOG_FRAGMENT);
+                dailogFragment.show(getActivity().getSupportFragmentManager(), "Photo");
+            }
+        });
 
         return view;
     }
@@ -108,7 +103,11 @@ public class ProfileEditFragment  extends Fragment {
             public void done(ParseException e) {
                 if (e == null)
                     Log.d("DEBUG", "Successfully created event on Parse");
-                  // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                ProfileFragment profileFragment = new ProfileFragment();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.flContent, profileFragment);
+                fragmentTransaction.commit();
             }
         });
     }

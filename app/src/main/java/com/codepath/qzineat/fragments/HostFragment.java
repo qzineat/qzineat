@@ -490,11 +490,11 @@ public class HostFragment extends Fragment{
 
             etDesc.setText(evnt.getDescription().toString());
             int pos;
-            if (evnt.getAlcohol().toString() == "Yes") pos = 2;
-                    else pos = 1;
+            if (evnt.getAlcohol().toString() == "Yes") pos = 3;
+                    else pos = 2;
             spAlcohol.setSelection(pos);
-            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount()));
-            sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory()));
+            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount())+1);
+            sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
 
         } else Log.d("DEBUG", "Event returned null");
 

@@ -14,11 +14,6 @@
                 android:title="@string/profile" />
 
             <item
-                android:id="@+id/nav_testview"
-                android:icon="@drawable/ic_south_park"
-                android:title="testview" />
-
-            <item
                 android:id="@+id/nav_events"
                 android:icon="@drawable/ic_drawer_event"
                 android:title="@string/drawer_event"
@@ -35,7 +30,7 @@
             <item
                 android:id="@+id/nav_my_event"
                 android:icon="@drawable/ic_simpsons"
-                android:title="@string/my_event" />
+                android:title="Subscribed Events" />
 
             <item
                 android:id="@+id/nav_advance_filter"

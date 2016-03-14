@@ -55,9 +55,12 @@ public class ProfileFragment extends Fragment {
             pf = User.getLoggedInUser().getImageFile();
         }
 
+
         if (pf != null) {
             Glide.with(this).load(pf.getUrl()).asBitmap().centerCrop().into(ivProfileImage);
         }
+        else ivProfileImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+
         if (User.getLoggedInUser().getProfileName() != null) {
             tvProfileName.setText(User.getLoggedInUser().getProfileName());
         }
@@ -100,6 +103,7 @@ public class ProfileFragment extends Fragment {
 
         ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
         vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
+        vpPager.getAdapter().notifyDataSetChanged();
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabStrip.setViewPager(vpPager);
 
@@ -112,6 +116,10 @@ public class ProfileFragment extends Fragment {
 
         public TweetsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
@@ -132,8 +140,6 @@ public class ProfileFragment extends Fragment {
         public int getCount() {
             return tabTitles.length;
         }
-
-
 
     }
 }

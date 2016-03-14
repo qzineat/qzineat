@@ -161,22 +161,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!--<FrameLayout-->
-    <!--android:id="@+id/flContainer"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_below="@+id/ivbkgImage"-->
-    <!--android:layout_marginBottom="10dp"-->
-    <!--android:layout_marginEnd="10dp"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_marginRight="10dp"-->
-    <!--android:layout_marginStart="10dp"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto">-->
+    <FrameLayout
+    android:id="@+id/flContainerProf"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_below="@+id/ivbkgImage"
+    android:layout_marginBottom="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginStart="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <!--</FrameLayout>-->
+    </FrameLayout>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
