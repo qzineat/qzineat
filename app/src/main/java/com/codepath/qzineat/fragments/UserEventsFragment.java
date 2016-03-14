@@ -183,7 +183,11 @@ public class UserEventsFragment extends Fragment {
         }
     }
 
-
+    public void onNewEvent(Event event) {
+        // Add Tweet in the beginning of list
+        mEvents.add(0, event);
+        recyclerViewAdapter.notifyItemInserted(0);
+    }
 
 
 

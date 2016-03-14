@@ -341,15 +341,15 @@ public class HostFragment extends Fragment{
                 @Override
                 public void done(ParseException e) {
                     if (e == null)
-                        Log.d("DEBUG", "Successfully created event on Parse");
-                    Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
-                }
-            });
 
-            HostListFragment hostListFragment = new HostListFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.flContent, hostListFragment);
-            transaction.commit();
+                        Log.d("DEBUG", "Successfully created event on Parse");
+                        Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                        HostListFragment hostListFragment = new HostListFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.flContent, hostListFragment);
+                        transaction.commit();
+                    }
+            });
 
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }

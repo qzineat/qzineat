@@ -33,7 +33,6 @@ public class HostListFragment extends Fragment {
             Bundle args = new Bundle();
             args.putBoolean("isProfileView", true);
             userEventsFragment.setArguments(args);
-
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.flContainerHEL, userEventsFragment);
             ft.commit();
