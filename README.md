@@ -6,26 +6,25 @@
 
 The following **required** functionality is completed:
 
-* [ ] Common Features
+* [X] Common Features
  * [X] Login Sign Up
   * [X] User can Sign In through Facebook
  * [X] App data with Parse   
- * [ ] Show near by QZin Eat 
- * [ ] User can see short details on listing with venue, photo, and availability
- * [ ] User can see location of QZin Eat on map  
-* [ ] Host Features
+ * [X] Show near by QZin Eat 
+ * [X] User can see short details on listing with venue, photo, and availability
+ * [X] User can see location of QZin Eat on map  
+* [X] Host Features
  * [X] Create an event 
    * [X] Host can add details about menu, venue, date, photos, and number of guest count
-   * [ ] Host can edit/delete details about menu, venue, date, photos, and number of guest count
+   * [X] Host can edit/delete details about menu, venue, date, photos, and number of guest count
    * [X] Image upload on host page
- * [ ] View list of subscribers
- * [ ] Host can create simple profile with description and speciality 
-* [ ] Subscriber Features
+ * [X] View list of subscribers
+ * [X] Host can create simple profile with description and speciality 
+* [X] Subscriber Features
  * [X] User can view Event List
  * [X] Recycler view, endless scrolling, swipe to refresh for event list
  * [X] Event Detail view
  * [X] User can subscribe to QZin Eat
- * [ ] User can share QZin Eat with friends
 
     
 The following **optional** features are implemented: 
@@ -35,19 +34,20 @@ The following **optional** features are implemented:
  * [ ] Host can create detail profile
 * [ ] Subscriber Features
  * [ ] Subscriber can follow the Host
- * [ ] Subscriber can rate and review the host
- * [ ] Subscriber can rate and review the event
+ * [X] Subscriber can rate and review the host
+ * [X] Subscriber can rate and review the event
  * [ ] Subscriber can add/update profile with food interest settings
  * [ ] Subscriber can View/Post messages
+ * [ ] User can share QZin Eat with friends
 * [ ] Common Features
  * [ ] Show near by QZin Eat based on **current location**
  * [ ] User can see short details on QZin Eat listing with event rating, host rating, and likes
  * [ ] Search QZin Eat and advance filters
  * [ ] User can see what is currently Trending
  * [ ] Notification
-  * [ ] Notification on Subscription, 15 minutes before event and on any update of event
- * [ ] Login Sign Up
-  * [ ] User can Sign In through Facebook/Google and/or Twitter 
+  * [X] Notification on Subscription, 15 minutes before event and on any update of event
+ * [X] Login Sign Up
+  * [X] User can Sign In through Facebook/Google and/or Twitter 
   
  
 The following bonus **features** are implemented: 
@@ -64,7 +64,7 @@ The following bonus **features** are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='./qzineat-app.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='./QE.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
  
