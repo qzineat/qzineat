@@ -24,10 +24,12 @@ import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
+import com.codepath.qzineat.dialogs.EnrollDialogFragment;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
@@ -129,6 +131,11 @@ public class EventDetailFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE){
+            Log.d("DEBUG", "Message Received..");
+            saveAttendee(data.getIntExtra("guestCount", 1));
+        }
     }
 
     private void setupRecyclerView() {
@@ -402,8 +409,14 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (User.isUserLoggedIn()) {
-                    saveAttendee();
+                    // TODO: Add Fragment
+                    Bundle args = new Bundle();
+                    args.putDouble("price", event.getPrice());
 
+                    EnrollDialogFragment enrollDialogFragment = new EnrollDialogFragment();
+                    enrollDialogFragment.setArguments(args);
+                    enrollDialogFragment.setTargetFragment(EventDetailFragment.this, FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE);
+                    enrollDialogFragment.show(getFragmentManager(), FragmentCode.TAG_ENROLL);
                 } else {
                     Fragment fragment = new LoginFragment();
                     fragment.setTargetFragment(EventDetailFragment.this, FRAGMENT_CODE);
@@ -417,13 +430,13 @@ public class EventDetailFragment extends Fragment {
         });
     }
 
-    private void saveAttendee(){
+    private void saveAttendee(final int guestCount){
         // Change Button
         changeSignUpButton();
 
         // Parse Save
         final Attendee attendee = new Attendee();
-        attendee.setGuestCount(1); // TODO: Change later for adding more guests
+        attendee.setGuestCount(guestCount); // TODO: Change later for adding more guests
         attendee.setUser(User.getLoggedInUser());
         attendee.setEvent(event);
         host = event.getHost().getUsername();
@@ -433,7 +446,13 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void done(ParseException ex) {
                 if (ex == null) {
-                    int avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - 1;
+                    int avl;
+                    if(guestCount == 0){
+                        avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - 1;
+                    }else {
+                        avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - guestCount;
+                    }
+
                     setAvalCount(avl); // update text box
                     // save event
                     event.addAttendee(attendee);
@@ -477,4 +496,6 @@ public class EventDetailFragment extends Fragment {
         fabSignUp.setEnabled(false);
         fabSignUp.setImageResource(R.drawable.ic_check);
     }
+
+
 }

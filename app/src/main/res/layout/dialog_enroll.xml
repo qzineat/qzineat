@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+
+              android:padding="24dp">
+
+
+
+    <EditText
+        android:id="@+id/etGuestCount"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:padding="16dp"
+        android:hint="Enter Guest Count"
+        android:background="@drawable/bg_edit_text_dialog"
+        android:drawableRight="@drawable/ic_guest"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/color_gray"
+        android:textSize="14sp"
+        android:inputType="number"
+        android:layout_marginBottom="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/llCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
+        >
+        <EditText
+            android:id="@+id/etCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="-0.25dp"
+            android:background="@drawable/bg_card_number_edit_text"
+            android:drawableRight="@drawable/ic_card_number"
+            android:hint="Card number"
+            android:inputType="phone"
+            android:padding="16dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/color_gray"
+            android:textSize="14sp"
+            tools:ignore="LabelFor,NegativeMargin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-0.25dp"
+            android:orientation="horizontal"
+            tools:ignore="NegativeMargin">
+            <EditText
+                android:id="@+id/etCardDate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="-0.25dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_date_edit_text"
+                android:drawableRight="@drawable/ic_card_date"
+                android:hint="MM/YY"
+                android:inputType="date"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/color_gray"
+                android:textSize="14sp"
+                tools:ignore="LabelFor,RtlHardcoded" />
+            <EditText
+                android:id="@+id/etCardCVC"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="-0.25dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_cvc_edit_text"
+                android:drawableRight="@drawable/ic_card_cvc"
+                android:hint="CVC"
+                android:inputType="number"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/color_gray"
+                android:textSize="14sp"
+                tools:ignore="LabelFor,RtlHardcoded" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_text_view_dialog"
+        android:layout_marginBottom="20dp"
+        android:padding="16dp"
+        android:drawableRight="@drawable/ic_currency"
+        android:text="20"
+        android:textSize="14sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enroll"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

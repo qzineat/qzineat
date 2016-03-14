@@ -23,4 +23,6 @@
 
     <color name="card_layout_background">#E3E3E3</color>
 
+    <color name="color_gray">#D0D0D0</color>
+
 </resources>
