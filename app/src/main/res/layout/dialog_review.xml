@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+
+    <EditText
+        android:id="@+id/etReviewComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:gravity="top"
+        android:hint="Tell us about event"
+        android:textSize="14sp"
+        android:textColorHint="@color/color_gray"
+        android:padding="16dp"
+        android:background="@drawable/bg_edit_text_dialog"
+        />
+
+    <RatingBar
+        android:layout_gravity="end"
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:numStars="5"
+        android:rating="0.0"
+        android:stepSize="1.0"
+        style="@style/foodRatingBar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            />
+
+    </LinearLayout>
+</LinearLayout>
