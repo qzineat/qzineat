@@ -12,9 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
+import com.codepath.qzineat.dialogs.ReviewDialogFragment;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.Review;
@@ -65,11 +65,9 @@ public class EventDetailFragment extends Fragment {
 
     // Review
     @Bind(R.id.ratingBar) RatingBar ratingBar;
-    @Bind(R.id.tvStarLabel) TextView tvStarLabel;
-    @Bind(R.id.tvHr) TextView tvHr;
-    @Bind(R.id.etReviewComment) EditText etReviewComment;
-    @Bind(R.id.btnSubmit) Button btnSubmit;
     @Bind(R.id.rvReviews) RecyclerView rvReviews;
+    @Bind(R.id.llReview) LinearLayout llReview;
+    @Bind(R.id.llReviewBar) LinearLayout llReviewBar;
 
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
@@ -132,10 +130,21 @@ public class EventDetailFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Enroll for event
         if(resultCode == FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE){
-            Log.d("DEBUG", "Message Received..");
+            Log.d("DEBUG", "Message Received on Enroll..");
             saveAttendee(data.getIntExtra("guestCount", 1));
         }
+
+        // Save Review
+        if(resultCode == FragmentCode.EVENT_DETAIL_REVIEW_FRAGMENT_RESULT_CODE){
+            Log.d("DEBUG", "Message Received on Review..");
+
+            saveReview(data.getIntExtra("rating", 1), data.getStringExtra("comment"));
+        }
+
+
+
     }
 
     private void setupRecyclerView() {
@@ -311,7 +320,7 @@ public class EventDetailFragment extends Fragment {
         // Hello :) I am host - don't show me Review Button
         if(event.getHost() != null
                 && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
-            hideReviewSubmit();
+            hideReviewButton();
             hideRatingBar();
             return;
         }
@@ -319,7 +328,7 @@ public class EventDetailFragment extends Fragment {
         // Check Date
         Date today = new Date();
         if(today.compareTo(event.getDate()) <= 0){
-            hideReviewSubmit();
+            hideReviewButton(); // Btn
             hideRatingBar();
             return;
         }
@@ -331,18 +340,23 @@ public class EventDetailFragment extends Fragment {
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
-                if (count == 0) {
-                    // I haven't reviewed yet
-                    showRatingBar();
-                    showReviewSubmit();
+                if(e!=null){
+                    // TODO: network fail
+                    e.printStackTrace();
+                    return;
+                }
 
-                    btnSubmit.setOnClickListener(new View.OnClickListener() {
+                if (count == 0) {
+                    // I haven't reviewed yet & show dialog
+                    showReviewButton();
+                    llReview.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Save Event
-                            int rating = Math.round(ratingBar.getRating());
-                            String comment = etReviewComment.getText().toString();
-                            saveReview(rating, comment);
+                            Log.d("DEBUG", "User clicked on me..");
+                            // 1. Open Dialog
+                            ReviewDialogFragment reviewDialogFragment = new ReviewDialogFragment();
+                            reviewDialogFragment.setTargetFragment(EventDetailFragment.this, FragmentCode.EVENT_DETAIL_REVIEW_FRAGMENT_RESULT_CODE);
+                            reviewDialogFragment.show(getFragmentManager(), FragmentCode.TAG_REVIEW);
                         }
                     });
                 } else {
@@ -350,6 +364,13 @@ public class EventDetailFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void hideReviewButton(){
+        llReview.setVisibility(View.GONE);
+    }
+    private void showReviewButton(){
+        llReview.setVisibility(View.VISIBLE);
     }
 
     private void saveReview(int rating, String comment){
@@ -372,30 +393,23 @@ public class EventDetailFragment extends Fragment {
         review.setReviewedBy(User.getLoggedInUser());
         review.setRating(rating);
         review.saveInBackground();
+
+        // Add Review in List
+        mReviews.add(0, review);
+        recyclerViewAdapter.notifyItemInserted(0);
     }
-    private void showReviewSubmit(){
-        tvStarLabel.setVisibility(View.VISIBLE);
-        etReviewComment.setVisibility(View.VISIBLE);
-        btnSubmit.setVisibility(View.VISIBLE);
-        tvHr.setVisibility(View.VISIBLE);
-    }
-    private void hideReviewSubmit(){
-        tvStarLabel.setVisibility(View.GONE);
-        etReviewComment.setVisibility(View.GONE);
-        btnSubmit.setVisibility(View.GONE);
-        tvHr.setVisibility(View.GONE);
-    }
+
+
     private void showRatingBar(){
-        ratingBar.setVisibility(View.VISIBLE);
-        tvHr.setVisibility(View.VISIBLE);
+        llReviewBar.setVisibility(View.VISIBLE);
+        ratingBar.setIsIndicator(true);
+        hideReviewButton();
     }
     private void hideRatingBar(){
-        ratingBar.setVisibility(View.GONE);
-        tvHr.setVisibility(View.GONE);
+        llReviewBar.setVisibility(View.GONE);
     }
 
     private void setRating(){
-        hideReviewSubmit();
         showRatingBar();
 
         double d = event.getRatingSum() * 1.0 / event.getNumberOfReviews();
