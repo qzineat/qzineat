@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.EventDetailActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
@@ -242,9 +242,13 @@ public class EventListFragment extends Fragment implements EventListCallback {
         public void onItemClicked(RecyclerView recyclerView, int position, View v) {
             Event event = mEvents.get(position);
 
-            Intent i = new Intent(getContext(), EventDetailActivity.class);
-            i.putExtra("eventObjectId", event.getObjectId());
-            startActivity(i);
+            EventDetailFragment fragment = EventDetailFragment.newInstance(event.getObjectId());
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flContent, fragment)
+                    .addToBackStack(null)
+                    .commit();
         }
     };
 
