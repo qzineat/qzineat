@@ -20,6 +20,7 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tvLocality) public TextView tvLocality;
     @Bind(R.id.tvEventDate) public TextView tvEventDate;
     @Bind(R.id.tvPrice) public TextView tvPrice;
+    @Bind(R.id.ivShare) public ImageView ivShare;
 
     public EventItemViewHolder(View itemView) {
         super(itemView);

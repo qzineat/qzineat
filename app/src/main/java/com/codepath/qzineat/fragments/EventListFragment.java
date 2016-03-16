@@ -61,6 +61,7 @@ public class EventListFragment extends Fragment {
         // Shining UI.....
         view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
 
+
         return view;
     }
 

@@ -2,6 +2,9 @@
 
 
     <!-- QZin -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    </style>
+
     <style name="event_card_background">
         <item name="android:background">@android:color/white</item>
     </style>
