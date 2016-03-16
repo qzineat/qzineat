@@ -39,6 +39,7 @@ public class EnrollDialogFragment extends DialogFragment {
 
 
     Double eventPrice;
+    String position;
 
 
     @Nullable
@@ -56,7 +57,9 @@ public class EnrollDialogFragment extends DialogFragment {
                 tvTotalPrice.setText("FREE");
                 llCard.setVisibility(View.GONE);
             }
-
+            if(mArgs.getString("position")!=null){
+                position = mArgs.getString("position");
+            }
         }
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +110,11 @@ public class EnrollDialogFragment extends DialogFragment {
 
         Intent intent = new Intent();
         intent.putExtra("guestCount", guestCount);
+        if(position != null && !position.isEmpty()){
+            intent.putExtra("position", position);
+        }
 
-        getTargetFragment().onActivityResult(getTargetRequestCode(), FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE, intent);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE, intent);
         dismiss();
     }
 

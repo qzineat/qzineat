@@ -75,7 +75,6 @@ public class EventDetailFragment extends Fragment {
     private String eventObjectId;
 
     private static int FRAGMENT_CODE = 100;
-    private String host;
 
 
     private ArrayList<Review> mReviews;
@@ -131,7 +130,7 @@ public class EventDetailFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Enroll for event
-        if(resultCode == FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE){
+        if(resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE){
             Log.d("DEBUG", "Message Received on Enroll..");
             saveAttendee(data.getIntExtra("guestCount", 1));
         }
@@ -235,8 +234,7 @@ public class EventDetailFragment extends Fragment {
                     Log.d("DEBUG", "User object" + arrayList.get(0).getImageFile());
 
                     Glide.with(EventDetailFragment.this).load(arrayList.get(0).getImageFile().getUrl()).centerCrop().into(ivProfileImage);
-                }
-                else
+                } else
                     Glide.with(EventDetailFragment.this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
             }
         });
@@ -268,7 +266,7 @@ public class EventDetailFragment extends Fragment {
         }else {
             imgUrl = QZinUtil.getQZinImageUrl();
         }
-        Glide.with(this).load(imgUrl).centerCrop().into(ivEventImage);
+        Glide.with(getContext()).load(imgUrl).centerCrop().into(ivEventImage);
 
     }
 
@@ -429,7 +427,7 @@ public class EventDetailFragment extends Fragment {
 
                     EnrollDialogFragment enrollDialogFragment = new EnrollDialogFragment();
                     enrollDialogFragment.setArguments(args);
-                    enrollDialogFragment.setTargetFragment(EventDetailFragment.this, FragmentCode.EVENT_DETAIL_FRAGMENT_RESULT_CODE);
+                    enrollDialogFragment.setTargetFragment(EventDetailFragment.this, FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE);
                     enrollDialogFragment.show(getFragmentManager(), FragmentCode.TAG_ENROLL);
                 } else {
                     Fragment fragment = new LoginFragment();
@@ -451,9 +449,9 @@ public class EventDetailFragment extends Fragment {
         // Parse Save
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(guestCount); // TODO: Change later for adding more guests
-        attendee.setUser(User.getLoggedInUser());
+        attendee.setSubscribedBy(User.getLoggedInUser());
         attendee.setEvent(event);
-        host = event.getHost().getUsername();
+
 
         // Save attendee
         attendee.saveInBackground(new SaveCallback() {
@@ -497,10 +495,10 @@ public class EventDetailFragment extends Fragment {
         ParsePush parsePush = new ParsePush();
         String id = ParseInstallation.getCurrentInstallation().getInstallationId();
         Log.d("Debug_id", id);
-        Log.d("Debug_UserName", host);
+        Log.d("Debug_UserName", event.getHost().getUsername()); // host = event.getHost().getUsername();
         ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
         Log.d("Debug_pQuery", pQuery.toString());
-        pQuery.whereEqualTo("username", host); // <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        pQuery.whereEqualTo("username", event.getHost().getUsername()); // <-- you'll probably want to target someone that's not the current user, so modify accordingly
         parsePush.sendMessageInBackground("Hey your Event has a subscriber", pQuery);
     }
 

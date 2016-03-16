@@ -11,19 +11,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.EventDetailActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
+import com.codepath.qzineat.dialogs.EnrollDialogFragment;
+import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.ItemClickSupport;
+import com.codepath.qzineat.utils.QZinDataAccess;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +41,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Shyam Rokde on 3/2/16.
  */
-public class EventListFragment extends Fragment {
+public class EventListFragment extends Fragment implements EventListCallback {
 
     private ArrayList<Event> mEvents;
     private EventsRecyclerViewAdapter recyclerViewAdapter;
@@ -74,7 +80,7 @@ public class EventListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mEvents = new ArrayList<>();
-        recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext());
+        recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext(), this);
 
         // On Search
         if(getArguments() != null){
@@ -118,6 +124,7 @@ public class EventListFragment extends Fragment {
         // Configure limit and sort order
         mainQuery.setLimit(3);
         mainQuery.orderByDescending("createdAt");
+        mainQuery.include("host");
         if(lastCreatedAt != null){
             mainQuery.whereLessThan("createdAt", lastCreatedAt);
         }
@@ -167,6 +174,24 @@ public class EventListFragment extends Fragment {
                         Log.d("DEBUG", "Response Size - " + events.size());
                         int curSize = recyclerViewAdapter.getItemCount();
                         ArrayList<Event> arrayList = new ArrayList<>(events);
+
+                        // TODO: Not Good....
+                        if(User.isUserLoggedIn()){
+                            for(Event ev : arrayList){
+                                ParseRelation relation = ev.getRelation("attendees");
+                                ParseQuery query = relation.getQuery();
+                                query.whereEqualTo("subscribedBy", User.getLoggedInUser());
+                                try {
+                                    if(query.count() > 0){
+                                        ev.setIsEnrolled(true);
+                                    }
+                                }catch (Exception ex){
+                                    ex.printStackTrace();
+                                }
+
+                            }
+                        }
+
                         mEvents.addAll(arrayList);
                         recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
                         if (events.size() > 0) {
@@ -223,5 +248,46 @@ public class EventListFragment extends Fragment {
     };
 
 
+    @Override
+    public void onSubscribeCallback(int position) {
+        // Received call from EventList
+        Event event = mEvents.get(position);
+        if (User.isUserLoggedIn()) {
+            // TODO: Add Fragment
+            Bundle args = new Bundle();
+            args.putDouble("price", event.getPrice());
+            args.putString("position", String.valueOf(position));
 
+            EnrollDialogFragment enrollDialogFragment = new EnrollDialogFragment();
+            enrollDialogFragment.setArguments(args);
+            enrollDialogFragment.setTargetFragment(this, FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE);
+            enrollDialogFragment.show(getFragmentManager(), FragmentCode.TAG_ENROLL);
+        } else {
+            Toast.makeText(getContext(), "Please login to subscribe!!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Enroll for event
+        if(resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE){
+            Log.d("DEBUG", "Message Received on Enroll..");
+            if(data.getStringExtra("position") != null && !data.getStringExtra("position").isEmpty()){
+                int position = Integer.parseInt(data.getStringExtra("position"));
+                Event event = mEvents.get(position);
+                QZinDataAccess.saveAttendee(event, data.getIntExtra("guestCount", 1));
+
+                event.setIsEnrolled(true);
+                recyclerViewAdapter.notifyItemChanged(position);
+
+                Log.d("DEBUG", "position - " + position);
+                // Set Image to selected
+                /*View view = rvEvents.getLayoutManager().findViewByPosition(position);
+                ImageView ivSubscribe = (ImageView) view.findViewById(R.id.ivSubscribe);
+                ivSubscribe.setImageResource(R.mipmap.ic_check_circle);*/
+            }
+        }
+    }
 }

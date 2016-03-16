@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Event;
+import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.ParseFile;
 
@@ -20,13 +22,15 @@ import java.util.ArrayList;
  */
 public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemViewHolder> {
 
+    private EventListCallback mEventListCallback;
     public ArrayList<Event> mEvents;
     public Context mContext;
 
 
-    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context) {
-        mEvents = events;
-        mContext = context;
+    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context, EventListCallback eventListCallback) {
+        this.mEvents = events;
+        this.mContext = context;
+        this.mEventListCallback = eventListCallback;
     }
 
     @Override
@@ -42,13 +46,15 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
     @Override
     public void onBindViewHolder(final EventItemViewHolder viewHolder, int position) {
+        viewHolder.position = position;
 
         // 1. Get Event
-        Event event = mEvents.get(position);
+        final Event event = mEvents.get(position);
 
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
+        viewHolder.ivSubscribe.setImageResource(android.R.color.transparent); // clear out old image for recycled view
         ParseFile pf = event.getImageFile();
 
         String imgUrl;
@@ -67,6 +73,29 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         }else {
             viewHolder.tvPrice.setText("FREE");
         }
+
+        if(event.isEnrolled()){
+            viewHolder.ivSubscribe.setImageResource(R.mipmap.ic_check_circle);
+        }else {
+            viewHolder.ivSubscribe.setImageResource(R.mipmap.ic_check_circle_outline);
+            // Add click listener
+            viewHolder.ivSubscribe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(User.isUserLoggedIn()){
+                        String hostUser = event.getHost().getObjectId();
+                        String loggedInUser = User.getLoggedInUser().getObjectId();
+                        if (!hostUser.equals(loggedInUser)) {
+                            mEventListCallback.onSubscribeCallback(viewHolder.position);
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+
     }
 
 
@@ -81,5 +110,4 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         Log.d("DEBUG", "Adapter and Event List is cleared...");
     }
-
 }

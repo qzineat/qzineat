@@ -20,6 +20,16 @@ public class Event extends ParseObject {
         // Required for Parse
     }
 
+    private boolean isEnrolled;
+
+    public boolean isEnrolled() {
+        return isEnrolled;
+    }
+
+    public void setIsEnrolled(boolean isEnrolled) {
+        this.isEnrolled = isEnrolled;
+    }
+
     public String getImageUrl() {
         return getString("imageUrl");
     }
