@@ -23,12 +23,12 @@ public class Attendee extends ParseObject {
         put("event", event);
     }
 
-    public ParseUser getUser() {
-        return getParseUser("user");
+    public ParseUser getSubscribedBy() {
+        return getParseUser("subscribedBy");
     }
 
-    public void setUser(ParseUser user) {
-        put("user", user);
+    public void setSubscribedBy(ParseUser user) {
+        put("subscribedBy", user);
     }
 
     public int getGuestCount() {

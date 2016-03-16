@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.ParseException;
@@ -25,13 +26,15 @@ import java.util.ArrayList;
  */
 public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemViewHolder> {
 
+    private EventListCallback mEventListCallback;
     public ArrayList<Event> mEvents;
     public Context mContext;
 
 
-    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context) {
-        mEvents = events;
-        mContext = context;
+    public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context, EventListCallback eventListCallback) {
+        this.mEvents = events;
+        this.mContext = context;
+        this.mEventListCallback = eventListCallback;
     }
 
     @Override
@@ -48,15 +51,16 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
     @Override
     public void onBindViewHolder(final EventItemViewHolder viewHolder, int position) {
+        viewHolder.position = position;
 
         // 1. Get Event
-        Event event = mEvents.get(position);
+        final Event event = mEvents.get(position);
 
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
         viewHolder.ivEventImage.setImageResource(android.R.color.transparent); // clear out old image for recycled view
+        viewHolder.ivSubscribe.setImageResource(android.R.color.transparent); // clear out old image for recycled view
         final ParseFile pf = event.getImageFile();
-
         final String imgUrl;
         if(pf != null && !pf.getUrl().isEmpty()){
             imgUrl = pf.getUrl();
@@ -72,35 +76,63 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
             viewHolder.tvPrice.setText(String.format("$%d", event.getPrice()));
         }else {
             viewHolder.tvPrice.setText("FREE");
-        }
-        viewHolder.ivShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                sharingIntent.setType("*/*");
+            viewHolder.ivShare.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                sharingIntent.putExtra(Intent.EXTRA_TITLE, viewHolder.tvTitle.getText());
-                sharingIntent.setAction(Intent.ACTION_SEND);
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, viewHolder.tvTitle.getText());
-                try {
-                    Uri pictureUri = Uri.parse(pf.getUrl());
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("*/*");
 
-                    Bitmap bitmap = BitmapFactory.decodeFile(pf.getUrl());
-                    sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pf.getFile()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    sharingIntent.putExtra(Intent.EXTRA_TITLE, viewHolder.tvTitle.getText());
+                    sharingIntent.setAction(Intent.ACTION_SEND);
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, viewHolder.tvTitle.getText());
+                    try
+
+                    {
+                        Uri pictureUri = Uri.parse(pf.getUrl());
+
+                        Bitmap bitmap = BitmapFactory.decodeFile(pf.getUrl());
+                        sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(pf.getFile()));
+                    } catch (
+                            ParseException e
+                            )
+
+                    {
+                        e.printStackTrace();
+                    }
+
+                    sharingIntent.setType("image/*");
+                    sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    mContext.startActivity(Intent.createChooser(sharingIntent, "Share Image!"));
+
                 }
-                sharingIntent.setType("image/*");
-                sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                mContext.startActivity(Intent.createChooser(sharingIntent, "Share Image!"));
-
-            }
-        });
+            });
+        }
     }
 
-    private void callShare() {
-
-    }
+//    private void callShare() {
+//
+//        if(event.isEnrolled()){
+//            viewHolder.ivSubscribe.setImageResource(R.mipmap.ic_check_circle);
+//        }else {
+//            viewHolder.ivSubscribe.setImageResource(R.mipmap.ic_check_circle_outline);
+//            // Add click listener
+//            viewHolder.ivSubscribe.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if(User.isUserLoggedIn()){
+//                        String hostUser = event.getHost().getObjectId();
+//                        String loggedInUser = User.getLoggedInUser().getObjectId();
+//                        if (!hostUser.equals(loggedInUser)) {
+//                            mEventListCallback.onSubscribeCallback(viewHolder.position);
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//
+//
+//    }
 
 
     @Override
@@ -114,5 +146,4 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         Log.d("DEBUG", "Adapter and Event List is cleared...");
     }
-
 }
