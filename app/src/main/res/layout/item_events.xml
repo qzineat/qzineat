@@ -24,15 +24,57 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
-            <ImageView
-                android:id="@+id/ivEventImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:minHeight="200dp"
-                android:scaleType="fitCenter"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/ivEventImage1"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:minHeight="200dp"
+                        android:scaleType="fitCenter"/>
+
+
+                    <ImageView
+                        android:id="@+id/ivEventImage2"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:minHeight="200dp"
+                        android:scaleType="fitCenter"/>
+
+
+                    <ImageView
+                        android:id="@+id/ivEventImage3"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:minHeight="200dp"
+                        android:scaleType="fitCenter"/>
+
+
+                    <ImageView
+                        android:id="@+id/ivEventImage4"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:minHeight="200dp"
+                        android:scaleType="fitCenter"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
