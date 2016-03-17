@@ -28,9 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:adjustViewBounds="true"
-                    android:background="@color/accent"
-                    android:minHeight="200dp"
-                    android:scaleType="fitCenter"/>
+                    android:background="@color/accent"/>
 
                 <ImageView
                     android:id="@+id/ivProfileImage"
