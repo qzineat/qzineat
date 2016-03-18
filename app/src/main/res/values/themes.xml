@@ -23,6 +23,16 @@
         <item name="textEditTextLabel">@style/edit_text_lable_light</item>
         <item name="textEditText">@style/text_edit_text</item>
         <item name="searchEditText">@style/search_edit_text</item>
+
+        <item name="navDrawerBackground">@style/nav_drawer_background_wh</item>
+        <item name="navDrawerSwap">@style/nav_drawer_swap_wh</item>
+        <item name="colorControlHighlight">@color/drawer_gray</item> 
+    </style>
+
+    <style name="HostQZinTheme" parent="AppTheme">
+        <item name="navDrawerBackground">@style/nav_drawer_background_gr</item>
+        <item name="navDrawerSwap">@style/nav_drawer_swap_gr</item>
+        <item name="colorControlHighlight">@android:color/white</item> 
     </style>
 
 </resources>

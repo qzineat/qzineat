@@ -10,6 +10,9 @@
     <attr name="textEditText" format="reference"/>
 
     <attr name="searchEditText" format="reference"/>
+    <attr name="navDrawerBackground" format="reference"/>
+    <attr name="navDrawerSwap" format="reference"/>
+    <attr name="navDrawerTextColor" format="reference"/>
 
 
 </resources>

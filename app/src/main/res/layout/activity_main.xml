@@ -32,10 +32,70 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view"
-        />
+        android:clipToPadding="false"
+        android:paddingBottom="48dp"
+        style="?navDrawerBackground"
+        app:itemTextColor="@color/drawer_state_list"
+        >
+
+        <LinearLayout
+            android:id="@+id/llSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-49dp"
+            style="?navDrawerSwap"
+            android:layout_gravity="bottom">
+
+            <ImageView
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_account_switch"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:layout_marginStart="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/DrawerTextWhite"
+                android:text="@string/switch_host"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSwitchHost"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="-49dp"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            style="?navDrawerSwap"
+            >
+
+            <ImageView
+                android:layout_marginStart="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_swap"
+                android:layout_gravity="center_vertical"
+                />
+
+            <TextView
+                android:layout_marginStart="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/switch_search"
+                style="@style/DrawerTextGray"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

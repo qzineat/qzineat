@@ -34,6 +34,9 @@
     <string name="primary_search_hint">sushi, chicken</string>
     <string name="location_search_hint">city, state or zip code</string>
     <string name="search_icon">search icon</string>
+    <string name="sub_events">Subscribed Events</string>
+    <string name="switch_search">Switch to Searching</string>
+    <string name="switch_host">Switch to Hosting</string>
 
 
 </resources>

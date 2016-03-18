@@ -26,5 +26,7 @@
     <color name="color_gray">#D0D0D0</color>
 
     <color name="btn_color">#e43333</color>
+    <color name="dark_gray">#333333</color>
+    <color name="drawer_gray">#646464</color>
 
 </resources>

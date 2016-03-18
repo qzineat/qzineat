@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
@@ -27,6 +29,7 @@ import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.QZinUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.nvView) NavigationView nvDrawer;
+    @Bind(R.id.llSwitch) LinearLayout llSwitch;
+    @Bind(R.id.llSwitchHost) LinearLayout llSwitchHost;
 
     LinearLayout llSearch;
     EditText etSearch;
@@ -48,15 +53,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QZinUtil.onActivityCreateSetTheme(this); // Change Theme
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
         setupDrawerContent(nvDrawer);
 
+        // Disable scroll bar in NavigationView
+        disableNavigationViewScrollbars(nvDrawer);
+
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
         mDrawer.setDrawerListener(drawerToggle);
+
+        // Switch View
+        llSwitch.setOnClickListener(mSwitchListener);
+        llSwitchHost.setOnClickListener(mSwitchListener);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
@@ -110,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateMenu(Menu menu){
         MenuItem loginItem = menu.findItem(R.id.nav_login);
         MenuItem logoutItem = menu.findItem (R.id.nav_logout);
+        MenuItem navItemEvents =  menu.findItem (R.id.nav_events);
+        MenuItem navItemHostedEvents =  menu.findItem (R.id.nav_all_hosted_event);
+        MenuItem navItemHostEvent =  menu.findItem (R.id.nav_host_event);
+        MenuItem navItemMyEvents =  menu.findItem (R.id.nav_my_event);
+        MenuItem navItemFilters =  menu.findItem (R.id.nav_advance_filter);
+
         // Do something on Menu items
         if(User.isUserLoggedIn()){
             loginItem.setVisible(false);
@@ -117,6 +137,20 @@ public class MainActivity extends AppCompatActivity {
         }else {
             loginItem.setVisible(true);
             logoutItem.setVisible(false);
+        }
+        // If I am host then don't show me menu items
+        if(QZinEatApplication.isHostView){
+            // hide
+            navItemEvents.setVisible(false);
+            navItemMyEvents.setVisible(false);
+            navItemFilters.setVisible(false);
+            llSwitch.setVisibility(View.GONE);
+            // show
+            navItemHostedEvents.setVisible(true);
+            navItemHostEvent.setVisible(true);
+            llSwitchHost.setVisibility(View.VISIBLE);
+            nvDrawer.setItemTextColor(getResources().getColorStateList(R.color.drawer_state_list_host));
+            nvDrawer.setItemIconTintList(getResources().getColorStateList(R.color.drawer_state_list_host));
         }
     }
 
@@ -220,4 +254,23 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    private void disableNavigationViewScrollbars(NavigationView navigationView) {
+        if (navigationView != null) {
+            NavigationMenuView navigationMenuView = (NavigationMenuView) navigationView.getChildAt(0);
+            if (navigationMenuView != null) {
+                navigationMenuView.setVerticalScrollBarEnabled(false);
+            }
+        }
+    }
+
+
+
+
+    private View.OnClickListener mSwitchListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            QZinUtil.changeTheme(MainActivity.this);
+        }
+    };
 }

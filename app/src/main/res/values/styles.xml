@@ -50,6 +50,29 @@
         <item name="android:textSize">@dimen/text_title_text_size</item>
     </style>
 
+    <style name="nav_drawer_background_wh">
+        <item name="android:background">@android:color/white</item>
+    </style>
+    <style name="nav_drawer_swap_wh">
+        <item name="android:background">@color/drawer_gray</item>
+    </style>
+
+
+    <style name="nav_drawer_background_gr">
+        <item name="android:background">@color/drawer_gray</item>
+    </style>
+    <style name="nav_drawer_swap_gr">
+        <item name="android:background">@android:color/white</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <style name="DrawerTextGray">
+        <item name="android:textColor">@color/drawer_gray</item>
+    </style>
+    <style name="DrawerTextWhite">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
 
 
 
