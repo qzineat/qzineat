@@ -64,6 +64,10 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0' // Animation - https://github.com/daimajia/AndroidViewAnimations
     compile 'com.daimajia.easing:library:1.0.1@aar' // Animation
     compile 'com.daimajia.androidanimations:library:1.1.3@aar' // Animation
+
+    compile('com.mikepenz:materialdrawer:5.1.5@aar') {
+        transitive = true
+    } // Drawer
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

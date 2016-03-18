@@ -27,6 +27,9 @@
         <item name="navDrawerBackground">@style/nav_drawer_background_wh</item>
         <item name="navDrawerSwap">@style/nav_drawer_swap_wh</item>
         <item name="colorControlHighlight">@color/drawer_gray</item> 
+
+        <!-- Drawer -->
+        <item name="material_drawer_background">@android:color/white</item>
     </style>
 
     <style name="HostQZinTheme" parent="AppTheme">
