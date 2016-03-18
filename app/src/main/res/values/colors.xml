@@ -25,4 +25,6 @@
 
     <color name="color_gray">#D0D0D0</color>
 
+    <color name="btn_color">#e43333</color>
+
 </resources>

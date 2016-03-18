@@ -9,5 +9,7 @@
     <attr name="textEditTextLabel" format="reference"/>
     <attr name="textEditText" format="reference"/>
 
+    <attr name="searchEditText" format="reference"/>
+
 
 </resources>

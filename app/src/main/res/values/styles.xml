@@ -42,6 +42,14 @@
         <item name="android:maxHeight">25dp</item>
     </style>
 
+    <style name="search_edit_text">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/hint_color_light</item>
+        <item name="fontPath">fonts/Roboto-Regular.ttf</item>
+        <item name="android:textSize">@dimen/text_title_text_size</item>
+    </style>
+
 
 
 
