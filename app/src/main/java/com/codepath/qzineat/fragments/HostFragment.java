@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -101,6 +102,9 @@ public class HostFragment extends Fragment{
     @Bind(R.id.sMenuCategory)
     Spinner sMenuCategory;
 
+    @Bind(R.id.sMenuItem)
+    Spinner sMenuItem;
+
     @Bind(R.id.etDesc)
     EditText etDesc;
     @Bind(R.id.spAlcohol)
@@ -156,6 +160,7 @@ public class HostFragment extends Fragment{
 
         spGuest.setAdapter(arrayAdapter);
         sMenuCategory.setAdapter(MenuCategoryAdapter);
+        sMenuCategory.setOnItemSelectedListener(new MenuItemOnClickListener());
         tvDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,6 +304,10 @@ public class HostFragment extends Fragment{
 
         if (!String.valueOf(sMenuCategory.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setCategory((String) sMenuCategory.getSelectedItem());
+        }
+
+        if (!String.valueOf(sMenuItem.getSelectedItem()).equalsIgnoreCase("Choose")) {
+            event.setCategory((String) sMenuItem.getSelectedItem());
         }
 
         if (tvDatePicker.getText().toString() != null && !tvDatePicker.getText().toString().isEmpty() && tvTimePicker.getText().toString() != null && !tvTimePicker.getText().toString().isEmpty()) {
@@ -557,7 +566,6 @@ public class HostFragment extends Fragment{
     private void setMenuCategory() {
 
         List<String> list = new ArrayList<String>();
-        list.add("Choose");
         list.add("American");
         list.add("Chinese");
         list.add("French");
@@ -570,30 +578,274 @@ public class HostFragment extends Fragment{
         list.add("Thai");
         list.add("Vegan");
         list.add("Vegetarian");
-        list.add("vietnamese");
 
         MenuCategoryAdapter = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_list_item_1, list);
         MenuCategoryAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
     }
 
-    private void setListAdapter() {
-        List list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            if (i == 0) list.add("Choose");
-            else list.add(i);
-        }
-        arrayAdapter = new ArrayAdapter<>(this.getActivity(),
-        android.R.layout.simple_spinner_item, list);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+    private void setMenuItemAmerican() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Cheese Burger");
+        list.add("Hamburgers");
+        list.add("BBQ Pork Ribs");
+        list.add("Steak");
+        list.add("Pork Chop");
+        list.add("Blackened Ribeye");
+        list.add("New York Steak");
+        list.add("Fish Tacos");
+        list.add("Grilled Salmon");
+        list.add("Fried Chicken");
+        list.add("Ribs");
+        list.add("Potato Salad With Bacon");
+        list.add("Meat Loaf");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
     }
 
-    public byte [] BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.DEFAULT);
-        return b;
+
+    private void setMenuItemChinese() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Chicken Chow Mein");
+        list.add("Pork Fried Rice");
+        list.add("Vegetable Egg Rolls");
+        list.add("Broccoli & Beef");
+        list.add("Mongolian Chicken");
+        list.add("Mongolian Beef");
+        list.add("Lemon Chicken");
+        list.add("General Chicken");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemFrench() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Poulet aux Porto");
+        list.add("Poulet à la Provençale");
+        list.add("Gingembre et Citron Vert");
+        list.add("Saumon Sauce Endives");
+        list.add("Bar au Beurre Blanc et Crabe");
+        list.add("Truite aux Amandes ");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemJapanese() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Sushi");
+        list.add("California Roll");
+        list.add("Tuna Sashimi");
+        list.add("Beef Teriyaki");
+        list.add("Chicken Teriyaki");
+        list.add("Salmon Teriyaki");
+        list.add("Tempura");
+        list.add("Sashimi");
+        list.add("Negima");
+        list.add("Kokoro");
+        list.add("Bonjiri");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemKorean() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("SAMGYUBSAL");
+        list.add("GEN CAJUN CHICKEN");
+        list.add("GARLIC CHICKEN");
+        list.add("GEN ROAST BEEF");
+        list.add("GEN WOO BAESAL");
+        list.add("GEN PORK BULGOGI");
+        list.add("GEN BEEF BULGOGI");
+        list.add("DWENJANG");
+        list.add("SOONDOBOO");
+
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemItalian() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Pasta");
+        list.add("Pizza");
+        list.add("Italian Sausage");
+        list.add("Rigatoni");
+        list.add("Lobster Carbonara");
+        list.add("Chicken Parmesan");
+        list.add("Meatballs");
+        list.add("Lasagna");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemIndian() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Samosa");
+        list.add("Chicken Curry");
+        list.add("Goat Curry");
+        list.add("Chicken Biryani");
+        list.add("Goat Biryani");
+        list.add("Chettinad");
+        list.add("Panner Tikka Masala");
+        list.add("Chicken Tikka Masala");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemMediterranean() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("FALAFEL");
+        list.add("CHICKEN SHAWARMA");
+        list.add("SHALAFEL");
+        list.add("CHICKEN SKEWERS");
+        list.add("STEAK SKEWERS");
+        list.add("SALMON SKEWERS");
+        list.add("Hummus and Pita");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemMexican() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("STEAK FAJITAS");
+        list.add("CHICKEN FAJITAS");
+        list.add("SHRIMP FAJITAS");
+        list.add("ENCHILADAS");
+        list.add("TACOS");
+        list.add("BURRITO");
+        list.add("TILAPIA VERACRUZ");
+        list.add("CHICKEN ZUCCHINI");
+        list.add("QUESADILLA");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemThai() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Yellow Curry");
+        list.add("Red Curry");
+        list.add("Green Curry");
+        list.add("Pad See-EW");
+        list.add("Fried Rice");
+        list.add("Noodle Soup");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private void setMenuItemVegetarian() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Tofu Rice");
+        list.add("Eggplant Sandwich");
+        list.add("Coconut Curry");
+        list.add("Lemon Rice");
+        list.add("Broccoli Panner");
+        list.add("Pasta with Green");
+        list.add("Spinach Gnocchi");
+        list.add("Falafel burgers");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+    
+    private void setMenuItemVegan() {
+
+        List<String> list = new ArrayList<String>();
+        list.add("Avocado Reuben");
+        list.add("Corn Tacos");
+        list.add("Whole Wheat pasta");
+        list.add("Mashed Potatoes");
+        list.add("Grilled Tofu");
+        list.add("Mushroom Steaks");
+        list.add("Louisiana Gumbo");
+
+        ArrayAdapter<String> MenuitemAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_list_item_1, list);
+        MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
+        sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    private class MenuItemOnClickListener implements android.widget.AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            parent.getItemAtPosition(position);
+            if (-1 == position);
+            else {
+                String choice = MenuCategoryAdapter.getItem(position);
+
+                if (choice.equalsIgnoreCase("American")) {
+                    setMenuItemAmerican();
+                } else if (choice.equalsIgnoreCase("Chinese")) {
+                    setMenuItemChinese();
+                } else if (choice.equalsIgnoreCase("French")) {
+                    setMenuItemFrench();
+                } else if (choice.equalsIgnoreCase("Japanese")) {
+                    setMenuItemJapanese();
+                } else if (choice.equalsIgnoreCase("Korean")) {
+                    setMenuItemKorean();
+                } else if (choice.equalsIgnoreCase("Italian")) {
+                    setMenuItemItalian();
+                } else if (choice.equalsIgnoreCase("Indian")) {
+                    setMenuItemIndian();
+                } else if (choice.equalsIgnoreCase("Mediterranean")) {
+                    setMenuItemMediterranean();
+                } else if (choice.equalsIgnoreCase("Mexican")) {
+                    setMenuItemMexican();
+                } else if (choice.equalsIgnoreCase("Thai")) {
+                    setMenuItemThai();
+                } else if (choice.equalsIgnoreCase("Vegan")) {
+                    setMenuItemVegan();
+                } else if (choice.equalsIgnoreCase("Vegetarian")) {
+                    setMenuItemVegetarian();
+                }
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 
 //    public static Bitmap decodeBase64(String input)
@@ -602,6 +854,23 @@ public class HostFragment extends Fragment{
 //        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 //    }
 
+        private void setListAdapter() {
+            List list = new ArrayList<>();
+            for (int i = 0; i < 100; i++) {
+                if (i == 0) list.add("Choose");
+                else list.add(i);
+            }
+            arrayAdapter = new ArrayAdapter<>(this.getActivity(),
+                    android.R.layout.simple_spinner_item, list);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        }
 
+        public byte [] BitMapToString(Bitmap bitmap){
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            byte [] b=baos.toByteArray();
+            String temp=Base64.encodeToString(b, Base64.DEFAULT);
+            return b;
+        }
 
 }

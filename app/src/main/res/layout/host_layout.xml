@@ -142,6 +142,23 @@
                 android:layout_marginBottom="15dp"
                 />
 
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/sMenuItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?textEditTextLabel"
+                app:ms_alignLabels="false"
+                app:ms_arrowColor="@android:color/black"
+                app:ms_arrowSize="16dp"
+                app:ms_floatingLabelColor="@color/accent"
+                app:ms_floatingLabelText="Menu Category"
+                app:ms_hint="Cuisine"
+                app:ms_multiline="false"
+                android:drawSelectorOnTop="true"
+                android:layout_marginBottom="15dp"
+                />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tilDesc"
                 android:layout_width="match_parent"

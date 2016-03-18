@@ -70,6 +70,14 @@ public class Event extends ParseObject {
         put("category", category);
     }
 
+    public String getItemCategory() {
+        return getString("itemCategory");
+    }
+
+    public void setItemCategory(String category) {
+        put("itemCategory", category);
+    }
+
     public String getDescription() {
         return getString("description");
     }
