@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
@@ -18,8 +21,10 @@ import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Shyam Rokde on 3/2/16.
@@ -29,7 +34,13 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
     private EventListCallback mEventListCallback;
     public ArrayList<Event> mEvents;
     public Context mContext;
-
+    private LinearLayout mainLayout;
+    private int[] images = {R.drawable.drawer, R.drawable.drawer, R.drawable.drawer,
+            R.drawable.drawer, R.drawable.drawer};
+    private View cell;
+    private TextView text;
+    private ParseObject pObject;
+    private Bitmap bitmap;
 
     public EventsRecyclerViewAdapter(ArrayList<Event> events, Context context, EventListCallback eventListCallback) {
         this.mEvents = events;
@@ -46,6 +57,10 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
         // Inflate custom layout
         View resultView = inflater.inflate(R.layout.item_events, parent, false);
         // Return new holder instance
+
+        mainLayout = (LinearLayout) resultView.findViewById(R.id._linearLayout);
+
+
         return new EventItemViewHolder(resultView);
     }
 
@@ -55,6 +70,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         // 1. Get Event
         final Event event = mEvents.get(position);
+        setImages(event);
 
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
@@ -113,6 +129,32 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
                 }
             });
+        }
+    }
+
+    private void setImages(Event evnt) {
+
+        pObject = evnt.getMediaObject();
+        if(pObject != null) {
+            List<ParseFile> pFileList = null;
+            try {
+                pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (null != pFileList && !pFileList.isEmpty()) {
+                for (int i = 0; i < pFileList.size(); i++) {
+
+                    ParseFile pFile = pFileList.get(i);
+
+                    cell = LayoutInflater.from(mContext).inflate(R.layout.cell, null);
+                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+
+                    Glide.with(mContext).load(pFile.getUrl()).centerCrop().into(imageView);
+                    mainLayout.addView(cell);
+
+                }
+            }
         }
     }
 

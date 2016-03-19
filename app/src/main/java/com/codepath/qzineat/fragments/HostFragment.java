@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -23,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +37,7 @@ import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -121,6 +122,11 @@ public class HostFragment extends Fragment{
     private Event evt;
     private byte[] imageData;
     private String etTitile_string;
+    private ParseObject pObject;
+    private List<Bitmap> mediaListImages = new ArrayList<Bitmap>();
+    private View cell;
+    private View view;
+    private LinearLayout mainLayout;
 
     public static HostFragment newInstance(String eventObjectId){
         HostFragment fragment = new HostFragment();
@@ -137,9 +143,11 @@ public class HostFragment extends Fragment{
         // Inflate the layout for this fragment
 
         int count = this.getFragmentManager().getBackStackEntryCount();
-        final Fragment frag = getFragmentManager().getFragments().get(count>0?count-1:count);
+        final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
         
-        View view = inflater.inflate(R.layout.host_layout, container, false);
+        view = inflater.inflate(R.layout.host_layout, container, false);
+        mainLayout = (LinearLayout) view.findViewById(R.id._linearLayout);
+
         ButterKnife.bind(this, view);
 
 
@@ -168,6 +176,7 @@ public class HostFragment extends Fragment{
                 newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
+
         tvTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +184,7 @@ public class HostFragment extends Fragment{
                 newFragment.show(getActivity().getSupportFragmentManager(), "TimePicker");
             }
         });
+
         ivEventImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,12 +236,17 @@ public class HostFragment extends Fragment{
                 Log.d("DEBUG", b.size() + "");
                 if (null != b.getString("imgDecodableString")) {
                     imgDecodableString = b.getString("imgDecodableString");
-                    ivEventImage.setImageBitmap(BitmapFactory
+                    Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+                    mediaListImages.add(BitmapFactory
+                            .decodeFile(imgDecodableString));
+                    setimages(BitmapFactory
                             .decodeFile(imgDecodableString));
                 } else if (null != b.getByteArray("bitMapPhoto")) {
                     imageData = b.getByteArray("bitMapPhoto");
                     Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-                    ivEventImage.setImageBitmap(photo);
+                    mediaListImages.add(photo);
+                    setimages(photo);
+                    Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED){
                 Toast.makeText(getContext(), "You haven't picked Image",
@@ -241,6 +256,31 @@ public class HostFragment extends Fragment{
             Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    private void setimages(Bitmap photo) {
+
+        cell = LayoutInflater.from(getContext()).inflate(R.layout.cell, null);
+
+        final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mainLayout.removeView(cell);
+                Toast.makeText(getContext(),
+                        "Image Deleted", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        imageView.setTag("#" + (1));
+
+        TextView text = (TextView) cell.findViewById(R.id._imageName);
+        //  Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(images[i]);
+        imageView.setImageBitmap(photo);
+        text.setText("#" + (1));
+        mainLayout.addView(cell);
     }
 
     private void saveEvent(final Context context) {
@@ -331,12 +371,29 @@ public class HostFragment extends Fragment{
             event.setAlcohol(spAlcohol.getSelectedItem().toString());
         }
         try{
-            if ( ivEventImage.getDrawable() != null) {
-                bitmap = ((BitmapDrawable) ivEventImage.getDrawable()).getBitmap();
-                byte[] text = BitMapToString(bitmap);
-                ParseFile File = new ParseFile("EventImage.txt", text);
-                event.setImageFile(File);
+            if ( mediaListImages.size() > 0 ) {
+
+                pObject = new ParseObject("mediaFiles");
+                ArrayList<ParseFile> pFileList = new ArrayList<ParseFile>();
+                ArrayList<ParseFile> pFileList1 = new ArrayList<ParseFile>();
+                ParseFile pFile = null;
+                for ( int i=0; i<mediaListImages.size(); i++ ) {
+                    byte[] imgData = BitMapToString(mediaListImages.get(i));
+                    pFile = new ParseFile("EventImage.txt", imgData);
+                    if (i==0) event.setImageFile(pFile);
+                    pFile.save();
+                    pFileList.add(pFile);
+                }
+
+                pObject.addAll("mediaFiles", pFileList);
+                pObject.saveEventually();
+                pFileList1 = (ArrayList<ParseFile>) pObject.get("mediaFiles");
+                if (!pFileList1.isEmpty()) {
+                   Log.d("DEBUG","retrive pf file");
+                }
+                event.setMediaObject(pObject);
             }
+
         }catch (Exception ex){
             ex.printStackTrace();
             // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
@@ -462,6 +519,7 @@ public class HostFragment extends Fragment{
             ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
             // TODO: check later that we can get Event with all attendees or not
             Log.d("DEBUG_eventObjectId", eventObjectId.toString());
+            query.include("mediaFiles");
             query.getInBackground(eventObjectId, new GetCallback<Event>() {
                 @Override
                 public void done(Event object, ParseException e) {
@@ -485,7 +543,8 @@ public class HostFragment extends Fragment{
                 imgUrl = QZinUtil.getQZinImageUrl();
             }
 
-            Glide.with(getContext()).load(imgUrl).asBitmap().centerCrop().into(ivEventImage);
+            getImages(evnt);
+            Glide.with(getContext()).load(QZinUtil.getQZinImageUrl()).asBitmap().centerCrop().into(ivEventImage);
             etTitile.setText(evnt.getTitle());
             etTitile.setCursorVisible(false);
             Log.d("DEBUG_date", evnt.getDate().toString());
@@ -504,10 +563,59 @@ public class HostFragment extends Fragment{
             spAlcohol.setSelection(pos);
             spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount())+1);
             sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
-
+            sMenuCategory.getSelectedItem();
+            //sMenuItem.setSelection("setMenuItem"+evnt.getCategory().getPosition(evnt.getItemCategory())+1);
         } else Log.d("DEBUG", "Event returned null");
 
     }
+
+
+    private void getImages(Event evnt) {
+
+        pObject = evnt.getMediaObject();
+        List<ParseFile> pFileList = null;
+        try {
+            pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (!pFileList.isEmpty()) {
+            for (int i = 0; i < pFileList.size(); i++) {
+                ParseFile pFile = pFileList.get(i);
+                byte[] bitmapdata = new byte[0];  // here it throws error
+                try {
+                    bitmapdata = pFile.getData();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+                cell = LayoutInflater.from(getContext()).inflate(R.layout.cell, null);
+
+                final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+
+                TextView text = (TextView) cell.findViewById(R.id._imageName);
+                //Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
+                imageView.setImageBitmap(bitmap);
+                text.setText("#" + (i + 1));
+                mainLayout.addView(cell);
+
+                imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        mainLayout.removeView(cell);
+
+                        Toast.makeText(getContext(),
+                                "Image Deleted", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+
+            }
+        }
+
+    }
+
 
     private Date getDateObject(String dateString) {
 
