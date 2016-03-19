@@ -28,5 +28,10 @@
     <color name="btn_color">#e43333</color>
     <color name="dark_gray">#333333</color>
     <color name="drawer_gray">#646464</color>
+    <color name="drawer_profile_text">#212121</color>
+
+    <!-- Badge color -->
+    <color name="badge_text_color">#FFFFFF</color>
+    <color name="badge_bg_color">#646464</color>
 
 </resources>

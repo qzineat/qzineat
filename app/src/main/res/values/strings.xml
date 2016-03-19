@@ -9,6 +9,7 @@
     <string name="host_event">Host an Event</string>
     <string name="all_hosted_event">Hosted Events</string>
     <string name="my_event">My Events</string>
+
     <string name="advance_filter">Advance Filter</string>
     <string name="profile">Profile</string>
     <string name="futurama">Futurama</string>
@@ -27,6 +28,11 @@
     <string name="somthing_went_wrong">Something went wrong!! Please try again later!!</string>
 
     <string name="err_msg_required">Required</string>
+
+    <!-- Drawer -->
+    <string name="drawer_my_event">My Events</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_hosted_event">Hosted Events</string>
 
     <!-- Facebook -->
     <string name="facebook_app_id">557168641127416</string>
