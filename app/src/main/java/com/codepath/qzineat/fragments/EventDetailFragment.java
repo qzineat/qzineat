@@ -1,6 +1,8 @@
 package com.codepath.qzineat.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +40,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
@@ -54,7 +57,7 @@ import butterknife.ButterKnife;
  */
 public class EventDetailFragment extends Fragment {
 
-    @Bind(R.id.ivEventImage) ImageView ivEventImage;
+//    @Bind(R.id.ivEventImage) ImageView ivEventImage;
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
     @Bind(R.id.tvTitle) TextView tvTitle;
     @Bind(R.id.tvDate) TextView tvDate;
@@ -76,10 +79,14 @@ public class EventDetailFragment extends Fragment {
     private String eventObjectId;
 
     private static int FRAGMENT_CODE = 100;
-
+    private View cell;
+    private TextView text;
+    private ParseObject pObject;
+    private Bitmap bitmap;
 
     private ArrayList<Review> mReviews;
     private ReviewsRecyclerViewAdapter recyclerViewAdapter;
+    private LinearLayout mainLayout;
 
 
     public static EventDetailFragment newInstance(String eventObjectId){
@@ -109,6 +116,8 @@ public class EventDetailFragment extends Fragment {
 
         // Setup RecyclerView
         setupRecyclerView();
+
+        mainLayout = (LinearLayout) view.findViewById(R.id._linearLayout);
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,8 +151,6 @@ public class EventDetailFragment extends Fragment {
 
             saveReview(data.getIntExtra("rating", 1), data.getStringExtra("comment"));
         }
-
-
 
     }
 
@@ -187,8 +194,6 @@ public class EventDetailFragment extends Fragment {
         });
         // TODO: Add Reviews Here..
     }
-
-
 
     private Date reviewLastCreatedAt;
 
@@ -267,9 +272,50 @@ public class EventDetailFragment extends Fragment {
         }else {
             imgUrl = QZinUtil.getQZinImageUrl();
         }
-        Glide.with(getContext()).load(imgUrl).centerCrop().into(ivEventImage);
-
+        //Glide.with(getContext()).load(imgUrl).centerCrop().into(ivEventImage);
+        setImages(event);
     }
+
+    private void setImages(Event evnt) {
+
+        pObject = evnt.getMediaObject();
+        if(pObject != null) {
+            List<ParseFile> pFileList = null;
+            try {
+                pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (null != pFileList && !pFileList.isEmpty()) {
+                for (int i = 0; i < pFileList.size(); i++) {
+
+                    ParseFile pFile = pFileList.get(i);
+
+                    byte[] bitmapdata = new byte[0];  // here it throws error
+                    try {
+                        bitmapdata = pFile.getData();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+                    cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
+
+                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+                    imageView.setImageResource(android.R.color.transparent);
+                    TextView text = (TextView) cell.findViewById(R.id._imageName);
+                    Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
+                    imageView.setImageBitmap(bitmap);
+                    //text.setText("#" + (i + 1));
+
+                    //Glide.with(mContext).load(pFile.getUrl()).centerCrop().into(imageView);
+                    mainLayout.addView(cell);
+
+                }
+            }
+        }
+    }
+
 
     public void setAvalCount(int availability){
         tvAttendeesMaxCount.setText(String.format("%d avl./%d", availability, event.getAttendeesMaxCount()));

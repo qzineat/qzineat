@@ -60,7 +60,6 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         mainLayout = (LinearLayout) resultView.findViewById(R.id._linearLayout);
 
-
         return new EventItemViewHolder(resultView);
     }
 
@@ -70,12 +69,12 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         // 1. Get Event
         final Event event = mEvents.get(position);
-        setImages(event);
+        //setImages(event);
 
         // 2. Populate user interface
         viewHolder.tvTitle.setText(event.getTitle());
-        viewHolder.ivEventImage1.setImageResource(android.R.color.transparent); // clear out old image for recycled view
-        viewHolder.ivSubscribe.setImageResource(android.R.color.transparent); // clear out old image for recycled view
+        viewHolder.ivEventImage1.setImageResource(android.R.color.transparent);// clear out old image for recycled view
+        viewHolder.ivSubscribe.setImageResource(android.R.color.transparent);// clear out old image for recycled view
         final ParseFile pf = event.getImageFile();
         final String imgUrl;
         if(pf != null && !pf.getUrl().isEmpty()){
@@ -84,13 +83,7 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
             imgUrl = QZinUtil.getQZinImageUrl();
         }
 
-        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage1);
-
-//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage2);
-//
-//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage3);
-//
-//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage4);
+       Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage1);
 
         viewHolder.tvLocality.setText(event.getLocality());
         viewHolder.tvEventDate.setText(QZinUtil.getShortDate(event.getDate()));
@@ -147,10 +140,24 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
                     ParseFile pFile = pFileList.get(i);
 
-                    cell = LayoutInflater.from(mContext).inflate(R.layout.cell, null);
-                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+                    byte[] bitmapdata = new byte[0];  // here it throws error
+                    try {
+                        bitmapdata = pFile.getData();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
 
-                    Glide.with(mContext).load(pFile.getUrl()).centerCrop().into(imageView);
+                    cell = LayoutInflater.from(mContext).inflate(R.layout.cell_list, null);
+
+                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+                    imageView.setImageResource(android.R.color.transparent);
+                    TextView text = (TextView) cell.findViewById(R.id._imageName);
+                    //Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
+                    imageView.setImageBitmap(bitmap);
+                    //text.setText("#" + (i + 1));
+
+                    //Glide.with(mContext).load(pFile.getUrl()).centerCrop().into(imageView);
                     mainLayout.addView(cell);
 
                 }

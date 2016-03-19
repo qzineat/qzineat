@@ -37,7 +37,7 @@
 
 
     <!-- Parse Login:Start -->
-    <color name="com_parse_ui_parse_login_button">#40CCCCCC</color>
+    <color name="com_parse_ui_parse_login_button">#D32F2F</color>
     <color name="com_parse_ui_parse_login_button_push">#30CCCCCC</color>
     <color name="com_parse_ui_parse_login_button_focus">#35CCCCCC</color>
     <color name="com_parse_ui_parse_login_help_button_label">#E0E0E0</color>
