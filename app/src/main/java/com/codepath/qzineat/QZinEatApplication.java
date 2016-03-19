@@ -19,6 +19,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by Shyam Rokde on 3/2/16.
  */
 public class QZinEatApplication extends Application {
+
+    public static boolean isHostView;
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -2,30 +2,35 @@ package com.codepath.qzineat.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
+import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.QZinUtil;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,35 +39,125 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle drawerToggle;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.nvView) NavigationView nvDrawer;
 
     LinearLayout llSearch;
     EditText etSearch;
+
+    Drawer drawer;
+    AccountHeader drawerHeader;
+    ProfileDrawerItem profileAccountItem;
+    PrimaryDrawerItem logInItem, profileItem, eventsItem,
+            hostedEventsItem, hostEventItem, subscribedEventItem,
+            filterItem, logOutItem, switchItem;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QZinUtil.onActivityCreateSetTheme(this); // Change Theme
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        setupDrawerContent(nvDrawer);
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
-        mDrawer.setDrawerListener(drawerToggle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new EventListFragment()).commit();
-
         setTitle(R.string.drawer_event);
 
-        setupSearch();
+
+        setupSearch(); // Search
+
+        setupDrawer(); // Drawer
+
+    }
+
+    public void createDrawerHeader(){
+        drawerHeader = new AccountHeaderBuilder()
+                .withActivity(this)
+                        //.withHeaderBackground(R.drawable.drawer) TODO: Taking too long hence animation lost
+                .addProfiles(
+                        profileAccountItem
+                )
+                .withTextColor(getResources().getColor(R.color.primary_text))
+                .withSelectionListEnabledForSingleProfile(false)
+                .build();
+
+        Glide.with(getApplicationContext()).load(R.drawable.drawer).into(drawerHeader.getHeaderBackgroundView());
+    }
+
+    private void createDrawerItems(){
+        // if log in
+        profileItem = new PrimaryDrawerItem().withName("Profile").withIcon(R.drawable.ic_profile_placeholder);
+        subscribedEventItem = new PrimaryDrawerItem().withName("My Events").withIcon(R.drawable.ic_food_fork_drink);
+        // host
+//        hostedEventsItem = new PrimaryDrawerItem().withName(getString(R.string.all_hosted_event)).withIcon(R.drawable.ic_hosted_events);
+        hostEventItem = new PrimaryDrawerItem().withName(getString(R.string.host_event)).withIcon(R.drawable.ic_host_event);
+        // both
+        logOutItem = new PrimaryDrawerItem().withName(getString(R.string.log_out)).withIcon(R.drawable.ic_logout);
+        switchItem = new PrimaryDrawerItem().withName(getString(R.string.switch_host)).withIcon(R.drawable.ic_account_switch);
+        // if log out
+        logInItem = new PrimaryDrawerItem().withName(getString(R.string.log_in)).withIcon(R.drawable.ic_profile_placeholder);
+        // all
+        eventsItem = new PrimaryDrawerItem().withName(getString(R.string.events)).withIcon(R.drawable.ic_drawer_event);
+        filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.drawable.ic_filters);
+
+        // Profile Account
+        if(User.isUserLoggedIn()){
+            profileAccountItem = new ProfileDrawerItem()
+                    .withName(User.getLoggedInUser().getProfileName())
+                    .withEmail(User.getLoggedInUser().getEmail())
+                    .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+        }else {
+            profileAccountItem = new ProfileDrawerItem()
+                    .withEnabled(false)
+                    .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+        }
+
+    }
+
+    // New Drawer using library
+    private void setupDrawer(){
+        createDrawerItems();
+        createDrawerHeader();
+
+        drawer = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withAccountHeader(drawerHeader)
+                .withOnDrawerItemClickListener(mDrawerItemClickListener)
+                .withOnDrawerListener(mDrawerListener)
+                .withOnDrawerNavigationListener(new Drawer.OnDrawerNavigationListener() {
+                    @Override
+                    public boolean onNavigationClickListener(View clickedView) {
+                        return false;
+                    }
+                })
+                .build();
+
+        if(User.isUserLoggedIn()){
+            drawer.addItem(profileItem);
+            drawer.addItem(eventsItem);
+            if(QZinEatApplication.isHostView){
+                drawer.addItem(hostedEventsItem);
+                drawer.addItem(hostEventItem);
+                switchItem.withName(getString(R.string.switch_search)).withIcon(R.drawable.ic_swap); // Footer Change
+
+                drawer.setSelection(hostedEventsItem, true); // Set Default
+            }else {
+                drawer.addItem(subscribedEventItem);
+                drawer.addItem(filterItem);
+
+                drawer.setSelection(eventsItem, true); // Set Default
+            }
+            drawer.addItem(logOutItem);
+            drawer.addStickyFooterItem(switchItem);
+        }else {
+            drawer.addItem(logInItem);
+            drawer.addItem(eventsItem);
+            drawer.addItem(filterItem);
+
+            drawer.setSelection(eventsItem, true); // Set Default
+        }
     }
 
     private void setupSearch(){
@@ -94,126 +189,110 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
 
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
-    private void updateMenu(Menu menu){
-        MenuItem loginItem = menu.findItem(R.id.nav_login);
-        MenuItem logoutItem = menu.findItem (R.id.nav_logout);
-        // Do something on Menu items
-        if(User.isUserLoggedIn()){
-            loginItem.setVisible(false);
-            logoutItem.setVisible(true);
-        }else {
-            loginItem.setVisible(true);
-            logoutItem.setVisible(false);
-        }
-    }
-
-
-    public void selectDrawerItem(MenuItem menuItem) {
-        llSearch.setVisibility(View.GONE);
-        // Create a new fragment and specify the planet to show based on
-        // position
-        Fragment fragment = null;
-
-        Class fragmentClass = null;
-        switch (menuItem.getItemId()) {
-            case R.id.nav_login:
-                fragmentClass = LoginFragment.class;
-                break;
-            case R.id.nav_logout:
-                User.getLoggedInUser().logout();
-                fragmentClass = EventListFragment.class;
-                break;
-            case R.id.nav_host_event:
-                fragmentClass = HostFragment.class;
-                break;
-            case R.id.nav_my_event:
-                fragmentClass = EnrollEventFragment.class;
-                break;
-            case R.id.nav_advance_filter:
-                fragmentClass = AdvanceFragment.class;
-                break;
-            case R.id.nav_profile:
-                fragmentClass = ProfileFragment.class;
-                break;
-            default:
-                fragmentClass = EventListFragment.class;
-                llSearch.setVisibility(View.VISIBLE);
-        }
-
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
+    private void openFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.flContent, fragment)
-                .addToBackStack(fragmentClass.getName())
+                .addToBackStack(fragment.getClass().getName())
                 .commit();
-
-
-        Log.d("DEBUG", "Fragments in stack - " + fragmentManager.getBackStackEntryCount());
-        // Highlight the selected item, update the title, and close the drawer
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        mDrawer.closeDrawers();
     }
 
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close){
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                updateMenu(nvDrawer.getMenu());
-                super.onDrawerStateChanged(newState);
-            }
-        };
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(drawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        // Handle other toolbar actions here
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    private Drawer.OnDrawerListener mDrawerListener = new Drawer.OnDrawerListener() {
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            // Profile update
+            profileAccountItem.withName(User.getLoggedInUser().getProfileName());
+            drawer.updateItem(profileAccountItem);
+
+            // Other updates
+            Log.d("DEBUG", "You clicked on me");
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+        }
+    };
+
+
+    private Drawer.OnDrawerItemClickListener mDrawerItemClickListener = new Drawer.OnDrawerItemClickListener(){
+        @Override
+        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+
+            // No Search Bar
+            if(llSearch != null){
+                llSearch.setVisibility(View.GONE);
+            }
+
+
+            if(drawerItem.equals(switchItem)){
+                QZinUtil.changeTheme(MainActivity.this);
+                return false;
+            }
+
+            if(drawerItem.equals(logOutItem)){
+                User.getLoggedInUser().logout();
+                MainActivity.this.finish();
+                MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.this.getClass()));
+                return false;
+            }
+
+            // Below This requires fragment
+            Fragment fragment = null;
+            if(drawerItem.equals(profileItem)){
+                setTitle(profileItem.getName().toString());
+                fragment = new ProfileFragment();
+            }
+
+            if(drawerItem.equals(subscribedEventItem)){
+                setTitle(subscribedEventItem.getName().toString());
+                fragment = new EnrollEventFragment();
+            }
+
+            if(drawerItem.equals(hostedEventsItem)){
+                setTitle(hostedEventsItem.getName().toString());
+                fragment = new HostListFragment();
+            }
+
+            if(drawerItem.equals(hostEventItem)){
+                setTitle(hostEventItem.getName().toString());
+                fragment = new HostFragment();
+            }
+
+            if(drawerItem.equals(eventsItem)){
+                if(llSearch != null){
+                    llSearch.setVisibility(View.VISIBLE); // Only on Event List
+                }
+                setTitle(eventsItem.getName().toString());
+                fragment = new EventListFragment();
+            }
+
+            if(drawerItem.equals(logInItem)){
+                fragment = new LoginFragment();
+            }
+
+            if(drawerItem.equals(filterItem)){
+                fragment = new AdvanceFragment();
+            }
+
+            // Open Fragment
+            openFragment(fragment);
+
+            return false;
+        }
+    };
+
+
 }

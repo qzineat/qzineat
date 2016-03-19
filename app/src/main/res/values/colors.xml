@@ -13,7 +13,7 @@
     <color name="primary">#F44336</color>
     <color name="primary_dark">#D32F2F</color>
     <color name="primary_light">#FFCDD2</color>
-    <color name="accent">#FFC107</color>
+    <color name="accent">#FF5722</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
@@ -24,5 +24,9 @@
     <color name="card_layout_background">#dFdFdF</color>
 
     <color name="color_gray">#D0D0D0</color>
+
+    <color name="btn_color">#e43333</color>
+    <color name="dark_gray">#333333</color>
+    <color name="drawer_gray">#646464</color>
 
 </resources>

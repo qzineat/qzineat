@@ -1,5 +1,11 @@
 package com.codepath.qzineat.utils;
 
+import android.app.Activity;
+import android.content.Intent;
+
+import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.QZinEatApplication;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +24,7 @@ public class QZinUtil {
     public static String getShortDate(Date inputDate){
         String format = "d MMM @ h:mma"; // 23 Mar @ 9:00pm
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-        return sdf.format(inputDate).replace("AM", "am").replace("PM","pm");
+        return sdf.format(inputDate).replace("AM", "am").replace("PM", "pm");
     }
 
     private static ArrayList<String> qzinImages = new ArrayList<>(
@@ -40,5 +46,24 @@ public class QZinUtil {
 
         return qzinImages.get(randomNum);
     }
+
+    public static void changeTheme(Activity activity) {
+        activity.finish();
+        activity.startActivity(new Intent(activity, activity.getClass()));
+        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
+        // Set Application variables
+        QZinEatApplication.isHostView = !QZinEatApplication.isHostView;
+    }
+
+    public static void onActivityCreateSetTheme(Activity activity) {
+        if(QZinEatApplication.isHostView){
+            activity.setTheme(R.style.HostQZinTheme);
+        }else {
+            activity.setTheme(R.style.AppTheme);
+        }
+    }
+
+
 
 }

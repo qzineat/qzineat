@@ -29,7 +29,8 @@
             <item
                 android:id="@+id/nav_host_event"
                 android:icon="@drawable/ic_simpsons"
-                android:title="@string/host_event" />
+                android:title="@string/host_event"
+                android:visible="false"/>
 
             <item
                 android:id="@+id/nav_advance_filter"
@@ -45,4 +46,3 @@
     </item>
 
 </menu>
-

@@ -43,26 +43,24 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@android:drawable/ic_menu_search"
+                android:src="@mipmap/ic_et_search"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/search_icon"/>
 
             <EditText
                 android:id="@+id/etSearch1"
-                android:layout_width="250dp"
+                android:layout_width="@dimen/search_edit_size"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/primary_search_hint"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textColorHint="@color/hint_color_light"/>
+                style="?searchEditText"/>
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/ivSearchClear1"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@drawable/ic_close_white"
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"
                 />
@@ -77,26 +75,25 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@android:drawable/ic_menu_search"
+                android:src="@mipmap/ic_et_search"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/search_icon"/>
 
             <EditText
                 android:id="@+id/etSearch2"
-                android:layout_width="250dp"
+                android:layout_width="@dimen/search_edit_size"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/location_search_hint"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
-                android:singleLine="true"
-                android:textColor="@android:color/white"
-                android:textColorHint="@color/hint_color_light"/>
+                style="?searchEditText"
+                />
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:id="@+id/ivSearchClear2"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:src="@drawable/ic_close_white"
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"
                 />
