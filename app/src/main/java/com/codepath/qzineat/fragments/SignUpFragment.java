@@ -63,7 +63,6 @@ public class SignUpFragment extends Fragment {
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
-
                             installation = ParseInstallation.getCurrentInstallation();
                             installation.put("username", User.getLoggedInUser().getUsername());
                             installation.saveInBackground();
@@ -73,9 +72,17 @@ public class SignUpFragment extends Fragment {
                             //intent.putExtra("result", User.U);
                             startActivity(intent);
                         } else {
-                            // Sign up didn't succeed. Look at the ParseException
-                            // to figure out what went wrong
-                            Toast.makeText(getContext(), "Unable to sign up!! Please try again later!!", Toast.LENGTH_SHORT).show();
+                            switch (e.getCode()) {
+                                case ParseException.INVALID_EMAIL_ADDRESS:
+                                    Toast.makeText(getContext(), getString(R.string.signup_invalid_email_toast), Toast.LENGTH_SHORT).show();
+                                    break;
+                                case ParseException.USERNAME_TAKEN:
+                                case ParseException.EMAIL_TAKEN:
+                                    Toast.makeText(getContext(), getString(R.string.signup_email_taken_toast), Toast.LENGTH_SHORT).show();
+                                    break;
+                                default:
+                                    Toast.makeText(getContext(), getString(R.string.signup_signup_failed_unknown_toast), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -85,18 +92,23 @@ public class SignUpFragment extends Fragment {
 
     private boolean isValid(){
 
-        if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
-            Toast.makeText(getContext(), "Password & Confirm Password does not match", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         if(etUsername.getText().toString().trim().isEmpty()){
-            Toast.makeText(getContext(), "Username required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.signup_no_email_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(etPassword.getText().toString().trim().isEmpty()){
-            Toast.makeText(getContext(), "Password required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.login_no_password_toast), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
+            Toast.makeText(getContext(), getString(R.string.signup_mismatch_confirm_password_toast), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(etName.getText().toString().trim().isEmpty()){
+            Toast.makeText(getContext(), getString(R.string.signup_no_name_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
 

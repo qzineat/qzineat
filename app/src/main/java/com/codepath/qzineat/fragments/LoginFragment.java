@@ -62,73 +62,11 @@ public class LoginFragment extends Fragment {
 
     private void setupLogin(){
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Redirect to SignUp Fragment
-                FragmentManager fragmentManager = getFragmentManager();
-                SignUpFragment fragment = new SignUpFragment();
-                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+        signupButton.setOnClickListener(mSignUpButtonListener);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logInInBackground(etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new LogInCallback() {
-                    public void done(ParseUser user, ParseException e) {
-                        if (user != null) {
-                            // Hooray! The user is logged in.
-                            // Go back to called fragment..
-                            Intent intent = new Intent(getContext(), MainActivity.class);
-                            intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
-                            startActivity(intent);
-                        } else {
-                            // Signup failed. Look at the ParseException to see what happened.
-                            Toast.makeText(getContext(), "Username/Password incorrect.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
+        loginButton.setOnClickListener(mLoginButtonListener);
 
-
-
-        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginFragment.this, permissions, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException err) {
-                        if (user == null) {
-                            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-                        } else {
-                            if (user.isNew()) {
-                                Log.d("MyApp", "User signed up and logged in through Facebook!");
-
-                            } else {
-                                Log.d("MyApp", "User logged in through Facebook!");
-                                installation = ParseInstallation.getCurrentInstallation();
-                                installation.put("username", User.getLoggedInUser().getUsername());
-                                installation.saveInBackground();
-                                //checkIfAlreadyInstalled();
-                            }
-
-                            try {
-                                // Go back to called fragment..
-                                Intent intent = new Intent(getContext(), MainActivity.class);
-                                intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
-                                startActivity(intent);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                });
-            }
-        });
+        facebookLoginButton.setOnClickListener(mFacebookButtonListener);
     }
 
     @Override
@@ -138,4 +76,97 @@ public class LoginFragment extends Fragment {
         ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 
     }
+
+    private boolean isValid(){
+        if(etUsername.getText().toString().trim().isEmpty()){
+            Toast.makeText(getContext(), getString(R.string.login_no_username_toast), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(etPassword.getText().toString().trim().isEmpty()){
+            Toast.makeText(getContext(), getString(R.string.login_no_password_toast), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    View.OnClickListener mLoginButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if(!isValid()){
+                return;
+            }
+
+            ParseUser.logInInBackground(etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+                    if (user != null) {
+                        // Hooray! The user is logged in.
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
+                        startActivity(intent);
+                    } else {
+                        if (e != null) {
+                            if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                                Toast.makeText(getContext(), getString(R.string.login_invalid_credentials_toast), Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getContext(), getString(R.string.login_failed_unknown_toast), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+
+    View.OnClickListener mFacebookButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginFragment.this, permissions, new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException err) {
+                    if (user == null) {
+                        Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+                    } else {
+                        if (user.isNew()) {
+                            Log.d("MyApp", "User signed up and logged in through Facebook!");
+
+                        } else {
+                            Log.d("MyApp", "User logged in through Facebook!");
+                            installation = ParseInstallation.getCurrentInstallation();
+                            installation.put("username", User.getLoggedInUser().getUsername());
+                            installation.saveInBackground();
+                            //checkIfAlreadyInstalled();
+                        }
+
+                        try {
+                            // Go back to called fragment..
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
+                            startActivity(intent);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+
+    View.OnClickListener mSignUpButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // Redirect to SignUp Fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            SignUpFragment fragment = new SignUpFragment();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    };
+
+
+
 }
