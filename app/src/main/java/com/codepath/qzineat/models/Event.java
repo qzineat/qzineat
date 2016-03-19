@@ -202,4 +202,12 @@ public class Event extends ParseObject {
     public void setAddress(String address) {
         put("address", address);
     }
+
+    public void setMediaObject(ParseObject pObject) {
+        put("mediaFiles" , pObject);
+    }
+
+    public ParseObject getMediaObject() {
+        return getParseObject("mediaFiles");
+    }
 }
