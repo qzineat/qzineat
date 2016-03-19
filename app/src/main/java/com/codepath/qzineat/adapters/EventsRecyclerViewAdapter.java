@@ -70,11 +70,11 @@ public class EventsRecyclerViewAdapter extends RecyclerView.Adapter<EventItemVie
 
         Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage1);
 
-        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage2);
-
-        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage3);
-
-        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage4);
+//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage2);
+//
+//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage3);
+//
+//        Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(viewHolder.ivEventImage4);
 
         viewHolder.tvLocality.setText(event.getLocality());
         viewHolder.tvEventDate.setText(QZinUtil.getShortDate(event.getDate()));
