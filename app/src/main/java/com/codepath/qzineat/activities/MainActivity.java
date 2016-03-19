@@ -2,6 +2,7 @@ package com.codepath.qzineat.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,12 +23,16 @@ import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
+import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
+import com.codepath.qzineat.interfaces.HostCountUpdateEventListener;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.QZinDataAccess;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -37,7 +42,8 @@ import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements DrawerDataUpdateCallback, HostCountUpdateEventListener {
 
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -68,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         setupSearch(); // Search
 
         setupDrawer(); // Drawer
-
     }
 
     public void createDrawerHeader(){
@@ -105,14 +110,18 @@ public class MainActivity extends AppCompatActivity {
         if(User.isUserLoggedIn()){
             profileAccountItem = new ProfileDrawerItem()
                     .withName(User.getLoggedInUser().getProfileName())
-                    .withEmail(User.getLoggedInUser().getEmail())
-                    .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+                    .withEmail(User.getLoggedInUser().getEmail());
+            if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+                profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+            }else {
+                profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+            }
+
         }else {
             profileAccountItem = new ProfileDrawerItem()
                     .withEnabled(false)
                     .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
         }
-
     }
 
     // New Drawer using library
@@ -207,12 +216,12 @@ public class MainActivity extends AppCompatActivity {
     private Drawer.OnDrawerListener mDrawerListener = new Drawer.OnDrawerListener() {
         @Override
         public void onDrawerOpened(View drawerView) {
-            // Profile update
-            profileAccountItem.withName(User.getLoggedInUser().getProfileName());
-            drawer.updateItem(profileAccountItem);
-
             // Other updates
-            Log.d("DEBUG", "You clicked on me");
+            Log.d("DEBUG", "Drawer Open...");
+            // update host count - this is async so no worries
+            if(QZinEatApplication.isHostView) {
+                QZinDataAccess.findHostedEventsCount(MainActivity.this);
+            }
         }
 
         @Override
@@ -295,4 +304,42 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+
+
+
+    @Override
+    public void onDataUpdate() {
+        Log.d("DEBUG", "Lets update drawer before anyone clicks on it....");
+
+        // Header
+        profileAccountItem
+                .withName(User.getLoggedInUser().getProfileName())
+                .withEmail(User.getLoggedInUser().getEmail());
+
+        if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+            profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+        }else {
+            profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+        }
+
+        drawerHeader.updateProfile(profileAccountItem);
+
+
+    }
+
+    private BadgeStyle getBadgeStyle() {
+        return new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_grey_700);
+    }
+
+
+    @Override
+    public void onHostCountUpdate(int count) {
+        Log.d("DEBUG", "I got call after db");
+
+        hostedEventsItem
+                .withBadge(String.valueOf(count))
+                .withBadgeStyle(getBadgeStyle());
+
+        drawer.updateItem(hostedEventsItem);
+    }
 }
