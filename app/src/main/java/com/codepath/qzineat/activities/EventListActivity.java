@@ -1,5 +1,6 @@
 package com.codepath.qzineat.activities;
 
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -27,12 +28,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -53,6 +56,10 @@ public class EventListActivity extends AppCompatActivity {
     private ImageView ivSearchClear2;
     private ImageView ibListView;
     private ImageView ibMapView;
+
+
+    HashMap<String, String> mMarkersToEventIdMap = new HashMap<String, String>();;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +120,7 @@ public class EventListActivity extends AppCompatActivity {
                     .title("San Francisco")
                     .snippet("The most beautiful city in USA.")
                     .position(SanFrancisco));
+
         }
         if(sLatitude == null || sLongitude == null){
             return;
@@ -127,7 +135,7 @@ public class EventListActivity extends AppCompatActivity {
         if(searchFood != null && !searchFood.isEmpty()){
             locationQuery.whereEqualTo("category", searchFood);
         }
-        locationQuery.whereWithinMiles("location", point, 50);
+        locationQuery.whereWithinMiles("location", point, 30);
         //locationQuery.whereNear("location", point); // this is 100 miles - but we can do whereWithinMiles if needed less
         locationQuery.setLimit(100);
         locationQuery.findInBackground(new FindCallback<Event>() {
@@ -136,18 +144,22 @@ public class EventListActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("DEBUG", "Events Count - " + events.size());
                     boolean first = true;
-                    for(Event ev: events){
-                        if(ev.getLocation()!=null){
+                    mMarkersToEventIdMap.clear();
+                    for (Event ev : events) {
+                        if (ev.getLocation() != null) {
                             LatLng place = new LatLng(ev.getLocation().getLatitude(), ev.getLocation().getLongitude());
-                            map.addMarker(new MarkerOptions()
+                            Marker m = map.addMarker(new MarkerOptions()
                                     .title(ev.getLocality())
                                     .snippet(ev.getTitle())
                                     .position(place)
                                     .icon(defaultMarker));
-                            if(first){
+
+                            if (first) {
                                 // Move camera to nearest place
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 10));
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
                             }
+
+                            mMarkersToEventIdMap.put(m.getId(), ev.getObjectId());
                         }
                         first = false;
                     }
@@ -157,6 +169,8 @@ public class EventListActivity extends AppCompatActivity {
             }
         });
 
+        map.setOnInfoWindowClickListener(mInfoWindowClickListener);
+        map.setInfoWindowAdapter(mInfoWindowAdapter);
     }
 
     /**
@@ -213,6 +227,12 @@ public class EventListActivity extends AppCompatActivity {
         etSearch2 = (EditText) getSupportActionBar().getCustomView().findViewById(R.id.etSearch2);
         ivSearchClear1 = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ivSearchClear1);
         ivSearchClear2 = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ivSearchClear2);
+
+        if(etSearch2.getText().toString().isEmpty()){
+            etSearch2.setText("San Francisco");
+        }
+
+
         etSearch1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -275,8 +295,6 @@ public class EventListActivity extends AppCompatActivity {
                 Log.d("DEBUG", "q-location:" + etSearch2.getText());
 
                 try {
-
-
                     if(isMapView){
                         setupMap(etSearch1.getText().toString(), etSearch2.getText().toString());
                     }else {
@@ -298,5 +316,29 @@ public class EventListActivity extends AppCompatActivity {
     }
 
 
+    GoogleMap.OnInfoWindowClickListener mInfoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(Marker marker) {
+            // Check if we have eventObjectId for this marker or not and then redirect to activity
+            String eventObjectId = mMarkersToEventIdMap.get(marker.getId());
+            if(eventObjectId != null && !eventObjectId.isEmpty()){
+                // Redirect to detail event view
+                Intent intent = new Intent(getApplicationContext(), EventDetailActivity.class);
+                intent.putExtra("eventObjectId", eventObjectId);
+                startActivity(intent);
+            }
+        }
+    };
 
+    GoogleMap.InfoWindowAdapter mInfoWindowAdapter = new GoogleMap.InfoWindowAdapter() {
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    };
 }

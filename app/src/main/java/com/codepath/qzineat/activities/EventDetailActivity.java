@@ -26,9 +26,11 @@ public class EventDetailActivity extends AppCompatActivity  {
 
         setSupportActionBar(toolbar);
 
+        String eventObjectId = getIntent().getStringExtra("eventObjectId");
+
         // Event Detail
-        if(savedInstanceState == null){
-            EventDetailFragment fragment = EventDetailFragment.newInstance(getIntent().getStringExtra("eventObjectId"));
+        if(savedInstanceState == null) {
+            EventDetailFragment fragment = EventDetailFragment.newInstance(eventObjectId);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContent, fragment);
@@ -40,5 +42,4 @@ public class EventDetailActivity extends AppCompatActivity  {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }
