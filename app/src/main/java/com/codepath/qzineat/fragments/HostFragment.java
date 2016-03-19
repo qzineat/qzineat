@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
@@ -444,12 +445,14 @@ public class HostFragment extends Fragment{
 
         // Redirect User to LoginFragment
         if (!User.isUserLoggedIn()) {
-            Fragment fragment = new LoginFragment();
+            /*Fragment fragment = new LoginFragment();
             fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.flContent, fragment);
             // Commit the transaction
-            transaction.commit();
+            transaction.commit();*/
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
         }
 
         setMenuCategory();

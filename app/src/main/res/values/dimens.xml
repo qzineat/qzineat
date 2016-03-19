@@ -13,4 +13,14 @@
     <dimen name="half_dp">0.5dp</dimen>
     <dimen name="edit_text_radius">3dp</dimen>
     <dimen name="search_edit_size">210dp</dimen>
+
+    <!-- Parse Login:Start -->
+    <dimen name="com_parse_ui_horizontal_margin">16dp</dimen>
+    <dimen name="com_parse_ui_vertical_margin">16dp</dimen>
+    <dimen name="com_parse_ui_small_vertical_spacing">8dp</dimen>
+    <dimen name="com_parse_ui_vertical_spacing">16dp</dimen>
+    <dimen name="com_parse_ui_large_vertical_spacing">24dp</dimen>
+    <dimen name="com_parse_ui_xlarge_vertical_spacing">36dp</dimen>
+    <dimen name="com_parse_ui_small_horizontal_spacing">8dp</dimen>
+    <!-- Parse Login:End -->
 </resources>

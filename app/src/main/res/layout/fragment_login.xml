@@ -6,9 +6,7 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="100dp"
-                tools:context=".MainActivity"
-
-                android:background="#ffffff">
+                tools:context=".MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,15 +16,17 @@
         android:padding="10dp"
         >
 
-        <Button
+        <ImageButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:text="Login with Facebook"
+            android:src="@drawable/fblogin"
             />
+
+
 
     </LinearLayout>
 

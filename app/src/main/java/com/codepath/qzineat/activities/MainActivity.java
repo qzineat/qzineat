@@ -19,7 +19,6 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
-import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
 import com.codepath.qzineat.interfaces.UserEventCountListener;
@@ -106,7 +105,8 @@ public class MainActivity extends AppCompatActivity
             profileAccountItem = new ProfileDrawerItem()
                     .withName(User.getLoggedInUser().getProfileName())
                     .withEmail(User.getLoggedInUser().getEmail());
-            if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+            if(User.getLoggedInUser().getImageFile() != null
+                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
                 profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
             }else {
                 profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
@@ -244,6 +244,13 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
 
+
+            if(drawerItem.equals(logInItem)){
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return false;
+            }
+
             if(drawerItem.equals(logOutItem)){
                 User.getLoggedInUser().logout();
                 MainActivity.this.finish();
@@ -276,9 +283,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new EventListFragment();
             }
 
-            if(drawerItem.equals(logInItem)){
-                fragment = new LoginFragment();
-            }
+
 
             if(drawerItem.equals(filterItem)){
                 fragment = new AdvanceFragment();

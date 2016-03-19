@@ -50,7 +50,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9' // Android Async Http
     compile 'com.jakewharton:butterknife:7.0.1' // butterknife
     compile 'com.facebook.android:facebook-android-sdk:[4,5)' // Facebook
-    compile 'com.parse:parsefacebookutils-v4-android:1.10.3@aar' // Parse Facebook
+    compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar' // Parse Facebook
     compile 'com.github.bumptech.glide:glide:3.7.0' // Glide
     compile 'com.makeramen:roundedimageview:2.2.1' // Rounded Image
     compile 'uk.co.chrisjenx:calligraphy:2.1.0' // Fonts
@@ -68,6 +68,9 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.1.5@aar') {
         transitive = true
     } // Drawer
+
+    // Module dependency on ParseUI libraries sources
+    compile 'com.parse:parseui-login-android:0.0.1'
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

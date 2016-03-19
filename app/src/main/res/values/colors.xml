@@ -29,9 +29,22 @@
     <color name="dark_gray">#333333</color>
     <color name="drawer_gray">#646464</color>
     <color name="drawer_profile_text">#212121</color>
+    <color name="translucent_grey">#88cccccc</color>
 
     <!-- Badge color -->
     <color name="badge_text_color">#FFFFFF</color>
     <color name="badge_bg_color">#646464</color>
+
+
+    <!-- Parse Login:Start -->
+    <color name="com_parse_ui_parse_login_button">#40CCCCCC</color>
+    <color name="com_parse_ui_parse_login_button_push">#30CCCCCC</color>
+    <color name="com_parse_ui_parse_login_button_focus">#35CCCCCC</color>
+    <color name="com_parse_ui_parse_login_help_button_label">#E0E0E0</color>
+    <color name="com_parse_ui_parse_login_help_button_label_push">#AAAAAA</color>
+    <color name="com_parse_ui_parse_login_help_button_label_focus">#CCCCCC</color>
+    <color name="com_parse_ui_parse_login_text_hint">#AAAAAA</color>
+    <color name="com_parse_ui_parse_login_display_text">@android:color/white</color>
+    <!-- Parse Login:End -->
 
 </resources>

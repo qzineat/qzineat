@@ -67,6 +67,7 @@ public class QZinEatApplication extends Application {
         ParseFacebookUtils.initialize(getApplicationContext());
 
 
+
         // Drawer Image Loading
         //drawerImageLoader();
     }

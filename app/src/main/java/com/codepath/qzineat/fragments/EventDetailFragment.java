@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
@@ -430,13 +431,15 @@ public class EventDetailFragment extends Fragment {
                     enrollDialogFragment.setTargetFragment(EventDetailFragment.this, FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE);
                     enrollDialogFragment.show(getFragmentManager(), FragmentCode.TAG_ENROLL);
                 } else {
-                    Fragment fragment = new LoginFragment();
+                    /*Fragment fragment = new LoginFragment();
                     fragment.setTargetFragment(EventDetailFragment.this, FRAGMENT_CODE);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.replace(R.id.flContent, fragment);
                     transaction.addToBackStack(null);
                     // Commit the transaction
-                    transaction.commit();
+                    transaction.commit();*/
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });

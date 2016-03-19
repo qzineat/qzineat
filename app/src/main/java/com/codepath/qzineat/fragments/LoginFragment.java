@@ -1,23 +1,25 @@
 package com.codepath.qzineat.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.MainActivity;
 import com.codepath.qzineat.models.User;
-import com.parse.CountCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -27,29 +29,30 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by glondhe on 3/1/16.
+ * Created by Shyam Rokde on 3/19/16.
  */
 public class LoginFragment extends Fragment {
 
-    @Bind(R.id.login_button) Button loginButton;
+    @Bind(R.id.facebook_login) Button facebookLoginButton;
+    @Bind(R.id.parse_login_button) Button loginButton;
+    @Bind(R.id.parse_signup_button) Button signupButton;
+    @Bind(R.id.login_username_input) EditText etUsername;
+    @Bind(R.id.login_password_input) EditText etPassword;
+
+
 
     List<String> permissions = new ArrayList<>();
     public ParseInstallation installation;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(ParseUser.getCurrentUser()!=null){
-            Log.d("DEBUG", "Your are Username - " + ParseUser.getCurrentUser().getUsername());
-            Log.d("DEBUG", "Your are ObjectId - " + ParseUser.getCurrentUser().getObjectId());
-
-        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, view);
 
         setupLogin();
@@ -59,9 +62,41 @@ public class LoginFragment extends Fragment {
 
     private void setupLogin(){
 
-        permissions.add("user_friends");
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirect to SignUp Fragment
+                FragmentManager fragmentManager = getFragmentManager();
+                SignUpFragment fragment = new SignUpFragment();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logInInBackground(etUsername.getText().toString().trim(), etPassword.getText().toString().trim(), new LogInCallback() {
+                    public void done(ParseUser user, ParseException e) {
+                        if (user != null) {
+                            // Hooray! The user is logged in.
+                            // Go back to called fragment..
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
+                            startActivity(intent);
+                        } else {
+                            // Signup failed. Look at the ParseException to see what happened.
+                            Toast.makeText(getContext(), "Username/Password incorrect.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginFragment.this, permissions, new LogInCallback() {
@@ -83,40 +118,15 @@ public class LoginFragment extends Fragment {
 
                             try {
                                 // Go back to called fragment..
-                                if (getTargetFragment() != null) {
-                                    Intent intent = new Intent();
-                                    intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
-                                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                                    getFragmentManager().popBackStack();
-                                } else {
-                                    Intent intent = new Intent(getContext(), getActivity().getClass());
-                                    intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
-                                    startActivity(intent);
-                                }
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
+                                startActivity(intent);
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                         }
                     }
                 });
-            }
-        });
-    }
-
-    private void checkIfAlreadyInstalled() {
-        // Check User Already reviewed or not
-        ParseQuery pushQuery = ParseInstallation.getQuery();
-        pushQuery.whereEqualTo("username", User.getLoggedInUser());
-        pushQuery.countInBackground(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                if (count == 0) {
-                    // I haven't reviewed yet
-                    installation = ParseInstallation.getCurrentInstallation();
-                    installation.put("username", User.getLoggedInUser().getUsername());
-                    installation.saveInBackground();
-                }
-                else Log.d("DEBUG_Count", String.valueOf(count));
             }
         });
     }
