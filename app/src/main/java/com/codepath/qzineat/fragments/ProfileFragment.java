@@ -49,15 +49,17 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-
+        String imgUrl = null;
         ParseFile pf = null;
         if (User.getLoggedInUser().getImageFile() != null) {
             pf = User.getLoggedInUser().getImageFile();
+            if(pf != null && !pf.getUrl().isEmpty()){
+                imgUrl = pf.getUrl();
+            }
         }
 
-
         if (pf != null) {
-            Glide.with(this).load(pf.getUrl()).asBitmap().centerCrop().into(ivProfileImage);
+            Glide.with(this).load(imgUrl).asBitmap().centerCrop().into(ivProfileImage);
         }
         else ivProfileImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_placeholder));
 

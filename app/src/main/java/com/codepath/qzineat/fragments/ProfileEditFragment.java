@@ -88,10 +88,18 @@ public class ProfileEditFragment  extends Fragment {
 
     private void setNewValues() {
 
-        bitmap = ((BitmapDrawable) ivProfileImage.getDrawable()).getBitmap();
-        byte[] text = BitMapToString(bitmap);
-        ParseFile File = new ParseFile("EventImage.txt", text);
-        User.getLoggedInUser().setImageFile(File);
+        try{
+            if ( ivProfileImage.getDrawable() != null) {
+                bitmap = ((BitmapDrawable) ivProfileImage.getDrawable()).getBitmap();
+                byte[] text = BitMapToString(bitmap);
+                ParseFile File = new ParseFile("EventImage.txt", text);
+                User.getLoggedInUser().setImageFile(File);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
+        }
+
         User.getLoggedInUser().setProfileName(etProfileName.getText().toString());
         User.getLoggedInUser().setCity(etLocation.getText().toString());
         User.getLoggedInUser().setSpeciality(etSpeciality.getText().toString());
