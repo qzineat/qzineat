@@ -19,7 +19,6 @@ import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HostFragment;
-import com.codepath.qzineat.fragments.HostListFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.models.User;
@@ -138,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
             drawer.addItem(profileItem);
             drawer.addItem(eventsItem);
             if(QZinEatApplication.isHostView){
-                drawer.addItem(hostedEventsItem);
+//                drawer.addItem(hostedEventsItem);
                 drawer.addItem(hostEventItem);
                 switchItem.withName(getString(R.string.switch_search)).withIcon(R.drawable.ic_swap); // Footer Change
-
-                drawer.setSelection(hostedEventsItem, true); // Set Default
+                drawer.addItem(subscribedEventItem);
+               // drawer.setSelection(hostedEventsItem, true); // Set Default
             }else {
                 drawer.addItem(subscribedEventItem);
                 drawer.addItem(filterItem);
@@ -261,10 +260,10 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new EnrollEventFragment();
             }
 
-            if(drawerItem.equals(hostedEventsItem)){
-                setTitle(hostedEventsItem.getName().toString());
-                fragment = new HostListFragment();
-            }
+//            if(drawerItem.equals(hostedEventsItem)){
+//                setTitle(hostedEventsItem.getName().toString());
+//                fragment = new HostListFragment();
+//            }
 
             if(drawerItem.equals(hostEventItem)){
                 setTitle(hostEventItem.getName().toString());

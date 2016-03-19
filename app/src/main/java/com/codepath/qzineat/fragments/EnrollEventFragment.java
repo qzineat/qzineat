@@ -24,8 +24,6 @@ public class EnrollEventFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Nullable
@@ -48,7 +46,7 @@ public class EnrollEventFragment extends Fragment{
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
 
-        private String tabTitles[] = {"Subscribed Events", "Hosted Events"};
+        private String tabTitles[] = {"Upcoming Events", "Past Events"};
 
         public TweetsPagerAdapter(FragmentManager fm) {
             super(fm);
