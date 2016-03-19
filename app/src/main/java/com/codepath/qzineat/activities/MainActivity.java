@@ -2,7 +2,6 @@ package com.codepath.qzineat.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,7 +22,7 @@ import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.LoginFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
 import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
-import com.codepath.qzineat.interfaces.HostCountUpdateEventListener;
+import com.codepath.qzineat.interfaces.UserEventCountListener;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.QZinDataAccess;
 import com.codepath.qzineat.utils.QZinUtil;
@@ -42,7 +41,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends AppCompatActivity
-        implements DrawerDataUpdateCallback, HostCountUpdateEventListener {
+        implements DrawerDataUpdateCallback, UserEventCountListener {
 
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     AccountHeader drawerHeader;
     ProfileDrawerItem profileAccountItem;
     PrimaryDrawerItem logInItem, profileItem, eventsItem,
-            hostedEventsItem, hostEventItem, subscribedEventItem,
+            hostEventItem, userEventsItem,
             filterItem, logOutItem, switchItem;
 
 
@@ -78,11 +77,8 @@ public class MainActivity extends AppCompatActivity
     public void createDrawerHeader(){
         drawerHeader = new AccountHeaderBuilder()
                 .withActivity(this)
-                        //.withHeaderBackground(R.drawable.drawer) TODO: Taking too long hence animation lost
-                .addProfiles(
-                        profileAccountItem
-                )
-                .withTextColor(getResources().getColor(R.color.primary_text))
+                .addProfiles(profileAccountItem)
+                .withTextColor(getResources().getColor(R.color.drawer_profile_text))
                 .withSelectionListEnabledForSingleProfile(false)
                 .build();
 
@@ -91,8 +87,8 @@ public class MainActivity extends AppCompatActivity
 
     private void createDrawerItems(){
         // if log in
-        profileItem = new PrimaryDrawerItem().withName("Profile").withIcon(R.drawable.ic_profile_placeholder);
-        subscribedEventItem = new PrimaryDrawerItem().withName("My Events").withIcon(R.drawable.ic_food_fork_drink);
+        profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.drawable.ic_profile_placeholder);
+        userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.drawable.ic_food_fork_drink);
         // host
 //        hostedEventsItem = new PrimaryDrawerItem().withName(getString(R.string.all_hosted_event)).withIcon(R.drawable.ic_hosted_events);
         hostEventItem = new PrimaryDrawerItem().withName(getString(R.string.host_event)).withIcon(R.drawable.ic_host_event);
@@ -146,13 +142,13 @@ public class MainActivity extends AppCompatActivity
             drawer.addItem(profileItem);
             drawer.addItem(eventsItem);
             if(QZinEatApplication.isHostView){
-//                drawer.addItem(hostedEventsItem);
                 drawer.addItem(hostEventItem);
                 switchItem.withName(getString(R.string.switch_search)).withIcon(R.drawable.ic_swap); // Footer Change
-                drawer.addItem(subscribedEventItem);
-               // drawer.setSelection(hostedEventsItem, true); // Set Default
+                userEventsItem.withName(getString(R.string.drawer_hosted_event));
+                drawer.addItem(userEventsItem);
+                drawer.setSelection(userEventsItem, true); // Set Default
             }else {
-                drawer.addItem(subscribedEventItem);
+                drawer.addItem(userEventsItem);
                 drawer.addItem(filterItem);
 
                 drawer.setSelection(eventsItem, true); // Set Default
@@ -218,9 +214,7 @@ public class MainActivity extends AppCompatActivity
             // Other updates
             Log.d("DEBUG", "Drawer Open...");
             // update host count - this is async so no worries
-            if(QZinEatApplication.isHostView) {
-                QZinDataAccess.findHostedEventsCount(MainActivity.this);
-            }
+            QZinDataAccess.findUserEventsCount(MainActivity.this);
         }
 
         @Override
@@ -264,15 +258,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = new ProfileFragment();
             }
 
-            if(drawerItem.equals(subscribedEventItem)){
-                setTitle(subscribedEventItem.getName().toString());
+            if(drawerItem.equals(userEventsItem)){
+                setTitle(userEventsItem.getName().toString());
                 fragment = new EnrollEventFragment();
             }
-
-//            if(drawerItem.equals(hostedEventsItem)){
-//                setTitle(hostedEventsItem.getName().toString());
-//                fragment = new HostListFragment();
-//            }
 
             if(drawerItem.equals(hostEventItem)){
                 setTitle(hostEventItem.getName().toString());
@@ -303,9 +292,6 @@ public class MainActivity extends AppCompatActivity
     };
 
 
-}
-
-
     @Override
     public void onDataUpdate() {
         Log.d("DEBUG", "Lets update drawer before anyone clicks on it....");
@@ -327,18 +313,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private BadgeStyle getBadgeStyle() {
-        return new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_grey_700);
+        return new BadgeStyle()
+                .withTextColor(getResources().getColor(R.color.badge_text_color))
+                .withColorRes(R.color.badge_bg_color);
     }
 
 
     @Override
-    public void onHostCountUpdate(int count) {
+    public void onUserEventCount(int count) {
         Log.d("DEBUG", "I got call after db");
 
-        hostedEventsItem
+        userEventsItem
                 .withBadge(String.valueOf(count))
                 .withBadgeStyle(getBadgeStyle());
 
-        drawer.updateItem(hostedEventsItem);
+        drawer.updateItem(userEventsItem);
     }
 }
