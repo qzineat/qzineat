@@ -86,19 +86,19 @@ public class MainActivity extends AppCompatActivity
 
     private void createDrawerItems(){
         // if log in
-        profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.drawable.ic_profile_placeholder);
-        userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.drawable.ic_food_fork_drink);
+        profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.drawable.ic_profile_placeholder).withSelectedIcon(R.drawable.ic_profile_placeholder_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.drawable.food_fork_drink).withSelectedIcon(R.drawable.food_fork_drink_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         // host
 //        hostedEventsItem = new PrimaryDrawerItem().withName(getString(R.string.all_hosted_event)).withIcon(R.drawable.ic_hosted_events);
-        hostEventItem = new PrimaryDrawerItem().withName(getString(R.string.host_event)).withIcon(R.drawable.ic_host_event);
+        hostEventItem = new PrimaryDrawerItem().withName(getString(R.string.host_event)).withIcon(R.drawable.event_check).withSelectedIcon(R.drawable.event_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         // both
-        logOutItem = new PrimaryDrawerItem().withName(getString(R.string.log_out)).withIcon(R.drawable.ic_logout);
-        switchItem = new PrimaryDrawerItem().withName(getString(R.string.switch_host)).withIcon(R.drawable.ic_account_switch);
+        logOutItem = new PrimaryDrawerItem().withName(getString(R.string.log_out)).withIcon(R.drawable.logout).withSelectedIcon(R.drawable.logout_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        switchItem = new PrimaryDrawerItem().withName(getString(R.string.switch_host)).withIcon(R.drawable.account_switch).withSelectedIcon(R.drawable.account_switch_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         // if log out
-        logInItem = new PrimaryDrawerItem().withName(getString(R.string.log_in)).withIcon(R.drawable.ic_profile_placeholder);
+        logInItem = new PrimaryDrawerItem().withName(getString(R.string.log_in)).withIcon(R.drawable.ic_profile_placeholder).withSelectedIcon(R.drawable.ic_profile_placeholder_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         // all
-        eventsItem = new PrimaryDrawerItem().withName(getString(R.string.events)).withIcon(R.drawable.ic_drawer_event);
-        filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.drawable.ic_filters);
+        eventsItem = new PrimaryDrawerItem().withName(getString(R.string.events)).withIcon(R.drawable.events).withSelectedIcon(R.drawable.events_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.drawable.settings).withSelectedIcon(R.drawable.settings_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
 
         // Profile Account
         if(User.isUserLoggedIn()){
@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
 
+
             // No Search Bar
             if(llSearch != null){
                 llSearch.setVisibility(View.GONE);
@@ -282,7 +283,6 @@ public class MainActivity extends AppCompatActivity
                 setTitle(eventsItem.getName().toString());
                 fragment = new EventListFragment();
             }
-
 
 
             if(drawerItem.equals(filterItem)){
