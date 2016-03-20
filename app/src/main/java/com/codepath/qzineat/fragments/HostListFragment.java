@@ -2,6 +2,7 @@ package com.codepath.qzineat.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +17,10 @@ import butterknife.ButterKnife;
 /**
  * Created by glondhe on 3/10/16.
  */
-public class HostListFragment extends BaseFragment {
+public class HostListFragment extends Fragment {
 
 
-    @Bind(R.id.ibPlus)
-    ImageButton ibPlus;
+    @Bind(R.id.ibPlus) ImageButton ibPlus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,9 +29,6 @@ public class HostListFragment extends BaseFragment {
         // Event List
         if(savedInstanceState == null){
             UserEventsFragment userEventsFragment = new UserEventsFragment();
-            Bundle args = new Bundle();
-            args.putBoolean("isProfileView", true);
-            userEventsFragment.setArguments(args);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.flContainerHEL, userEventsFragment);
             ft.commit();

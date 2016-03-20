@@ -127,9 +127,9 @@ public class ProfileFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new UpComingEventsTimelineFragment();
+                return new UpComingEventsFragment();
             } else if (position == 1) {
-                return new HostedEventsTimelineFragment();
+                return new PastEventsFragment();
             } else return null;
         }
 
