@@ -203,13 +203,6 @@ public class HostFragment extends Fragment{
             public void onClick(View v) {
 
                 saveEvent(getContext());
-
-//                ParsePush.subscribeInBackground("Giants");
-//                ParsePush push = new ParsePush();
-//                push.setChannel("Giants");
-//                push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
-//                push.sendInBackground();
-
             }
         });
 
@@ -224,8 +217,6 @@ public class HostFragment extends Fragment{
         // See if it comes from Login
 
         try {
-
-
             // This is login request
             if(requestCode == FragmentCode.HOST_FRAGMENT_LOGIN_CODE){
                 logInIntent = data;
@@ -240,13 +231,13 @@ public class HostFragment extends Fragment{
                     Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
                     mediaListImages.add(BitmapFactory
                             .decodeFile(imgDecodableString));
-                    setimages(BitmapFactory
+                    setImages(BitmapFactory
                             .decodeFile(imgDecodableString));
                 } else if (null != b.getByteArray("bitMapPhoto")) {
                     imageData = b.getByteArray("bitMapPhoto");
                     Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
                     mediaListImages.add(photo);
-                    setimages(photo);
+                    setImages(photo);
                     Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED){
@@ -259,7 +250,7 @@ public class HostFragment extends Fragment{
         }
     }
 
-    private void setimages(Bitmap photo) {
+    private void setImages(Bitmap photo) {
 
         cell = LayoutInflater.from(getContext()).inflate(R.layout.cell, null);
 
@@ -392,6 +383,9 @@ public class HostFragment extends Fragment{
                 if (!pFileList1.isEmpty()) {
                    Log.d("DEBUG","retrive pf file");
                 }
+                event.setMediaObject(pObject);
+            }else {
+                pObject = new ParseObject("mediaFiles");
                 event.setMediaObject(pObject);
             }
 
@@ -566,8 +560,8 @@ public class HostFragment extends Fragment{
             spAlcohol.setSelection(pos);
             spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount())+1);
             sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
-            sMenuCategory.getSelectedItem();
-            //sMenuItem.setSelection("setMenuItem"+evnt.getCategory().getPosition(evnt.getItemCategory())+1);
+            setMenuItemJapanese();
+            sMenuItem.setSelection(1);
         } else Log.d("DEBUG", "Event returned null");
 
     }
@@ -577,12 +571,14 @@ public class HostFragment extends Fragment{
 
         pObject = evnt.getMediaObject();
         List<ParseFile> pFileList = null;
-        try {
-            pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (null != pObject) {
+            try {
+                pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        if (!pFileList.isEmpty()) {
+        if (null != pFileList && !pFileList.isEmpty()) {
             for (int i = 0; i < pFileList.size(); i++) {
                 ParseFile pFile = pFileList.get(i);
                 byte[] bitmapdata = new byte[0];  // here it throws error

@@ -286,6 +286,7 @@ public class EventDetailFragment extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
             if (null != pFileList && !pFileList.isEmpty()) {
                 for (int i = 0; i < pFileList.size(); i++) {
 
@@ -297,24 +298,28 @@ public class EventDetailFragment extends Fragment {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
-
                     cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
-
                     final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
                     imageView.setImageResource(android.R.color.transparent);
-                    TextView text = (TextView) cell.findViewById(R.id._imageName);
-                    Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
-                    imageView.setImageBitmap(bitmap);
-                    //text.setText("#" + (i + 1));
+                    bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
 
+                    Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
+                    //imageView.setImageBitmap(bitmap);
+                    //text.setText("#" + (i + 1));
                     //Glide.with(mContext).load(pFile.getUrl()).centerCrop().into(imageView);
                     mainLayout.addView(cell);
 
                 }
+            } else {
+                    cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
+                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+                    imageView.setImageResource(android.R.color.transparent);
+                    Glide.with(getContext()).load(QZinUtil.getQZinImageUrl()).centerCrop().into(imageView);
+                    mainLayout.addView(cell);
             }
         }
     }
+
 
 
     public void setAvalCount(int availability){
