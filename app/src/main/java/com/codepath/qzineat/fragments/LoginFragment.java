@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.MainActivity;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -102,7 +102,7 @@ public class LoginFragment extends Fragment {
                 public void done(ParseUser user, ParseException e) {
                     if (user != null) {
                         // Hooray! The user is logged in.
-                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        Intent intent = new Intent(getContext(), HomeActivity.class);
                         intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                         startActivity(intent);
                     } else {
@@ -142,7 +142,7 @@ public class LoginFragment extends Fragment {
 
                         try {
                             // Go back to called fragment..
-                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
                             intent.putExtra("result", User.USER_LOG_IN_SUCCESS);
                             startActivity(intent);
                         } catch (Exception ex) {

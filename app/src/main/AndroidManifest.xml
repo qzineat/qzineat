@@ -127,6 +127,9 @@
         </activity>
         <activity android:name="com.codepath.qzineat.activities.LoginActivity">
         </activity>
+        <activity android:name="com.codepath.qzineat.activities.HomeActivity">
+
+        </activity>
     </application>
 
 </manifest>

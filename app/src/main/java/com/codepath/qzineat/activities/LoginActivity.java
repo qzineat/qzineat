@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Open Login Fragment
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         LoginFragment fragment = new LoginFragment();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
