@@ -1,221 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:isScrollContainer="false"
-    >
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        />
 
-        <ImageView
-            android:id="@+id/ivEventImage"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="20dp"
-            />
-
-        <HorizontalScrollView android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <LinearLayout android:id="@+id/_linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <requestFocus />
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:isScrollContainer="false"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilTitle"
+            <ImageView
+                android:id="@+id/ivEventImage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp">
-                <EditText
-                    android:id="@+id/etTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Event Name"
-                    android:singleLine="true"
-                    style="?textEditText"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date/Time:"
-                android:layout_marginTop="10dp"
-                style="?textEditTextLabel"
+                android:layout_height="150dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="20dp"
                 />
+
+            <HorizontalScrollView android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content">
+
+                <LinearLayout android:id="@+id/_linearLayout"
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                    >
+                    <requestFocus />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tvDatePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Select Date"
-                    style="?textEditText"
-                    android:nextFocusRight="@+id/tvTimePicker"/>
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilTime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/tvTimePicker"
-                    android:layout_width="wrap_content"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:hint="Select Time"
-                    style="?textEditText"
-                    android:nextFocusDown="@+id/spGuest"/>
+                    android:layout_marginBottom="5dp">
+                    <EditText
+                        android:id="@+id/etTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Event Name"
+                        android:singleLine="true"
+                        style="?textEditText"
+                        />
                 </android.support.design.widget.TextInputLayout>
 
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date/Time:"
+                    android:layout_marginTop="10dp"
+                    style="?textEditTextLabel"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/tvDatePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Select Date"
+                            style="?textEditText"
+                            android:nextFocusRight="@+id/tvTimePicker"/>
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tvTimePicker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:hint="Select Time"
+                            style="?textEditText"
+                            android:nextFocusDown="@+id/spGuest"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spGuest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="?textEditTextLabel"
+                    app:ms_alignLabels="false"
+                    app:ms_arrowColor="@android:color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/accent"
+                    app:ms_floatingLabelText="Guests"
+                    app:ms_hint="Number of Guests"
+                    app:ms_multiline="false"
+                    android:drawSelectorOnTop="true"
+                    android:layout_marginBottom="10dp"
+                    android:nextFocusDown="@+id/tilCharge"/>
+                />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilCharge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+                    <EditText
+                        android:id="@+id/etCharge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="$$"
+                        android:singleLine="true"
+                        style="?textEditText"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilVenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+                    <EditText
+                        android:id="@+id/etVenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Address"
+                        style="?textEditText"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/sMenuCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="?textEditTextLabel"
+                    app:ms_alignLabels="false"
+                    app:ms_arrowColor="@android:color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/accent"
+                    app:ms_floatingLabelText="Menu Category"
+                    app:ms_hint="Cuisine"
+                    app:ms_multiline="false"
+                    android:drawSelectorOnTop="true"
+                    android:layout_marginBottom="15dp"
+                    />
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/sMenuItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="?textEditTextLabel"
+                    app:ms_alignLabels="false"
+                    app:ms_arrowColor="@android:color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/accent"
+                    app:ms_floatingLabelText="Menu Category"
+                    app:ms_hint="Cuisine"
+                    app:ms_multiline="false"
+                    android:drawSelectorOnTop="true"
+                    android:layout_marginBottom="15dp"
+                    />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+                    <EditText
+                        android:id="@+id/etDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Menu Description"
+                        style="?textEditText"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spAlcohol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/yesno_Array"
+                    app:ms_alignLabels="false"
+                    app:ms_arrowColor="@android:color/black"
+                    app:ms_arrowSize="16dp"
+                    app:ms_floatingLabelColor="@color/accent"
+                    app:ms_floatingLabelText="Alcohol"
+                    app:ms_hint="Alcohol"
+                    app:ms_multiline="false"
+                    android:layout_marginBottom="15dp"
+                    />
+
+
+                <Button
+                    android:id="@+id/btSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save"
+                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spGuest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="?textEditTextLabel"
-                app:ms_alignLabels="false"
-                app:ms_arrowColor="@android:color/black"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@color/accent"
-                app:ms_floatingLabelText="Guests"
-                app:ms_hint="Number of Guests"
-                app:ms_multiline="false"
-                android:drawSelectorOnTop="true"
-                android:layout_marginBottom="10dp"
-                android:nextFocusDown="@+id/tilCharge"/>
-                />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilCharge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp">
-            <EditText
-                android:id="@+id/etCharge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="$$"
-                android:singleLine="true"
-                style="?textEditText"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilVenue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp">
-            <EditText
-                android:id="@+id/etVenue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Address"
-                style="?textEditText"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/sMenuCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="?textEditTextLabel"
-                app:ms_alignLabels="false"
-                app:ms_arrowColor="@android:color/black"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@color/accent"
-                app:ms_floatingLabelText="Menu Category"
-                app:ms_hint="Cuisine"
-                app:ms_multiline="false"
-                android:drawSelectorOnTop="true"
-                android:layout_marginBottom="15dp"
-                />
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/sMenuItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="?textEditTextLabel"
-                app:ms_alignLabels="false"
-                app:ms_arrowColor="@android:color/black"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@color/accent"
-                app:ms_floatingLabelText="Menu Category"
-                app:ms_hint="Cuisine"
-                app:ms_multiline="false"
-                android:drawSelectorOnTop="true"
-                android:layout_marginBottom="15dp"
-                />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp">
-            <EditText
-                android:id="@+id/etDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Menu Description"
-                style="?textEditText"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spAlcohol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:entries="@array/yesno_Array"
-                app:ms_alignLabels="false"
-                app:ms_arrowColor="@android:color/black"
-                app:ms_arrowSize="16dp"
-                app:ms_floatingLabelColor="@color/accent"
-                app:ms_floatingLabelText="Alcohol"
-                app:ms_hint="Alcohol"
-                app:ms_multiline="false"
-                android:layout_marginBottom="15dp"
-                />
-
-
-            <Button
-                android:id="@+id/btSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save"
-                android:layout_gravity="center_horizontal"/>
         </LinearLayout>
+
+
+    </ScrollView>
 
     </LinearLayout>
 
-
-</ScrollView>
