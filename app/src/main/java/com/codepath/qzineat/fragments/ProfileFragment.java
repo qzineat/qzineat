@@ -1,6 +1,5 @@
 package com.codepath.qzineat.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -8,24 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-<<<<<<< HEAD
-=======
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-=======
-import com.astuetz.PagerSlidingTabStrip;
-import com.bumptech.glide.Glide;
-import com.codepath.qzineat.interfaces.CommunicationChannel;
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.User;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -42,32 +30,9 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment {
 
 
-    @Bind(R.id.ivProfileImage)
-    ImageView ivProfileImage;
-    @Bind(R.id.tvProfileName)
-    TextView tvProfileName;
-<<<<<<< HEAD
-    @Bind(R.id.ivbkgImage)
-    ImageView ivbkgImage;
-    @Bind(R.id.tvLocation)
-    TextView tvLocation;
-    @Bind(R.id.tvSpeciality)
-    TextView tvSpeciality;
-    @Bind(R.id.tvContact)
-    TextView tvContact;
-    @Bind(R.id.tvEmail)
-    TextView tvEmail;
-    @Bind(R.id.tvWebsite)
-    TextView tvWebsite;
-    @Bind(R.id.evEdit)
-    ImageView evEdit;
-
-    Transformation transformation = new RoundedTransformationBuilder()
-            .oval(true).cornerRadius(1)
-            .borderColor(Color.WHITE)
-            .borderWidth(3)
-            .build();
-=======
+    @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
+    @Bind(R.id.tvProfileName) TextView tvProfileName;
+    @Bind(R.id.ivbkgImage) ImageView ivbkgImage;
     @Bind(R.id.tvLocation) TextView tvLocation;
     @Bind(R.id.tvSpeciality) TextView tvSpeciality;
     @Bind(R.id.tvContact) TextView tvContact;
@@ -77,8 +42,11 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
+    Transformation transformation = new RoundedTransformationBuilder()
+            .oval(true).cornerRadius(1)
+            .borderColor(Color.WHITE)
+            .borderWidth(3)
+            .build();
 
     @Nullable
     @Override
@@ -141,66 +109,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-<<<<<<< HEAD
-=======
-        ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
-        vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
-        vpPager.getAdapter().notifyDataSetChanged();
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabStrip.setViewPager(vpPager);
-
-        // This is for drawer
-        mCommunicationChannelListener.attachDrawer(toolbar, true);
-
-        //getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-        //getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         return  view;
-    }
-
-    CommunicationChannel mCommunicationChannelListener = null;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        ((AppCompatActivity) context).setSupportActionBar(toolbar);
-        if(context instanceof CommunicationChannel){
-            mCommunicationChannelListener = (CommunicationChannel) context;
-        }
-    }
-
-    public class TweetsPagerAdapter extends FragmentPagerAdapter {
-
-        private String tabTitles[] = {"Upcoming Events", "Hosted Events"};
-
-        public TweetsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                return new UpComingEventsFragment();
-            } else if (position == 1) {
-                return new PastEventsFragment();
-            } else return null;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
-
-        @Override
-        public int getCount() {
-            return tabTitles.length;
-        }
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
-
-        return view;
     }
 }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:isScrollContainer="false"
@@ -12,23 +11,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-=======
-<LinearLayout
-    android:id="@+id/main_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
-
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:id="@+id/ivbkgImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:background="@color/accent"
+            android:minHeight="200dp"
+            android:scaleType="fitCenter" />
 
 
     <ImageView
@@ -90,168 +86,12 @@
         app:cardCornerRadius="0dp"
         cardview:cardBackgroundColor="@color/md_white_1000">
 
-    <LinearLayout
-        android:id="@+id/llBasicInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-            >
-
-        <LinearLayout
-            android:id="@+id/ll1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-        <TextView
-            android:id="@+id/tvSpecialityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?textTiny"
-            android:text="Speciality" />
-
-        <TextView
-            android:id="@+id/tvSpeciality"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="70dp"
-            android:layout_height="wrap_content"
-            />
-        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.2dp"
             android:layout_marginTop="5dp"
             android:background="@android:color/darker_gray"/>
 
-
-=======
-        android:layout_height="wrap_content"
-        />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/ivbkgImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:background="@color/accent"
-            android:minHeight="200dp"
-            android:scaleType="fitCenter" />
-
-        <ImageView
-            android:id="@+id/ivProfileImage"
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:background="@color/accent"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:src="@drawable/ic_profile_placeholder" />
-
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
-        <LinearLayout
-            android:id="@+id/llProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-<<<<<<< HEAD
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-           >
-        <TextView
-            android:id="@+id/tvContactText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?textTiny"
-            android:text="Contact" />
-
-
-        <TextView
-            android:id="@+id/tvContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="77dp"
-            />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/darker_gray"/>
-
-        <LinearLayout
-            android:id="@+id/ll3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/tvEmailText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?textTiny"
-            android:text="Email"
-           />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="85dp"
-            />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/darker_gray"/>
-
-        <LinearLayout
-            android:id="@+id/ll4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/tvWebsiteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?textTiny"
-            android:text="Website"
-            />
-=======
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/tvProfileName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ProfileName"
-                style="?textLargeTitle"/>
-
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location"
-                style="?textTiny"    />
-
-
-        </LinearLayout>
 
         <View
             android:id="@+id/vwLine"
@@ -362,83 +202,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/flContainerProf"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/ivbkgImage"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-        </FrameLayout>
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                      xmlns:tools="http://schemas.android.com/tools"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:background="@android:color/black"
-                      android:orientation="vertical"
-                      android:id="@+id/ll"
-                      android:layout_below="@id/ivbkgImage">
-
-
-            <com.astuetz.PagerSlidingTabStrip
-                android:id="@+id/tabs"
-                app:pstsShouldExpand="true"
-                app:pstsTextAllCaps="true"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:pstsDividerColor="@android:color/black"
-                app:pstsIndicatorColor="@android:color/holo_blue_light"
-                app:pstsUnderlineColor="@android:color/holo_blue_light"
-                app:pstsTabPaddingLeftRight="14dip"/>
-
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_below="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white" />
-        </LinearLayout>
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
-
-        <ImageView
-            android:id="@+id/evEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-<<<<<<< HEAD
-            android:layout_marginLeft="75dp"
-             />
-        </LinearLayout>
-=======
-            android:layout_alignEnd="@+id/ll"
-            android:layout_below="@+id/vwLine"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/edit_pencil"
-            android:text="@string/Edit" />
-    </RelativeLayout>
-</LinearLayout>
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/darker_gray"/>
-
-<<<<<<< HEAD
-        </LinearLayout>
-
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -499,5 +262,4 @@
 
   </RelativeLayout>
 </ScrollView>
-=======
->>>>>>> ed99052a16021c0816275cf707448e818f49b284
+
