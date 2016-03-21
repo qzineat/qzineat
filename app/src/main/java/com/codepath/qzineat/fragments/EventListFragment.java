@@ -1,10 +1,10 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +19,7 @@ import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
+import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
@@ -45,6 +46,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
     private ArrayList<Event> mEvents;
     private EventsRecyclerViewAdapter recyclerViewAdapter;
+    CommunicationChannel mCommunicationChannel = null;
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
     //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
@@ -246,14 +248,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
         @Override
         public void onItemClicked(RecyclerView recyclerView, int position, View v) {
             Event event = mEvents.get(position);
-
             EventDetailFragment fragment = EventDetailFragment.newInstance(event.getObjectId());
-
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.flContent, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            mCommunicationChannel.openFragment(fragment); // Tell activity to open this fragment
         }
     };
 
@@ -298,6 +294,15 @@ public class EventListFragment extends Fragment implements EventListCallback {
                 ImageView ivSubscribe = (ImageView) view.findViewById(R.id.ivSubscribe);
                 ivSubscribe.setImageResource(R.mipmap.ic_check_circle);*/
             }
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof CommunicationChannel){
+            mCommunicationChannel = (CommunicationChannel) context;
         }
     }
 
