@@ -38,9 +38,16 @@ public class GeoUtil {
     public static ParseGeoPoint getLocation(Address address){
         // latitude of 40.0 degrees and -30.0 degrees longitude
         // ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
-
-        ParseGeoPoint point = new ParseGeoPoint(address.getLatitude(), address.getLongitude());
-
+        ParseGeoPoint point = null;
+        try {
+            point = new ParseGeoPoint(address.getLatitude(), address.getLongitude());
+        }catch (Exception e){
+            if (point == null){
+                point.setLatitude(Double.parseDouble("37.373698"));
+                point.setLongitude(Double.parseDouble("-122.020303"));
+            }
+        }
+        Log.d("DEBUG","Printing point" + point );
         return point;
     }
 
