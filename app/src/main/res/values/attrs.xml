@@ -14,5 +14,7 @@
     <attr name="navDrawerSwap" format="reference"/>
     <attr name="navDrawerTextColor" format="reference"/>
 
+    <attr name="textRegular34" format="reference"/>
+
 
 </resources>

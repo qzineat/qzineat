@@ -12,15 +12,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.fragments.AdvanceFragment;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
-import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.fragments.HostFragment;
 import com.codepath.qzineat.fragments.ProfileFragment;
+import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
 import com.codepath.qzineat.interfaces.UserEventCountListener;
 import com.codepath.qzineat.models.User;
@@ -264,7 +263,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
                     llSearch.setVisibility(View.VISIBLE); // Only on Event List
                 }*/
                 setTitle(eventsItem.getName().toString());
-                fragment = new EventListFragment();
+                fragment = new HomeFragment();
             }
 
 
