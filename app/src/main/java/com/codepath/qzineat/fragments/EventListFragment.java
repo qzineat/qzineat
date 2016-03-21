@@ -47,7 +47,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
     private EventsRecyclerViewAdapter recyclerViewAdapter;
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
-    @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+    //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
 
     @Nullable
@@ -57,7 +57,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         ButterKnife.bind(this, view);
 
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(mRefreshListener);
+        //swipeContainer.setOnRefreshListener(mRefreshListener);
 
         // Setup RecyclerView
         setupRecyclerView();
@@ -65,8 +65,12 @@ public class EventListFragment extends Fragment implements EventListCallback {
         // Item click support
         setupItemClick();
 
-        // Shining UI.....
-        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
+        // TODO: old Shining UI.....
+        //view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
+
+        rvEvents.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
+
+        //rvEvents.setNestedScrollingEnabled(false);
 
 
         return view;
@@ -138,7 +142,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         }
 
         if(isSubscriberView){
-            Log.d("DEBIG","I am in Subscriber");
+            Log.d("DEBIG", "I am in Subscriber");
             // Search on Attendee
             ParseQuery<Attendee> attendeeParseQuery = ParseQuery.getQuery(Attendee.class);
             attendeeParseQuery.whereEqualTo("user", User.getLoggedInUser());
@@ -152,8 +156,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
                 public void done(List<Attendee> attendees, ParseException e) {
                     if (e == null) {
                         ArrayList<Event> arrayList = new ArrayList<>();
-                        for(Attendee a: attendees){
-                            if(a.getEvent()!= null){
+                        for (Attendee a : attendees) {
+                            if (a.getEvent() != null) {
                                 arrayList.add(a.getEvent());
                             }
                         }
@@ -178,16 +182,16 @@ public class EventListFragment extends Fragment implements EventListCallback {
                         ArrayList<Event> arrayList = new ArrayList<>(events);
 
                         // TODO: Not Good....
-                        if(User.isUserLoggedIn()){
-                            for(Event ev : arrayList){
+                        if (User.isUserLoggedIn()) {
+                            for (Event ev : arrayList) {
                                 ParseRelation relation = ev.getRelation("attendees");
                                 ParseQuery query = relation.getQuery();
                                 query.whereEqualTo("subscribedBy", User.getLoggedInUser());
                                 try {
-                                    if(query.count() > 0){
+                                    if (query.count() > 0) {
                                         ev.setIsEnrolled(true);
                                     }
-                                }catch (Exception ex){
+                                } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }
 
@@ -203,7 +207,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
                     } else {
                         Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
                     }
-                    swipeContainer.setRefreshing(false);
+                    //swipeContainer.setRefreshing(false);
                 }
             });
         }
