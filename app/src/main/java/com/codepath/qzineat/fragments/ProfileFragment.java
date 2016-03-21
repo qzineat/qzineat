@@ -1,5 +1,6 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
+import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseFile;
@@ -41,6 +45,8 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.tvEmail) TextView tvEmail;
     @Bind(R.id.tvWebsite) TextView tvWebsite;
     @Bind(R.id.evEdit) ImageView evEdit;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
 
 
@@ -109,7 +115,24 @@ public class ProfileFragment extends Fragment {
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabStrip.setViewPager(vpPager);
 
+        // This is for drawer
+        mCommunicationChannelListener.attachDrawer(toolbar, true);
+
+        //getActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+        //getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         return  view;
+    }
+
+    CommunicationChannel mCommunicationChannelListener = null;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        ((AppCompatActivity) context).setSupportActionBar(toolbar);
+        if(context instanceof CommunicationChannel){
+            mCommunicationChannelListener = (CommunicationChannel) context;
+        }
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

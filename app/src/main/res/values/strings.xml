@@ -64,4 +64,18 @@
     <string name="signup_no_name_toast">Please enter your name</string>
     <string name="signup_signup_failed_unknown_toast">Could not sign up, please try again later</string>
 
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In faucibus, est non tristique dictum, justo erat fermentum purus, in finibus dui augue a nisi. Nulla vestibulum luctus rhoncus. Praesent orci ipsum, congue ac hendrerit sed, egestas nec tellus. Quisque sagittis, massa a ultrices auctor, justo odio blandit nisl, in varius ante purus eget justo. Nunc magna lacus, finibus non turpis ac, malesuada cursus turpis. Fusce et suscipit dolor, nec ultrices sem. Nam eleifend a lorem et dapibus. Etiam ornare est nulla, volutpat suscipit odio lacinia nec. Duis a quam quis nunc pharetra posuere eu ac odio. Aliquam sit amet volutpat odio, nec rutrum velit. Nulla volutpat, lectus a placerat suscipit, purus velit tempor ex, ut tempor dolor augue at est.</string>
+    <string name="thanks">Thanks</string>
+    <string name="next">Next</string>
+    <string name="hello">hello</string>
+
+
+    <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
+    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
+    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
+    the big cheese.</string>
 </resources>

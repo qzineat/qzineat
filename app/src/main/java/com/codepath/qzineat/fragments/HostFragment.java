@@ -11,6 +11,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.models.Event;
@@ -59,6 +62,9 @@ import static java.lang.Integer.parseInt;
  * Created by glondhe on 3/1/16.
  */
 public class HostFragment extends Fragment{
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     public static final int DAILOG_FRAGMENT = 1;
     private static final int RESULT_OK = -1 ;
@@ -212,6 +218,11 @@ public class HostFragment extends Fragment{
 
             }
         });
+
+
+        // This is for drawer
+        mCommunicationChannelListener.attachDrawer(toolbar, true);
+
 
         return view;
 
@@ -983,5 +994,17 @@ public class HostFragment extends Fragment{
             String temp=Base64.encodeToString(b, Base64.DEFAULT);
             return b;
         }
+
+    CommunicationChannel mCommunicationChannelListener = null;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        ((AppCompatActivity) context).setSupportActionBar(toolbar);
+        if(context instanceof CommunicationChannel){
+            mCommunicationChannelListener = (CommunicationChannel) context;
+        }
+    }
 
 }
