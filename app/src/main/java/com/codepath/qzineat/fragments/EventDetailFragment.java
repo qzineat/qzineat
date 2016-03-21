@@ -1,5 +1,6 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +35,7 @@ import com.codepath.qzineat.models.Review;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.QZinUtil;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -44,6 +46,8 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +92,13 @@ public class EventDetailFragment extends Fragment {
     private ReviewsRecyclerViewAdapter recyclerViewAdapter;
     private LinearLayout mainLayout;
 
+    private Context context;
+
+    Transformation transformation = new RoundedTransformationBuilder()
+            .oval(true).cornerRadius(1)
+            .borderColor(Color.WHITE)
+            .borderWidth(3)
+            .build();
 
     public static EventDetailFragment newInstance(String eventObjectId){
         EventDetailFragment fragment = new EventDetailFragment();
@@ -113,6 +124,8 @@ public class EventDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
+
+        context = getActivity().getApplicationContext();
 
         // Setup RecyclerView
         setupRecyclerView();
@@ -239,9 +252,9 @@ public class EventDetailFragment extends Fragment {
                     Log.d("DEBUG", "User object" + arrayList.get(0).getEmail());
                     Log.d("DEBUG", "User object" + arrayList.get(0).getImageFile());
 
-                    Glide.with(EventDetailFragment.this).load(arrayList.get(0).getImageFile().getUrl()).centerCrop().into(ivProfileImage);
+                    Picasso.with(getContext()).load(arrayList.get(0).getImageFile().getUrl()).transform(transformation).into(ivProfileImage);
                 } else
-                    Glide.with(EventDetailFragment.this).load(R.mipmap.ic_profile_placeholder).centerCrop().into(ivProfileImage);
+                    Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
             }
         });
 
@@ -302,6 +315,7 @@ public class EventDetailFragment extends Fragment {
                     final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
                     imageView.setImageResource(android.R.color.transparent);
                     bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
 
                     Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
                     //imageView.setImageBitmap(bitmap);

@@ -6,21 +6,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
-import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.User;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.parse.ParseFile;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,14 +33,26 @@ public class ProfileFragment extends Fragment {
     ImageView ivProfileImage;
     @Bind(R.id.tvProfileName)
     TextView tvProfileName;
-    @Bind(R.id.tvLocation) TextView tvLocation;
-    @Bind(R.id.tvSpeciality) TextView tvSpeciality;
-    @Bind(R.id.tvContact) TextView tvContact;
-    @Bind(R.id.tvEmail) TextView tvEmail;
-    @Bind(R.id.tvWebsite) TextView tvWebsite;
-    @Bind(R.id.evEdit) ImageView evEdit;
+    @Bind(R.id.ivbkgImage)
+    ImageView ivbkgImage;
+    @Bind(R.id.tvLocation)
+    TextView tvLocation;
+    @Bind(R.id.tvSpeciality)
+    TextView tvSpeciality;
+    @Bind(R.id.tvContact)
+    TextView tvContact;
+    @Bind(R.id.tvEmail)
+    TextView tvEmail;
+    @Bind(R.id.tvWebsite)
+    TextView tvWebsite;
+    @Bind(R.id.evEdit)
+    ImageView evEdit;
 
-
+    Transformation transformation = new RoundedTransformationBuilder()
+            .oval(true).cornerRadius(1)
+            .borderColor(Color.WHITE)
+            .borderWidth(3)
+            .build();
 
     @Nullable
     @Override
@@ -51,17 +61,19 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
         String imgUrl = null;
         ParseFile pf = null;
+
+        ivbkgImage.setBackgroundResource(R.drawable.user_profile_gb);
         if (User.getLoggedInUser().getImageFile() != null) {
             pf = User.getLoggedInUser().getImageFile();
-            if(pf != null && !pf.getUrl().isEmpty()){
+            if (pf != null && !pf.getUrl().isEmpty()) {
                 imgUrl = pf.getUrl();
             }
         }
 
         if (pf != null) {
-            Glide.with(this).load(imgUrl).asBitmap().centerCrop().into(ivProfileImage);
-        }
-        else ivProfileImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+            Picasso.with(getContext()).load(imgUrl).transform(transformation).into(ivProfileImage);
+        } else
+            Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
 
         if (User.getLoggedInUser().getProfileName() != null) {
             tvProfileName.setText(User.getLoggedInUser().getProfileName());
@@ -103,45 +115,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ViewPager vpPager = (ViewPager) view.findViewById(R.id.pager);
-        vpPager.setAdapter(new TweetsPagerAdapter(getActivity().getSupportFragmentManager()));
-        vpPager.getAdapter().notifyDataSetChanged();
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabStrip.setViewPager(vpPager);
 
-        return  view;
-    }
-
-    public class TweetsPagerAdapter extends FragmentPagerAdapter {
-
-        private String tabTitles[] = {"Upcoming Events", "Hosted Events"};
-
-        public TweetsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                return new UpComingEventsFragment();
-            } else if (position == 1) {
-                return new PastEventsFragment();
-            } else return null;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
-
-        @Override
-        public int getCount() {
-            return tabTitles.length;
-        }
-
+        return view;
     }
 }

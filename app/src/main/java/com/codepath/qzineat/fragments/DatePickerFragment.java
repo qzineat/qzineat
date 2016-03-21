@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.codepath.android.qzineat.R;
 
@@ -54,7 +54,7 @@ public class DatePickerFragment extends DialogFragment implements
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yy");
         String formatedDate = sdf.format(new Date(_year, _month, _day));
 
-        TextView tvDatePicker = (TextView) getActivity().findViewById(R.id.tvDatePicker);
+        EditText tvDatePicker = (EditText) getActivity().findViewById(R.id.tvDatePicker);
         tvDatePicker.setText(formatedDate);
 
     }

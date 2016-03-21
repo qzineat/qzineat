@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -82,6 +85,7 @@ public class HostFragment extends Fragment{
     @Bind(R.id.tilDesc) TextInputLayout tilDesc;
     @Bind(R.id.tilDate)
     TextInputLayout tilDate;
+
     @Bind(R.id.tilTime)
     TextInputLayout tilTime;
 
@@ -89,9 +93,10 @@ public class HostFragment extends Fragment{
     EditText etTitile;
 
     @Bind(R.id.tvDatePicker)
-    TextView tvDatePicker;
+    EditText tvDatePicker;
     @Bind(R.id.tvTimePicker)
-    TextView tvTimePicker;
+    EditText tvTimePicker;
+
     @Bind(R.id.spGuest)
     Spinner spGuest;
 
@@ -128,6 +133,8 @@ public class HostFragment extends Fragment{
     private View cell;
     private View view;
     private LinearLayout mainLayout;
+    private boolean flag = false;
+    private long mLastClickTime = 0;
 
     public static HostFragment newInstance(String eventObjectId){
         HostFragment fragment = new HostFragment();
@@ -151,6 +158,21 @@ public class HostFragment extends Fragment{
 
         ButterKnife.bind(this, view);
 
+//        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
+//        scrollView.setFocusableInTouchMode(true);
+//        scrollView.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+
+        spGuest.isFocusable();
+        spGuest.setFocusableInTouchMode(true);
+        sMenuCategory.isFocusable();
+        sMenuCategory.setFocusableInTouchMode(true);
+        sMenuItem.isFocusable();
+        sMenuItem.setFocusableInTouchMode(true);
+        spAlcohol.isFocusable();
+        spAlcohol.setFocusableInTouchMode(true);
+
+        ivEventImage.setImageResource(R.drawable.ic_camera);
+        //Glide.with(this).load(getResources().(R.drawable.ic_camera)).centerCrop().into(ivEventImage);
 
         if(logInIntent != null && !User.isUserLoggedIn()){
             // Send me to event list
@@ -196,13 +218,60 @@ public class HostFragment extends Fragment{
             }
         });
 
-        Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+        spGuest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                // changes here
+                if (flag == false)
+                    flag = true;
+                else
+                    etCharge.requestFocus();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
+
+        spAlcohol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // changes here
+                if (flag == false)
+                    flag = true;
+                else
+                    btSave.requestFocus();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        });
 
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                btSave.setEnabled(false);
+                btSave.setClickable(false);
+                btSave.setFocusable(false);
+                btSave.setFocusableInTouchMode(false);
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 saveEvent(getContext());
+                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                btSave.setEnabled(true);
+                btSave.setClickable(true);
+                btSave.setFocusable(true);
+                btSave.setFocusableInTouchMode(true);
+
             }
         });
 
@@ -228,7 +297,8 @@ public class HostFragment extends Fragment{
                 Log.d("DEBUG", b.size() + "");
                 if (null != b.getString("imgDecodableString")) {
                     imgDecodableString = b.getString("imgDecodableString");
-                    Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+//                  Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+                    ivEventImage.setImageResource(R.drawable.ic_camera);
                     mediaListImages.add(BitmapFactory
                             .decodeFile(imgDecodableString));
                     setImages(BitmapFactory
@@ -238,7 +308,8 @@ public class HostFragment extends Fragment{
                     Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
                     mediaListImages.add(photo);
                     setImages(photo);
-                    Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+//                  Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
+                    ivEventImage.setImageResource(R.drawable.ic_camera);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED){
                 Toast.makeText(getContext(), "You haven't picked Image",
@@ -266,12 +337,12 @@ public class HostFragment extends Fragment{
             }
         });
 
-        imageView.setTag("#" + (1));
+//        imageView.setTag("#" + (1));
 
         TextView text = (TextView) cell.findViewById(R.id._imageName);
         //  Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(images[i]);
         imageView.setImageBitmap(photo);
-        text.setText("#" + (1));
+  //      text.setText("#" + (1));
         mainLayout.addView(cell);
     }
 
@@ -367,8 +438,7 @@ public class HostFragment extends Fragment{
 
                 pObject = new ParseObject("mediaFiles");
                 ArrayList<ParseFile> pFileList = new ArrayList<ParseFile>();
-                ArrayList<ParseFile> pFileList1 = new ArrayList<ParseFile>();
-                ParseFile pFile = null;
+                ParseFile pFile;
                 for ( int i=0; i<mediaListImages.size(); i++ ) {
                     byte[] imgData = BitMapToString(mediaListImages.get(i));
                     pFile = new ParseFile("EventImage.txt", imgData);
@@ -379,10 +449,6 @@ public class HostFragment extends Fragment{
 
                 pObject.addAll("mediaFiles", pFileList);
                 pObject.saveEventually();
-                pFileList1 = (ArrayList<ParseFile>) pObject.get("mediaFiles");
-                if (!pFileList1.isEmpty()) {
-                   Log.d("DEBUG","retrive pf file");
-                }
                 event.setMediaObject(pObject);
             }else {
                 pObject = new ParseObject("mediaFiles");
@@ -404,7 +470,12 @@ public class HostFragment extends Fragment{
                     if (e == null)
 
                         Log.d("DEBUG", "Successfully created event on Parse");
-                        Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar
+                            .make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG)
+                            .setActionTextColor(getResources().getColor(R.color.accent));
+
+                        snackbar.show();
+                        //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                         HostListFragment hostListFragment = new HostListFragment();
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.flContent, hostListFragment);
@@ -494,6 +565,7 @@ public class HostFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // Redirect User to LoginFragment
         if (!User.isUserLoggedIn()) {
             /*Fragment fragment = new LoginFragment();
@@ -559,7 +631,8 @@ public class HostFragment extends Fragment{
                     else pos = 2;
             spAlcohol.setSelection(pos);
             spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount())+1);
-            sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
+        //    sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
+            sMenuCategory.setSelection(3);
             setMenuItemJapanese();
             sMenuItem.setSelection(1);
         } else Log.d("DEBUG", "Event returned null");
@@ -579,6 +652,7 @@ public class HostFragment extends Fragment{
             }
         }
         if (null != pFileList && !pFileList.isEmpty()) {
+            mediaListImages.clear();
             for (int i = 0; i < pFileList.size(); i++) {
                 ParseFile pFile = pFileList.get(i);
                 byte[] bitmapdata = new byte[0];  // here it throws error
@@ -593,6 +667,7 @@ public class HostFragment extends Fragment{
 
                 final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
 
+                mediaListImages.add(bitmap);
                 TextView text = (TextView) cell.findViewById(R.id._imageName);
                 //Glide.with(getContext()).load(pFile.getUrl()).centerCrop().into(imageView);
                 imageView.setImageBitmap(bitmap);
@@ -914,6 +989,7 @@ public class HostFragment extends Fragment{
     }
 
     private class MenuItemOnClickListener implements android.widget.AdapterView.OnItemSelectedListener {
+
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             parent.getItemAtPosition(position);
@@ -923,6 +999,7 @@ public class HostFragment extends Fragment{
 
                 if (choice.equalsIgnoreCase("American")) {
                     setMenuItemAmerican();
+
                 } else if (choice.equalsIgnoreCase("Chinese")) {
                     setMenuItemChinese();
                 } else if (choice.equalsIgnoreCase("French")) {
@@ -946,12 +1023,12 @@ public class HostFragment extends Fragment{
                 } else if (choice.equalsIgnoreCase("Vegetarian")) {
                     setMenuItemVegetarian();
                 }
+                sMenuItem.requestFocus();
             }
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     }
 

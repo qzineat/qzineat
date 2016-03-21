@@ -43,8 +43,8 @@ public class GeoUtil {
             point = new ParseGeoPoint(address.getLatitude(), address.getLongitude());
         }catch (Exception e){
             if (point == null){
-                point.setLatitude(Double.parseDouble("37.373698"));
-                point.setLongitude(Double.parseDouble("-122.020303"));
+                point = new ParseGeoPoint(Double.parseDouble("37.373698"), Double.parseDouble("-122.020303"));
+
             }
         }
         Log.d("DEBUG","Printing point" + point );

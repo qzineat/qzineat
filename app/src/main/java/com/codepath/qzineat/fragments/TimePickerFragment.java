@@ -5,7 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.codepath.android.qzineat.R;
@@ -49,7 +49,7 @@ public class TimePickerFragment extends DialogFragment implements
             am_pm = "PM";
 
         String strHrsToShow = (datetime.get(Calendar.HOUR) == 0) ?"12":datetime.get(Calendar.HOUR)+"";
-        TextView tvTimePicker = (TextView) getActivity().findViewById(R.id.tvTimePicker);
+        EditText tvTimePicker = (EditText) getActivity().findViewById(R.id.tvTimePicker);
         tvTimePicker.setText(strHrsToShow + ":" + datetime.get(Calendar.MINUTE) + " " + am_pm);
     }
 
