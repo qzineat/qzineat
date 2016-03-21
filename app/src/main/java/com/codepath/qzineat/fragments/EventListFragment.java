@@ -72,7 +72,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         rvEvents.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
 
-        //rvEvents.setNestedScrollingEnabled(false);
+        rvEvents.setNestedScrollingEnabled(false);
 
 
         return view;
