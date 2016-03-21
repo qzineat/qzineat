@@ -1,6 +1,5 @@
 package com.codepath.qzineat.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,16 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
@@ -52,8 +48,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
     @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+
 
     @Nullable
     @Override
@@ -72,9 +67,6 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         // Shining UI.....
         view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
-
-        // This is for drawer
-        mCommunicationChannelListener.attachDrawer(toolbar, true);
 
 
         return view;
@@ -305,15 +297,5 @@ public class EventListFragment extends Fragment implements EventListCallback {
         }
     }
 
-    CommunicationChannel mCommunicationChannelListener = null;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        ((AppCompatActivity) context).setSupportActionBar(toolbar);
-        if(context instanceof CommunicationChannel){
-            mCommunicationChannelListener = (CommunicationChannel) context;
-        }
-    }
 }

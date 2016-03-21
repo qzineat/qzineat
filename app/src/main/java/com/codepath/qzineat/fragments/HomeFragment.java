@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -55,6 +56,17 @@ public class HomeFragment extends Fragment {
         collapsingToolbar.setTitle(getString(R.string.drawer_event));
 
         loadBackdrop(view);*/
+
+
+
+        EventListFragment fragment = new  EventListFragment();
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flEventListContent, fragment)
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
+
 
         mCommunicationChannelListener.attachDrawer(toolbar);
         loadBackdrop(view);
