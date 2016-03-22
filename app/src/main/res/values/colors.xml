@@ -21,6 +21,7 @@
     <color name="divider">#B6B6B6</color>
     <color name="pager">#03A9F4</color>
     <color name="hint_color_light">#dedede</color>
+    <color name="edit_text_hint_color">#B6B6B6</color>
 
     <color name="card_layout_background">#dFdFdF</color>
 
@@ -31,10 +32,19 @@
     <color name="drawer_gray">#646464</color>
     <color name="drawer_profile_text">#212121</color>
     <color name="translucent_grey">#88cccccc</color>
+    <color name="image_tint">#8e8e8e</color>
 
     <!-- Badge color -->
     <color name="badge_text_color">#FFFFFF</color>
     <color name="badge_bg_color">#646464</color>
+
+
+    <color name="qzin_ui_button">#D32F2F</color>
+    <color name="qzin_ui_button_push">#FF5252</color>
+    <color name="qzin_ui_button_focus">#FF5252</color>
+    <color name="qzin_ui_dark_bg_display_text">#FFFFFF</color>
+
+
 
 
     <!-- Parse Login:Start -->

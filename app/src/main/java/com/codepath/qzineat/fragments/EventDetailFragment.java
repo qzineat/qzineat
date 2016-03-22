@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,7 +58,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Shyam Rokde on 3/6/16.
  */
-public class EventDetailFragment extends Fragment {
+public class EventDetailFragment extends BaseFragment {
 
 //    @Bind(R.id.ivEventImage) ImageView ivEventImage;
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
@@ -144,6 +143,8 @@ public class EventDetailFragment extends Fragment {
 
         // Get Event
         getEvent();
+
+        toolbar.setTitle("Event Detail");
 
         return view;
     }

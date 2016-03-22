@@ -43,7 +43,7 @@ public class QZinEatApplication extends Application {
 
         // Fonts
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                .setDefaultFontPath("fonts/NotoSans-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
