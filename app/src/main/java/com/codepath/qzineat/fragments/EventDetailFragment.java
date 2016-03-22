@@ -338,7 +338,7 @@ public class EventDetailFragment extends BaseFragment {
 
 
     public void setAvalCount(int availability){
-        tvAttendeesMaxCount.setText(String.format("%d avl./%d", availability, event.getAttendeesMaxCount()));
+        tvAttendeesMaxCount.setText(String.format("%d seats left of ./%d", availability, event.getAttendeesMaxCount()));
     }
 
     /**
