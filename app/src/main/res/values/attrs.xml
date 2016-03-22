@@ -2,7 +2,9 @@
 <resources>
     <!-- This is declaring the XML attributes that can be set within a theme. -->
     <!-- Check the "res/values/themes.xml" file for examples of these attributes being set.  -->
+    <attr name="textLargeBoldTitle" format="reference" />
     <attr name="textLargeTitle" format="reference" />
+    <attr name="textExtraLargeTitle" format="reference" />
     <attr name="textTitle" format="reference" />
     <attr name="textSubTitle" format="reference"/>
     <attr name="textTiny" format="reference"/>
