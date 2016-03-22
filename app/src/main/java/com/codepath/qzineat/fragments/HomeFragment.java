@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
 
     private void loadBackdrop(View view) {
         final ImageView imageView = (ImageView) view.findViewById(R.id.backdrop);
-        Glide.with(getContext()).load(R.drawable.cheese_2).centerCrop().into(imageView);
+        Glide.with(getContext()).load(R.drawable.home_image_three).centerCrop().into(imageView);
     }
 
 
