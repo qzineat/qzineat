@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.fragments.HostFragment;
+import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         setContentView(R.layout.activity_home);
 
         // Ok Open Home Fragment
-        HostFragment fragment = new HostFragment();
+        HomeFragment fragment = new HomeFragment();
         openFragment(fragment);
     }
 

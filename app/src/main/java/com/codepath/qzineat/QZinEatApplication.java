@@ -29,7 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class QZinEatApplication extends Application {
 
-    public static boolean isHostView = true;
+    public static boolean isHostView;
 
     @Override
     public void onCreate() {
