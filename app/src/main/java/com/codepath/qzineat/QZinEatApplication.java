@@ -29,7 +29,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class QZinEatApplication extends Application {
 
-    public static boolean isHostView;
+    public static boolean isHostView = true;
 
     @Override
     public void onCreate() {
@@ -43,7 +43,7 @@ public class QZinEatApplication extends Application {
 
         // Fonts
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                .setDefaultFontPath("fonts/NotoSans-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 
