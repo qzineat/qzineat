@@ -23,6 +23,7 @@
         <item name="textLargeTitle">@style/text_lg_title_bl</item>
         <item name="textTitle">@style/text_title_bl</item>
         <item name="textSubTitle">@style/text_sub_title_light</item>
+        <item name="textBoldTiny">@style/text_bold_tiny_light</item>
         <item name="textTiny">@style/text_tiny_light</item>
         <item name="textEditTextLabel">@style/edit_text_lable_light</item>
         <item name="textEditText">@style/text_edit_text</item>

@@ -63,7 +63,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="270dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="170dp"
                     />
@@ -76,7 +76,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="260dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="184dp"
                     android:background="@drawable/rounded_corner"
@@ -85,7 +85,29 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/text_mid_text_size"
                     />
+                    <LinearLayout
+                        android:id="@+id/llReviewBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="top"
+                        android:layout_below="@id/ivProfileImage"
+                        android:gravity="end"
+                        android:layout_marginLeft="30dp"
+                        android:visibility="visible"
+                        >
 
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="15dp"
+                            android:numStars="5"
+                            android:rating="0.0"
+                            android:stepSize="0.1"
+                            style="@style/foodRatingBar"
+                            />
+
+                    </LinearLayout>
                 <TextView
                     android:id="@+id/tvTitle"
                     style="?textExtraLargeTitle"
@@ -104,7 +126,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Description"
-                    android:paddingBottom="16dp"
                     android:layout_margin="20dp"
                     />
 
@@ -160,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:paddingTop="7dp">
+                    android:paddingTop="5dp">
                 <ImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="70px"
@@ -177,6 +198,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:layout_marginBottom="7dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:height="1dp"
+                        android:layout_below="@id/tvLocation"
+                        android:background="@color/horizontalRule"
+                        />
             </RelativeLayout>
 
                 <TextView
@@ -190,19 +223,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+                    android:id="@+id/llDetails"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/llMenu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp">
 
                         <TextView
                             android:id="@+id/tvMenuItem"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
                             style="?textTitle"
                             android:text="Sushi"/>
 
@@ -211,9 +246,32 @@
                             style="?textTiny"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center_vertical"
                             android:text="Japanese"
                             />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Alcohol: "
+                                style="?textTiny"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvAlcohol"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="10dp"
+                                style="?textBoldTiny"
+                                />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -221,7 +279,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
-                        android:layout_marginLeft="60dp">
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="5dp">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,7 +299,7 @@
                             style="?textSubTitle"
                             android:layout_marginLeft="4dp"
                             android:layout_marginTop="2dp"
-                            android:text="Guest Count"/>
+                            android:text="Guest"/>
                     </LinearLayout>
 
                         <TextView
@@ -248,37 +307,13 @@
                             style="?textTiny"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
                             />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Alcohol: "/>
-
-                        <TextView
-                            android:id="@+id/tvAlcohol"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="No"/>
                     </LinearLayout>
-                    </LinearLayout>
+
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:height="1dp"
-                    android:background="@color/horizontalRule"
-                    />
 
                 <LinearLayout
                     android:id="@+id/llReview"
@@ -305,44 +340,16 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:height="1dp"
-                    android:background="@color/horizontalRule"
-                    />
-                <LinearLayout
-                    android:id="@+id/llReviewBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="top"
-                    android:gravity="end"
-                    android:layout_marginLeft="30dp"
-                    android:visibility="gone"
-                    >
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:numStars="5"
-                        android:rating="0.0"
-                        android:stepSize="1.0"
-                        style="@style/foodRatingBar"
-                        />
-
-                </LinearLayout>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rvReviews"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
