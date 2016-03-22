@@ -5,19 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
-import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
-import com.codepath.qzineat.models.User;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class HomeActivity extends AppCompatActivity implements CommunicationChannel, DrawerDataUpdateCallback {
+public class HomeActivity extends AppCompatActivity implements CommunicationChannel {
 
     AccountHeader drawerHeader;
     ProfileDrawerItem profileAccountItem;
@@ -44,30 +41,40 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
                 .commit();
     }
 
-    @Override
-    public void onDataUpdate() {
-        Log.d("DEBUG", HomeActivity.class.toString() + " Lets update drawer before anyone clicks on it....");
-
-        // Header
-        profileAccountItem
-                .withName(User.getLoggedInUser().getProfileName())
-                .withEmail(User.getLoggedInUser().getEmail());
-
-        if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
-            profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
-        }else {
-            profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
-        }
-
-        drawerHeader.updateProfile(profileAccountItem);
-
-
-    }
-
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+
+    /*private void setupSearch(){
+        View view = getLayoutInflater().inflate(R.layout.search_bar_home, null);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(view);
+
+        etSearch = (EditText) findViewById(R.id.etSearch);
+        llSearch = (LinearLayout) findViewById(R.id.llSearch);
+
+        etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    v.clearFocus();
+                    // Send to another activity
+                    Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
+        etSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Send to another activity
+                Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                startActivity(i);
+            }
+        });
+    }*/
 
 }

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.MainActivity;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -68,7 +68,7 @@ public class SignUpFragment extends Fragment {
                             installation.saveInBackground();
 
                             // Hooray! Let them use the app now.
-                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            Intent intent = new Intent(getContext(), HomeActivity.class);
                             //intent.putExtra("result", User.U);
                             startActivity(intent);
                         } else {
