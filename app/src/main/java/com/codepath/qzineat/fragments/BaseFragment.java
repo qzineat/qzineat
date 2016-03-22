@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,15 @@ import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
+import com.codepath.qzineat.interfaces.UserEventCountListener;
 import com.codepath.qzineat.models.User;
+import com.codepath.qzineat.utils.QZinDataAccess;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -31,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Shyam Rokde on 3/18/16.
  */
-public class BaseFragment extends Fragment  {
+public class BaseFragment extends Fragment implements UserEventCountListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -120,9 +124,7 @@ public class BaseFragment extends Fragment  {
                 .withActionBarDrawerToggle(true)
                 .withOnDrawerItemClickListener(mDrawerItemClickListener)
                 .withSavedInstance(savedInstanceState)
-
-                //.withOnDrawerListener(mDrawerListener)
-                //.withDrawerLayout(R.layout.material_drawer)
+                .withOnDrawerListener(mDrawerListener)
                 .build();
 
         if(User.isUserLoggedIn()){
@@ -157,12 +159,6 @@ public class BaseFragment extends Fragment  {
         super.onActivityCreated(savedInstanceState);
 
         drawer.setToolbar(getActivity(), toolbar);
-
-        //((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        //((AppCompatActivity) context).setSupportActionBar(toolbar);
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        //drawer.setToolbar(getActivity(), toolbar);
-        //drawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
     }
 
     private Drawer.OnDrawerItemClickListener mDrawerItemClickListener = new Drawer.OnDrawerItemClickListener(){
@@ -203,7 +199,6 @@ public class BaseFragment extends Fragment  {
             }
 
             if(drawerItem.equals(userEventsItem)){
-                //setTitle(userEventsItem.getName().toString());
                 fragment = new EnrollEventFragment();
             }
 
@@ -215,7 +210,6 @@ public class BaseFragment extends Fragment  {
                 /*if(llSearch != null){
                     llSearch.setVisibility(View.VISIBLE); // Only on Event List
                 }*/
-                //setTitle(eventsItem.getName().toString());
                 fragment = new HomeFragment();
             }
 
@@ -230,6 +224,28 @@ public class BaseFragment extends Fragment  {
             return false;
         }
     };
+
+
+    private Drawer.OnDrawerListener mDrawerListener = new Drawer.OnDrawerListener() {
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            // Other updates
+            Log.d("DEBUG", "Drawer Open...");
+            // update host count - this is async so no worries
+            QZinDataAccess.findUserEventsCount(BaseFragment.this);
+        }
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+        }
+    };
+
 
     @Override
     public void onAttach(Context context) {
@@ -248,5 +264,20 @@ public class BaseFragment extends Fragment  {
     public void onSaveInstanceState(Bundle outState) {
         outState = drawer.saveInstanceState(outState);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onUserEventCount(int count) {
+        userEventsItem
+                .withBadge(String.valueOf(count))
+                .withBadgeStyle(getBadgeStyle());
+
+        drawer.updateItem(userEventsItem);
+    }
+
+    private BadgeStyle getBadgeStyle() {
+        return new BadgeStyle()
+                .withTextColor(getResources().getColor(R.color.badge_text_color))
+                .withColorRes(R.color.badge_bg_color);
     }
 }

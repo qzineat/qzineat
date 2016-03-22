@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.MainActivity;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -119,7 +119,7 @@ public class ProfileEditFragment  extends Fragment {
                 fragmentTransaction.commit();
 
                 // Call Main Activity for data update
-                ((MainActivity) getActivity()).onDataUpdate();
+                ((HomeActivity) getActivity()).onDataUpdate();
             }
         });
     }
