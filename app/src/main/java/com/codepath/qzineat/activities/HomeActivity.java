@@ -7,27 +7,31 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.codepath.qzineat.utils.QZinUtil;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class HomeActivity extends AppCompatActivity implements CommunicationChannel {
 
-    AccountHeader drawerHeader;
-    ProfileDrawerItem profileAccountItem;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        QZinUtil.onActivityCreateSetTheme(this); // Change Theme
         setContentView(R.layout.activity_home);
 
-        // Ok Open Home Fragment
-        HomeFragment fragment = new HomeFragment();
-        openFragment(fragment);
+        // Ok Open Home Fragment or Hosted Events
+        if(QZinEatApplication.isHostView){
+            EnrollEventFragment fragment = new EnrollEventFragment();
+            openFragment(fragment);
+        }else {
+            HomeFragment fragment = new HomeFragment();
+            openFragment(fragment);
+        }
     }
 
 
@@ -76,5 +80,6 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
             }
         });
     }*/
+
 
 }

@@ -30,18 +30,17 @@
         <item name="searchEditText">@style/search_edit_text</item>
         <item name="textRegular34">@style/text_regular_34</item>
 
-        <item name="navDrawerBackground">@style/nav_drawer_background_wh</item>
-        <item name="navDrawerSwap">@style/nav_drawer_swap_wh</item>
-        <item name="colorControlHighlight">@color/drawer_gray</item> 
+
 
         <!-- Drawer -->
         <item name="material_drawer_background">@android:color/white</item>
     </style>
 
     <style name="HostQZinTheme" parent="AppTheme">
-        <item name="navDrawerBackground">@style/nav_drawer_background_gr</item>
-        <item name="navDrawerSwap">@style/nav_drawer_swap_gr</item>
-        <item name="colorControlHighlight">@android:color/white</item> 
+        <item name="material_drawer_background">#303030</item>
+        <item name="material_drawer_primary_text">#DEFFFFFF</item>
+        <item name="material_drawer_primary_icon">#8AFFFFFF</item>
+
     </style>
 
 </resources>

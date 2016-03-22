@@ -1,7 +1,9 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.EventListActivity;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -18,6 +22,9 @@ import butterknife.ButterKnife;
  */
 public class HomeFragment extends BaseFragment {
 
+
+    @Bind(R.id.fabSearch) FloatingActionButton fabSearch;
+    @Bind(R.id.backdrop) ImageView backdrop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,22 +61,26 @@ public class HomeFragment extends BaseFragment {
         loadBackdrop(view);*/
 
 
-        //drawer.setToolbar(getActivity(), toolbar);
+        fabSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), EventListActivity.class);
+                startActivity(i);
+            }
+        });
 
 
-
-        //mCommunicationChannelListener.attachDrawer(toolbar);
-        loadBackdrop(view);
-
+        loadBackdrop();
 
         return view;
     }
 
 
 
-    private void loadBackdrop(View view) {
-        final ImageView imageView = (ImageView) view.findViewById(R.id.backdrop);
-        Glide.with(getContext()).load(R.drawable.home_image_three).centerCrop().into(imageView);
+    private void loadBackdrop() {
+        //final ImageView imageView = (ImageView) view.findViewById(R.id.backdrop);
+        //Glide.with(getContext()).load(R.drawable.home_image_three).centerCrop().into(imageView);
+        Glide.with(getContext()).load(R.drawable.home_image_three).centerCrop().into(backdrop);
     }
 
 

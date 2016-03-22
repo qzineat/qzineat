@@ -55,7 +55,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setupDrawer(savedInstanceState);
+        setupDrawer();
 
         //((AppCompatActivity) context).setSupportActionBar(toolbar);
 
@@ -80,6 +80,43 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
 
         Glide.with(this).load(R.drawable.drawer).into(drawerHeader.getHeaderBackgroundView());
     }
+
+
+    protected void createDrawerItemsHost(){
+        // if log in
+        profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.mipmap.ic_account_white).withSelectedIcon(R.mipmap.ic_profile_image).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.mipmap.ic_food_drink_white).withSelectedIcon(R.mipmap.ic_food_drink_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        // host
+//        hostedEventsItem = new PrimaryDrawerItem().withName(getString(R.string.all_hosted_event)).withIcon(R.drawable.ic_hosted_events);
+        hostEventItem = new PrimaryDrawerItem().withName(getString(R.string.host_event)).withIcon(R.mipmap.ic_event_check).withSelectedIcon(R.mipmap.ic_event_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        // both
+        logOutItem = new PrimaryDrawerItem().withName(getString(R.string.log_out)).withIcon(R.mipmap.ic_logout_white).withSelectedIcon(R.mipmap.ic_logout_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        switchItem = new PrimaryDrawerItem().withName(getString(R.string.switch_host)).withIcon(R.mipmap.ic_account_switch_white).withSelectedIcon(R.mipmap.ic_account_switch_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        // if log out
+        logInItem = new PrimaryDrawerItem().withName(getString(R.string.log_in)).withIcon(R.mipmap.ic_account_white).withSelectedIcon(R.mipmap.ic_profile_image).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        // all
+        eventsItem = new PrimaryDrawerItem().withName(getString(R.string.events)).withIcon(R.mipmap.ic_event_white).withSelectedIcon(R.mipmap.ic_events_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+        filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.mipmap.ic_setting_white).withSelectedIcon(R.mipmap.ic_settings_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
+
+        // Profile Account
+        if(User.isUserLoggedIn()){
+            profileAccountItem = new ProfileDrawerItem()
+                    .withName(User.getLoggedInUser().getProfileName())
+                    .withEmail(User.getLoggedInUser().getEmail());
+            if(User.getLoggedInUser().getImageFile() != null
+                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+                profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+            }else {
+                profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+            }
+
+        }else {
+            profileAccountItem = new ProfileDrawerItem()
+                    .withEnabled(false)
+                    .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+        }
+    }
+
 
     protected void createDrawerItems(){
         // if log in
@@ -116,8 +153,14 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         }
     }
 
-    protected void setupDrawer(Bundle savedInstanceState){
-        createDrawerItems();
+    protected void setupDrawer(){
+
+        if(QZinEatApplication.isHostView){
+            createDrawerItemsHost();
+        }else{
+            createDrawerItems();
+        }
+
         createDrawerHeader();
 
         drawer = new DrawerBuilder()
@@ -126,16 +169,16 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
                 .withOnDrawerItemClickListener(mDrawerItemClickListener)
-                .withSavedInstance(savedInstanceState)
                 .withOnDrawerListener(mDrawerListener)
                 .build();
+
 
         if(User.isUserLoggedIn()){
             drawer.addItem(profileItem);
             drawer.addItem(eventsItem);
             if(QZinEatApplication.isHostView){
                 drawer.addItem(hostEventItem);
-                switchItem.withName(getString(R.string.switch_search)).withIcon(R.drawable.ic_swap); // Footer Change
+                switchItem.withName(getString(R.string.switch_search)).withIcon(R.mipmap.ic_swap_white); // Footer Change
                 userEventsItem.withName(getString(R.string.drawer_hosted_event));
                 drawer.addItem(userEventsItem);
                 // drawer.setSelection(userEventsItem, true); // Set Default
@@ -263,11 +306,6 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         mCommunicationChannel.openFragment(fragment);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = drawer.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onUserEventCount(int count) {
@@ -279,9 +317,18 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     }
 
     private BadgeStyle getBadgeStyle() {
-        return new BadgeStyle()
-                .withTextColor(getResources().getColor(R.color.badge_text_color))
-                .withColorRes(R.color.badge_bg_color);
+
+        if(QZinEatApplication.isHostView){
+            return new BadgeStyle()
+                    .withTextColor(getResources().getColor(R.color.badge_bg_color))
+                    .withColorRes(R.color.badge_text_color);
+
+        }else {
+            return new BadgeStyle()
+                    .withTextColor(getResources().getColor(R.color.badge_text_color))
+                    .withColorRes(R.color.badge_bg_color);
+        }
+
     }
 
 
