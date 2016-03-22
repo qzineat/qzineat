@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     >
 
     <ScrollView
@@ -46,191 +47,45 @@
                 <ImageView
                     android:id="@+id/ivProfileImage"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="175dp"
+                    android:layout_marginTop="170dp"
                     />
 
                 <TextView
                     android:id="@+id/tvPrice"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
+                    android:layout_width="65dp"
+                    android:layout_height="37dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="250dp"
+                    android:layout_marginLeft="260dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="185dp"
+                    android:layout_marginTop="184dp"
                     android:background="@drawable/rounded_corner"
-                    android:text="$20"
-                    style="?textSubTitle"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_mid_text_size"
                     />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivProfileImage"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="5dp">
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    style="?textLargeTitle"
+                    style="?textExtraLargeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Test"
+                    android:layout_below="@id/ivProfileImage"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="15dp"
                     />
-
-                <TextView
-                    android:id="@+id/tvDate"
-                    style="?textSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="23 Mar"
-                    />
-
-                <TextView
-                    android:id="@+id/tvLocation"
-                    style="?textSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="San Francisco"
-                    />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:height="1dp"
-                    android:background="@color/horizontalRule"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_guest"
-                            />
-
-                        <TextView
-                            style="?textTiny"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="guest"/>
-
-                        <TextView
-                            android:id="@+id/tvAttendeesMaxCount"
-                            style="?textTiny"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="20"
-                            />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llReview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="30dp"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@drawable/ic_star"
-                            />
-
-                        <TextView
-                            style="?textTiny"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="review"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/llReviewBar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="top"
-                        android:gravity="end"
-                        android:layout_marginLeft="30dp"
-                        android:visibility="gone"
-                        >
-
-                        <RatingBar
-                            android:id="@+id/ratingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:numStars="5"
-                            android:rating="0.0"
-                            android:stepSize="1.0"
-                            style="@style/foodRatingBar"
-                            />
-
-                    </LinearLayout>
-
-
-
-                </LinearLayout>
-
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:height="1dp"
-                    android:background="@color/horizontalRule"
-                    />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Alcohol: "/>
-
-                    <TextView
-                        android:id="@+id/tvAlcohol"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No"/>
-                </LinearLayout>
+            </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tvDescription"
@@ -239,7 +94,234 @@
                     android:layout_height="wrap_content"
                     android:text="Description"
                     android:paddingBottom="16dp"
+                    android:layout_margin="20dp"
                     />
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_below="@id/tvTitle"
+                cardview:cardElevation="4dp"
+                app:cardCornerRadius="0dp"
+                cardview:cardBackgroundColor="@color/md_white_1000">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivProfileImage"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp">
+
+                <TextView
+                    android:id="@+id/tvWhenAndWhere"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="When and Where"
+                    style="?textLargeBoldTitle"
+                    />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp">
+                    <ImageView
+                        android:id="@+id/ivAlarm"
+                        android:layout_width="70px"
+                        android:layout_height="70px"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_alarm"
+                        />
+                    <TextView
+                        android:id="@+id/tvDate"
+                        style="?textSubTitle"
+                        android:layout_toRightOf="@id/ivAlarm"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+              </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="7dp">
+                <ImageView
+                    android:id="@+id/ivAddress"
+                    android:layout_width="70px"
+                    android:layout_height="70px"
+                    android:layout_marginLeft="9dp"
+                    android:src="@mipmap/ic_home_address"
+                    />
+                <TextView
+                    android:id="@+id/tvLocation"
+                    style="?textSubTitle"
+                    android:layout_toRightOf="@id/ivAddress"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:height="1dp"
+                    android:background="@color/horizontalRule"
+                    />
+
+                <TextView
+                    android:id="@+id/tvEventDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Details"
+                    style="?textLargeBoldTitle"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/llMenu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvMenuItem"
+                            style="?textSubTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Sushi"/>
+
+                        <TextView
+                            android:id="@+id/tvMenuCategory"
+                            style="?textTiny"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Japanese"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="100dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                        <ImageView
+                            android:layout_width="70px"
+                            android:layout_height="70px"
+                            android:src="@mipmap/ic_multiple_guests"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="?textSubTitle"
+                            android:text="Guest Count"/>
+                    </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvAttendeesMaxCount"
+                            style="?textTiny"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Alcohol: "/>
+
+                        <TextView
+                            android:id="@+id/tvAlcohol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No"/>
+                    </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="30dp"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_star"
+                        />
+
+                    <TextView
+                        style="?textTiny"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="review"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:height="1dp"
+                    android:background="@color/horizontalRule"
+                    />
+                <LinearLayout
+                    android:id="@+id/llReviewBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="top"
+                    android:gravity="end"
+                    android:layout_marginLeft="30dp"
+                    android:visibility="gone"
+                    >
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:numStars="5"
+                        android:rating="0.0"
+                        android:stepSize="1.0"
+                        style="@style/foodRatingBar"
+                        />
+
+                </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvReviews"
@@ -248,6 +330,7 @@
 
             </LinearLayout>
 
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

@@ -18,7 +18,8 @@
     <style name="AppTheme" parent="QZinTheme">
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorBackground">@color/white</item>
-
+        <item name="textExtraLargeTitle">@style/text_ext_lg_title_bl</item>
+        <item name="textLargeBoldTitle">@style/text_lg_bld_title_bl</item>
         <item name="textLargeTitle">@style/text_lg_title_bl</item>
         <item name="textTitle">@style/text_title_bl</item>
         <item name="textSubTitle">@style/text_sub_title_light</item>

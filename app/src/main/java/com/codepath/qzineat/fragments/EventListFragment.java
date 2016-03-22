@@ -130,7 +130,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         //ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         // Configure limit and sort order
-        mainQuery.setLimit(3);
+        mainQuery.setLimit(10);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
         if(lastCreatedAt != null){

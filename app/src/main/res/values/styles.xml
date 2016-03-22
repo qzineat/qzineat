@@ -8,6 +8,16 @@
     <style name="event_card_background">
         <item name="android:background">@android:color/white</item>
     </style>
+    <style name="text_ext_lg_title_bl">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/text_ext_large_title_text_size</item>
+        <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
+    </style>
+    <style name="text_lg_bld_title_bl">
+    <item name="android:textColor">@android:color/black</item>
+    <item name="android:textSize">@dimen/text_title_bold_text_size</item>
+    <item name="fontPath">fonts/Roboto-Bold.ttf</item>
+    </style>
     <style name="text_lg_title_bl">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/text_large_title_text_size</item>

@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Base64;
 import android.util.Log;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -37,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by glondhe on 3/11/16.
  */
-public class ProfileEditFragment  extends Fragment {
+public class ProfileEditFragment  extends BaseFragment {
 
     public static final int DAILOG_FRAGMENT = 1;
     @Bind(R.id.ivProfileImage)
@@ -114,12 +111,7 @@ public class ProfileEditFragment  extends Fragment {
                     Log.d("DEBUG", "Successfully created event on Parse");
                // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                 ProfileFragment profileFragment = new ProfileFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.flContent, profileFragment);
-                fragmentTransaction.commit();
-
-                // Call Main Activity for data update
-                ((HomeActivity) getActivity()).onDataUpdate();
+                openFragment(profileFragment);
             }
         });
     }

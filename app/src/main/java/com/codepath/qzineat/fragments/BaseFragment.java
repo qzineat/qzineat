@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
+import com.codepath.qzineat.interfaces.DrawerDataUpdateCallback;
 import com.codepath.qzineat.interfaces.UserEventCountListener;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.QZinDataAccess;
@@ -35,8 +37,9 @@ import butterknife.ButterKnife;
 /**
  * Created by Shyam Rokde on 3/18/16.
  */
-public class BaseFragment extends Fragment implements UserEventCountListener {
+public class BaseFragment extends Fragment implements UserEventCountListener, DrawerDataUpdateCallback {
 
+    @Nullable
     @Bind(R.id.toolbar) Toolbar toolbar;
 
     CommunicationChannel mCommunicationChannel = null;
@@ -280,4 +283,25 @@ public class BaseFragment extends Fragment implements UserEventCountListener {
                 .withTextColor(getResources().getColor(R.color.badge_text_color))
                 .withColorRes(R.color.badge_bg_color);
     }
+
+
+    @Override
+    public void onDrawerDataUpdate() {
+        Log.d("DEBUG", HomeActivity.class.toString() + " Lets update drawer before anyone clicks on it....");
+
+        // Header
+        profileAccountItem
+                .withName(User.getLoggedInUser().getProfileName())
+                .withEmail(User.getLoggedInUser().getEmail());
+
+        if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+            profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+        }else {
+            profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
+        }
+
+        drawerHeader.updateProfile(profileAccountItem);
+
+    }
+
 }
