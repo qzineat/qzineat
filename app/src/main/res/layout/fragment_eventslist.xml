@@ -12,29 +12,46 @@
         android:paddingTop="@dimen/home_text_layout_padding_top"
         android:paddingStart="@dimen/home_text_layout_padding"
         android:paddingEnd="@dimen/home_text_layout_padding"
-        android:paddingBottom="@dimen/home_text_layout_padding_bottom"
+        android:paddingBottom="16dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tvWelcomeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            style="@style/text_regular_24"
+            />
+
+        <TextView
+            android:id="@+id/tvWelcomeMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="16dp"
+            android:lineSpacingMultiplier="1.3"
+            style="@style/text_regular_16"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/bg_home_color_match"
         >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your Name"
-            style="?textRegular34"
-            />
+            android:layout_marginBottom="14dp"
+            android:layout_marginTop="14dp"
+            android:height="1dp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cheese_ipsum"
             />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cheese_ipsum"
-            />
+        <!--android:background="@color/horizontalRule"-->
 
     </LinearLayout>
 

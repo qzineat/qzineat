@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
@@ -49,6 +50,9 @@ public class EventListFragment extends Fragment implements EventListCallback {
     CommunicationChannel mCommunicationChannel = null;
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
+    @Bind(R.id.tvWelcomeName) TextView tvWelcomeName;
+    @Bind(R.id.tvWelcomeMsg) TextView tvWelcomeMsg;
+
     //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
 
@@ -73,6 +77,13 @@ public class EventListFragment extends Fragment implements EventListCallback {
         rvEvents.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
 
         rvEvents.setNestedScrollingEnabled(false);
+
+        if(User.isUserLoggedIn() && !User.getLoggedInUser().getProfileName().isEmpty()){
+            tvWelcomeName.setText(String.format("Hi, %s", User.getLoggedInUser().getProfileName()));
+        }else {
+            tvWelcomeName.setText(getString(R.string.welcome_title));
+        }
+        tvWelcomeMsg.setText(getString(R.string.welcome_msg));
 
 
         return view;
