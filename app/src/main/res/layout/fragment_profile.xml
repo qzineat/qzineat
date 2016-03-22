@@ -1,265 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:isScrollContainer="false"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
-   >
-
-    <RelativeLayout
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY" />
-        <ImageView
-            android:id="@+id/ivbkgImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:background="@color/accent"
-            android:minHeight="200dp"
-            android:scaleType="fitCenter" />
-
-
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="173dp"
-        />
-
-    <LinearLayout
-        android:id="@+id/llProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="5dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="100dp">
-
-        <TextView
-            android:id="@+id/tvProfileName"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ProfileName"
-            style="?textLargeTitle"/>
+            />
 
-        <TextView
-            android:id="@+id/tvLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location"
-            style="?textTiny"    />
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:isScrollContainer="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    layout="@layout/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/ivbkgImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/accent"
+                    android:minHeight="200dp"
+                    android:scaleType="fitCenter" />
 
 
+                <ImageView
+                    android:id="@+id/ivProfileImage"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="173dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/llProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="5dp"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="100dp">
+
+                    <TextView
+                        android:id="@+id/tvProfileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ProfileName"
+                        style="?textLargeTitle"/>
+
+                    <TextView
+                        android:id="@+id/tvLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location"
+                        style="?textTiny"    />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:id="@+id/line1"
+                    android:layout_height="0.0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/llProfile"
+                    android:background="@android:color/white"/>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_below="@id/line1"
+                    cardview:cardElevation="4dp"
+                    app:cardCornerRadius="0dp"
+                    cardview:cardBackgroundColor="@color/md_white_1000">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/darker_gray"/>
+
+
+                    <View
+                        android:id="@+id/vwLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_below="@id/ivProfileImage"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:id="@+id/llBasicInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/vwLine"
+                        android:orientation="vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="5dp">
+
+                        <LinearLayout
+                            android:id="@+id/ll1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tvSpecialityText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                style="?textTiny"
+                                android:text="Speciality:" />
+
+                            <TextView
+                                android:id="@+id/tvSpeciality"
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginLeft="3dp"
+                                android:layout_height="wrap_content"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp"
+                            >
+                            <TextView
+                                android:id="@+id/tvContactText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?textTiny"
+                                android:text="Contact:" />
+
+
+                            <TextView
+                                android:id="@+id/tvContact"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                />
+
+                            <!--android:autoLink="phone"-->
+                            <!--android:background="#ADD8E6"-->
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp">
+                            <TextView
+                                android:id="@+id/tvEmailText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?textTiny"
+                                android:text="Email:"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="2dp">
+                            <TextView
+                                android:id="@+id/tvWebsiteText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?textTiny"
+                                android:text="Website:"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvWebsite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cv2"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@id/cv"
+                    cardview:cardElevation="4dp"
+                    app:cardCornerRadius="0dp"
+                    cardview:cardBackgroundColor="@color/md_blue_300">
+
+
+                    <LinearLayout
+                        android:id="@+id/llAboutme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tvAboutMeTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="About Me!"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/white"
+                            style="?textLargeTitle"
+                            />
+
+                        <TextView
+                            android:id="@+id/tvAboutMe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:minHeight="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:textColor="@color/white"
+                            android:text=" Tell Us Something about yourself."
+                            />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <ImageView
+                    android:id="@+id/evEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/ll"
+                    android:layout_below="@+id/ivbkgImage"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/edit_pencil"
+                    android:text="@string/Edit" />
+
+            </RelativeLayout>
+        </ScrollView>
     </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:id="@+id/line1"
-            android:layout_height="0.0dp"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/llProfile"
-            android:background="@android:color/white"/>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_below="@id/line1"
-        cardview:cardElevation="4dp"
-        app:cardCornerRadius="0dp"
-        cardview:cardBackgroundColor="@color/md_white_1000">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/darker_gray"/>
+</android.support.design.widget.CoordinatorLayout>
 
 
-        <View
-            android:id="@+id/vwLine"
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@id/ivProfileImage"
-            android:layout_marginTop="20dp"
-            android:background="@color/divider" />
 
-        <LinearLayout
-            android:id="@+id/llBasicInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/vwLine"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="5dp">
-
-            <LinearLayout
-                android:id="@+id/ll1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tvSpecialityText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    style="?textTiny"
-                    android:text="Speciality:" />
-
-                <TextView
-                    android:id="@+id/tvSpeciality"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="3dp"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp"
-                >
-                <TextView
-                    android:id="@+id/tvContactText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?textTiny"
-                    android:text="Contact:" />
-
-
-                <TextView
-                    android:id="@+id/tvContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    />
-
-                <!--android:autoLink="phone"-->
-                <!--android:background="#ADD8E6"-->
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp">
-                <TextView
-                    android:id="@+id/tvEmailText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?textTiny"
-                    android:text="Email:"
-                    />
-
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp">
-                <TextView
-                    android:id="@+id/tvWebsiteText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?textTiny"
-                    android:text="Website:"
-                    />
-
-                <TextView
-                    android:id="@+id/tvWebsite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cv2"
-        android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@id/cv"
-        cardview:cardElevation="4dp"
-        app:cardCornerRadius="0dp"
-        cardview:cardBackgroundColor="@color/md_blue_300">
-
-
-        <LinearLayout
-            android:id="@+id/llAboutme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvAboutMeTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="About Me!"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/white"
-                style="?textLargeTitle"
-                />
-
-            <TextView
-                android:id="@+id/tvAboutMe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minWidth="100dp"
-                android:minHeight="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="@color/white"
-                android:text=" Tell Us Something about yourself."
-                />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-
-    <ImageView
-        android:id="@+id/evEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/ll"
-        android:layout_below="@+id/ivbkgImage"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="7dp"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/edit_pencil"
-        android:text="@string/Edit" />
-
-  </RelativeLayout>
-</ScrollView>
 

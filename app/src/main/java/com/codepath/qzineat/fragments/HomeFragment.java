@@ -1,42 +1,38 @@
 package com.codepath.qzineat.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by Shyam Rokde on 3/20/16.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
 
-    Drawer drawer;
-    AccountHeader drawerHeader;
-    ProfileDrawerItem profileAccountItem;
-    PrimaryDrawerItem logInItem, profileItem, eventsItem,
-            hostEventItem, userEventsItem,
-            filterItem, logOutItem, switchItem;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Selected item in drawer..
+        drawer.setSelection(eventsItem, false);
 
+        EventListFragment fragment = new  EventListFragment();
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flEventListContent, fragment)
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
+    }
 
     @Nullable
     @Override
@@ -58,36 +54,18 @@ public class HomeFragment extends Fragment {
         loadBackdrop(view);*/
 
 
-
-        EventListFragment fragment = new  EventListFragment();
-
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.flEventListContent, fragment)
-                .addToBackStack(fragment.getClass().getName())
-                .commit();
+        //drawer.setToolbar(getActivity(), toolbar);
 
 
-        mCommunicationChannelListener.attachDrawer(toolbar);
+
+        //mCommunicationChannelListener.attachDrawer(toolbar);
         loadBackdrop(view);
-
-
 
 
         return view;
     }
 
-    CommunicationChannel mCommunicationChannelListener = null;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        ((AppCompatActivity) context).setSupportActionBar(toolbar);
-        if(context instanceof CommunicationChannel){
-            mCommunicationChannelListener = (CommunicationChannel) context;
-        }
-    }
 
     private void loadBackdrop(View view) {
         final ImageView imageView = (ImageView) view.findViewById(R.id.backdrop);

@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         setupDrawer();*/
 
 
-        setupDrawer();
+        //setupDrawer();
 
         HomeFragment fragment = new HomeFragment();
         openFragment(fragment);
