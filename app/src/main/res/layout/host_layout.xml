@@ -1,376 +1,402 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollView"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:isScrollContainer="true">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
         <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            xmlns:android="http://schemas.android.com/apk/res/android" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical">
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/_linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <requestFocus />
-
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-        <ImageView
-            android:id="@+id/ivEventImage"
-            android:layout_width="170px"
-            android:layout_height="170px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical"
-            android:padding="20dp">
+            />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_event" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilTitle"
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/scrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:imeOptions="actionNext">
+                    android:layout_height="match_parent"
+                    android:focusableInTouchMode="true"
+                    android:isScrollContainer="true">
 
-                    <EditText
-                        android:id="@+id/etTitle"
-                        style="?textEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Event Name"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_calendar_clock" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilDate"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext">
-                    <!--<TextView-->
-                    <!--android:id="@+id/tvDatePicker"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="Select Date"-->
-                    <!--style="?textEditText"-->
-                    <!--android:nextFocusRight="@+id/tvTimePicker"/>-->
-                    <EditText
-                        android:id="@+id/tvDatePicker"
-                        style="?textEditText"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:focusable="true"
-                        android:hint="Date"
-                        android:imeOptions="actionNext"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
 
-                <!--<TextView-->
-                <!--android:id="@+id/tvTimePicker"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:hint="Select Time"-->
-                <!--style="?textEditText"-->
-                <!--android:nextFocusDown="@+id/spGuest"/>-->
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext">
+                        <LinearLayout
+                            android:id="@+id/_linearLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/tvTimePicker"
-                        style="?textEditText"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginStart="20dp"
-                        android:hint="Time"
-                        android:imeOptions="actionNext"
-                        android:nextFocusDown="@+id/spGuest"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                            <requestFocus />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_guest_plus" />
+                    </HorizontalScrollView>
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spGuest"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:drawSelectorOnTop="true"
-                    android:imeOptions="actionNext"
-                    android:nextFocusDown="@+id/tilCharge"
-                    app:ms_alignLabels="false"
-                    app:ms_arrowColor="@android:color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/secondary_text"
-                    app:ms_floatingLabelText="Guests"
-                    app:ms_highlightColor="@color/accent"
-                    app:ms_hint="Number of Guests"
-                    app:ms_multiline="false" />
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/ivEventImage"
+                        android:layout_width="170px"
+                        android:layout_height="170px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_currency_dollar" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilCharge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp">
-
-                    <EditText
-                        android:id="@+id/etCharge"
-                        style="?textEditText"
-                        android:inputType="number"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="$$"
-                        android:nextFocusDown="@+id/tilVenue"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                        android:layout_marginRight="5dp"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_address" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_event" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilVenue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp">
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
+                                android:imeOptions="actionNext">
 
-                    <EditText
-                        android:id="@+id/etVenue"
-                        style="?textEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Address"
-                        android:nextFocusDown="@+id/sMenuCategory"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                                <EditText
+                                    android:id="@+id/etTitle"
+                                    style="?textEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Event Name"
+                                    android:imeOptions="actionNext"
+                                    android:singleLine="true" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_food_drink" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="horizontal">
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/sMenuCategory"
-                    style="?textEditTextLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    android:drawSelectorOnTop="true"
-                    android:nextFocusDown="@+id/sMenuItem"
-                    app:ms_alignLabels="false"
-                    app:ms_arrowColor="@android:color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/secondary_text"
-                    app:ms_floatingLabelText="Cuisine"
-                    app:ms_highlightColor="@color/accent"
-                    app:ms_hint="Cuisine"
-                    app:ms_multiline="false" />
-            </LinearLayout>
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_calendar_clock" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext">
+                                <!--<TextView-->
+                                <!--android:id="@+id/tvDatePicker"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:hint="Select Date"-->
+                                <!--style="?textEditText"-->
+                                <!--android:nextFocusRight="@+id/tvTimePicker"/>-->
+                                <EditText
+                                    android:id="@+id/tvDatePicker"
+                                    style="?textEditText"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:focusable="true"
+                                    android:hint="Date"
+                                    android:imeOptions="actionNext"
+                                    android:singleLine="true" />
+                            </android.support.design.widget.TextInputLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_food_drink" />
+                            <!--<TextView-->
+                            <!--android:id="@+id/tvTimePicker"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginStart="20dp"-->
+                            <!--android:hint="Select Time"-->
+                            <!--style="?textEditText"-->
+                            <!--android:nextFocusDown="@+id/spGuest"/>-->
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/sMenuItem"
-                    style="?textEditTextLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    android:drawSelectorOnTop="true"
-                    android:nextFocusDown="@+id/tilDesc"
-                    app:ms_alignLabels="false"
-                    app:ms_arrowColor="@android:color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/secondary_text"
-                    app:ms_floatingLabelText="Menu Item"
-                    app:ms_highlightColor="@color/accent"
-                    app:ms_hint="Menu Item"
-                    app:ms_multiline="false" />
-            </LinearLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilTime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                                <EditText
+                                    android:id="@+id/tvTimePicker"
+                                    style="?textEditText"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="40dp"
+                                    android:layout_marginStart="20dp"
+                                    android:hint="Time"
+                                    android:imeOptions="actionNext"
+                                    android:nextFocusDown="@+id/spGuest"
+                                    android:singleLine="true" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_description" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilDesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_guest_plus" />
 
-                    <EditText
-                        android:id="@+id/etDesc"
-                        style="?textEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Menu Description"
-                        android:nextFocusDown="@+id/spAlcohol"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                            <fr.ganfra.materialspinner.MaterialSpinner
+                                android:id="@+id/spGuest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="1"
+                                android:drawSelectorOnTop="true"
+                                android:imeOptions="actionNext"
+                                android:nextFocusDown="@+id/tilCharge"
+                                app:ms_alignLabels="false"
+                                app:ms_arrowColor="@android:color/black"
+                                app:ms_arrowSize="16dp"
+                                app:ms_floatingLabelColor="@color/secondary_text"
+                                app:ms_floatingLabelText="Guests"
+                                app:ms_highlightColor="@color/accent"
+                                app:ms_hint="Number of Guests"
+                                app:ms_multiline="false" />
+                        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:paddingRight="2dp"
-                    android:src="@mipmap/ic_alcohol" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_currency_dollar" />
 
-                <fr.ganfra.materialspinner.MaterialSpinner
-                    android:id="@+id/spAlcohol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_weight="1"
-                    android:entries="@array/yesno_Array"
-                    android:nextFocusDown="@+id/btSave"
-                    app:ms_alignLabels="false"
-                    app:ms_arrowColor="@android:color/black"
-                    app:ms_arrowSize="16dp"
-                    app:ms_floatingLabelColor="@color/secondary_text"
-                    app:ms_floatingLabelText="Alcohol"
-                    app:ms_highlightColor="@color/accent"
-                    app:ms_hint="Alcohol"
-                    app:ms_multiline="false" />
-            </LinearLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilCharge"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp">
 
-            <Button
-                android:id="@+id/btSave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/accent"
-                android:text="Save" />
-        </LinearLayout>
+                                <EditText
+                                    android:id="@+id/etCharge"
+                                    style="?textEditText"
+                                    android:inputType="number"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="$$"
+                                    android:nextFocusDown="@+id/tilVenue"
+                                    android:singleLine="true" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_address" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilVenue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp">
+
+                                <EditText
+                                    android:id="@+id/etVenue"
+                                    style="?textEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Address"
+                                    android:nextFocusDown="@+id/sMenuCategory"
+                                    android:singleLine="true" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_food_drink" />
+
+                            <fr.ganfra.materialspinner.MaterialSpinner
+                                android:id="@+id/sMenuCategory"
+                                style="?textEditTextLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:layout_weight="1"
+                                android:drawSelectorOnTop="true"
+                                android:nextFocusDown="@+id/sMenuItem"
+                                app:ms_alignLabels="false"
+                                app:ms_arrowColor="@android:color/black"
+                                app:ms_arrowSize="16dp"
+                                app:ms_floatingLabelColor="@color/secondary_text"
+                                app:ms_floatingLabelText="Cuisine"
+                                app:ms_highlightColor="@color/accent"
+                                app:ms_hint="Cuisine"
+                                app:ms_multiline="false" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_food_drink" />
+
+                            <fr.ganfra.materialspinner.MaterialSpinner
+                                android:id="@+id/sMenuItem"
+                                style="?textEditTextLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:layout_weight="1"
+                                android:drawSelectorOnTop="true"
+                                android:nextFocusDown="@+id/tilDesc"
+                                app:ms_alignLabels="false"
+                                app:ms_arrowColor="@android:color/black"
+                                app:ms_arrowSize="16dp"
+                                app:ms_floatingLabelColor="@color/secondary_text"
+                                app:ms_floatingLabelText="Menu Item"
+                                app:ms_highlightColor="@color/accent"
+                                app:ms_hint="Menu Item"
+                                app:ms_multiline="false" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_description" />
+
+                            <android.support.design.widget.TextInputLayout
+                                android:id="@+id/tilDesc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp">
+
+                                <EditText
+                                    android:id="@+id/etDesc"
+                                    style="?textEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Menu Description"
+                                    android:nextFocusDown="@+id/spAlcohol"
+                                    android:singleLine="true" />
+                            </android.support.design.widget.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:paddingRight="2dp"
+                                android:src="@mipmap/ic_alcohol" />
+
+                            <fr.ganfra.materialspinner.MaterialSpinner
+                                android:id="@+id/spAlcohol"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:layout_weight="1"
+                                android:entries="@array/yesno_Array"
+                                android:nextFocusDown="@+id/btSave"
+                                app:ms_alignLabels="false"
+                                app:ms_arrowColor="@android:color/black"
+                                app:ms_arrowSize="16dp"
+                                app:ms_floatingLabelColor="@color/secondary_text"
+                                app:ms_floatingLabelText="Alcohol"
+                                app:ms_highlightColor="@color/accent"
+                                app:ms_hint="Alcohol"
+                                app:ms_multiline="false" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btSave"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@color/accent"
+                            android:text="Save" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
     </LinearLayout>
-    </RelativeLayout>
-</ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+

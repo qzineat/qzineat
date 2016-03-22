@@ -5,9 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by glondhe on 3/13/16.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends BaseFragment {
 
 
     @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
@@ -39,8 +37,7 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.tvEmail) TextView tvEmail;
     @Bind(R.id.tvWebsite) TextView tvWebsite;
     @Bind(R.id.evEdit) ImageView evEdit;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+
 
     Transformation transformation = new RoundedTransformationBuilder()
             .oval(true).cornerRadius(1)

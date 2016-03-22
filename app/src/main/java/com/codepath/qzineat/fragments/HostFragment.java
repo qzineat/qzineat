@@ -13,8 +13,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.models.Event;
@@ -64,10 +61,9 @@ import static java.lang.Integer.parseInt;
 /**
  * Created by glondhe on 3/1/16.
  */
-public class HostFragment extends Fragment{
+public class HostFragment extends BaseFragment {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+
 
     public static final int DAILOG_FRAGMENT = 1;
     private static final int RESULT_OK = -1 ;
@@ -149,6 +145,30 @@ public class HostFragment extends Fragment{
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Selected item in drawer..
+        drawer.setSelection(hostEventItem, false);
+
+        // Redirect User to LoginFragment
+        if (!User.isUserLoggedIn()) {
+            /*Fragment fragment = new LoginFragment();
+            fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.flContent, fragment);
+            // Commit the transaction
+            transaction.commit();*/
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
+
+        setMenuCategory();
+        setListAdapter();
+
     }
 
     @Override
@@ -280,10 +300,6 @@ public class HostFragment extends Fragment{
 
             }
         });
-
-
-        // This is for drawer
-        mCommunicationChannelListener.attachDrawer(toolbar, true);
 
 
         return view;
@@ -572,27 +588,7 @@ public class HostFragment extends Fragment{
         }
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-
-        // Redirect User to LoginFragment
-        if (!User.isUserLoggedIn()) {
-            /*Fragment fragment = new LoginFragment();
-            fragment.setTargetFragment(HostFragment.this, FragmentCode.HOST_FRAGMENT_LOGIN_CODE);
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.flContent, fragment);
-            // Commit the transaction
-            transaction.commit();*/
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-        }
-
-        setMenuCategory();
-        setListAdapter();
-
-    }
 
     private Event getEvent() {
             // Construct query to execute
@@ -1062,22 +1058,12 @@ public class HostFragment extends Fragment{
 
         public byte [] BitMapToString(Bitmap bitmap){
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte [] b=baos.toByteArray();
             String temp=Base64.encodeToString(b, Base64.DEFAULT);
             return b;
         }
 
-    CommunicationChannel mCommunicationChannelListener = null;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        ((AppCompatActivity) context).setSupportActionBar(toolbar);
-        if(context instanceof CommunicationChannel){
-            mCommunicationChannelListener = (CommunicationChannel) context;
-        }
-    }
 
 }
