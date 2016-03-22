@@ -44,6 +44,13 @@ public class ProfileFragment extends BaseFragment {
             .borderWidth(3)
             .build();
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Selected item in drawer..
+        drawer.setSelection(eventsItem, false);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
