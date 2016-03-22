@@ -199,7 +199,6 @@ public class BaseFragment extends Fragment  {
             // Below This requires fragment
             Fragment fragment = null;
             if(drawerItem.equals(profileItem)){
-                //setTitle(profileItem.getName().toString());
                 fragment = new ProfileFragment();
             }
 
@@ -209,7 +208,6 @@ public class BaseFragment extends Fragment  {
             }
 
             if(drawerItem.equals(hostEventItem)){
-                //setTitle(hostEventItem.getName().toString());
                 fragment = new HostFragment();
             }
 
