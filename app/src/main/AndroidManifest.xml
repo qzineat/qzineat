@@ -67,7 +67,6 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <activity android:name="com.codepath.qzineat.activities.EventDetailActivity"/>
         <activity android:name="com.codepath.qzineat.activities.HostActivity"/>
 
         <uses-library
@@ -107,7 +106,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.codepath.qzineat.activities.EventListActivity">
+        <activity android:name="com.codepath.qzineat.activities.SearchActivity"
+            android:parentActivityName="com.codepath.qzineat.activities.HomeActivity">
         </activity>
         <activity
             android:name="com.parse.ui.ParseLoginActivity"

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.EventListActivity;
+import com.codepath.qzineat.activities.SearchActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 
 import butterknife.Bind;
@@ -66,7 +66,7 @@ public class HomeFragment extends BaseFragment {
         fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), EventListActivity.class);
+                Intent i = new Intent(getContext(), SearchActivity.class);
                 startActivity(i);
             }
         });

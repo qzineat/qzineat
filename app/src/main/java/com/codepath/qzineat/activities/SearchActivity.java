@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class EventListActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 

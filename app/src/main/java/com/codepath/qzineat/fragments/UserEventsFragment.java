@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
-import com.codepath.qzineat.activities.EventDetailActivity;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.UserEventRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
@@ -134,7 +134,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
         public void onItemClicked(RecyclerView recyclerView, int position, View v) {
             Event event = mEvents.get(position);
 
-            Intent i = new Intent(getContext(), EventDetailActivity.class);
+            Intent i = new Intent(getContext(), HomeActivity.class);
             i.putExtra("eventObjectId", event.getObjectId());
             startActivity(i);
         }
