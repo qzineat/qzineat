@@ -23,13 +23,28 @@
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.flaviofaria.kenburnsview.KenBurnsView
-                android:id="@+id/backdrop"
+            <ViewSwitcher
+                android:id="@+id/viewSwitcher"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                android:inAnimation="@android:anim/fade_in"
+                android:outAnimation="@android:anim/fade_out"
+                app:layout_collapseMode="parallax"
+                android:fitsSystemWindows="true">
+                <com.flaviofaria.kenburnsview.KenBurnsView
+                    android:id="@+id/backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/home_image_one"/>
+                <com.flaviofaria.kenburnsview.KenBurnsView
+                    android:id="@+id/backdrop2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/home_image_three" />
+            </ViewSwitcher>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

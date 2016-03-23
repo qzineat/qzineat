@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -33,11 +34,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
+import com.codepath.qzineat.interfaces.DataUpdateListener;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.GeoUtil;
+import com.codepath.qzineat.utils.QZinDataAccess;
 import com.codepath.qzineat.utils.QZinUtil;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -45,7 +49,6 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -63,9 +66,10 @@ import static java.lang.Integer.parseInt;
 /**
  * Created by glondhe on 3/1/16.
  */
-public class HostFragment extends BaseFragment {
+public class HostFragment extends BaseFragment implements DataUpdateListener {
 
 
+    Handler handler;
 
     public static final int DAILOG_FRAGMENT = 1;
     private static final int RESULT_OK = -1 ;
@@ -78,6 +82,8 @@ public class HostFragment extends BaseFragment {
     private String imgDecodableString;
     private Date dateObject;
     Bitmap bitmap;
+
+    CircularFillableLoaders circularFillableLoaders;
 
     ArrayAdapter arrayAdapter;
     @Bind(R.id.ivEventImage)
@@ -177,14 +183,16 @@ public class HostFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        int count = this.getFragmentManager().getBackStackEntryCount();
-        final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
-        
         view = inflater.inflate(R.layout.host_layout, container, false);
         mainLayout = (LinearLayout) view.findViewById(R.id._linearLayout);
 
         ButterKnife.bind(this, view);
+
+        int count = this.getFragmentManager().getBackStackEntryCount();
+        final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
+        
+
+        circularFillableLoaders = (CircularFillableLoaders) view.findViewById(R.id.circularFillableLoaders); // Progress Bar
 
 //        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
 //        scrollView.setFocusableInTouchMode(true);
@@ -284,20 +292,32 @@ public class HostFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
+                showProgressBar();
+
+
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                    Log.d("DEBUG", "Hey cheater... You did double click!!!");
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                try{
+                    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
+
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                // TODO - Hack for creating Event
                 Snackbar snackbar = Snackbar.make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.accent));
                 snackbar.show();
                 sendNotification();
-
             }
         });
 
@@ -412,21 +432,27 @@ public class HostFragment extends BaseFragment {
 
         // Validations
         if (!validateTitle()) {
+            hideProgressBar();
             return;
         }
         if (!validateCharge()) {
+            hideProgressBar();
             return;
         }
         if (!validateVenue()) {
+            hideProgressBar();
             return;
         }
         if (!validateDesc()) {
+            hideProgressBar();
             return;
         }
         if (!validateDate()) {
+            hideProgressBar();
             return;
         }
         if (!validateTime()) {
+            hideProgressBar();
             return;
         }
 
@@ -501,19 +527,9 @@ public class HostFragment extends BaseFragment {
 
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
-            User.getLoggedInUser().setIsHost(true);
-            event.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null)
-                        Log.d("DEBUG", "Successfully created event on Parse");
 
-                        //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
-                        HostListFragment hostListFragment = new HostListFragment();
-                        openFragment(hostListFragment);
-                    }
-            });
-
+            QZinDataAccess.saveEvent(event, this);
+            
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }
 
@@ -999,6 +1015,15 @@ public class HostFragment extends BaseFragment {
         sMenuItem.setAdapter(MenuitemAdapter);
     }
 
+    @Override
+    public void onEventSave() {
+        hideProgressBar();
+        //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+        HostListFragment hostListFragment = new HostListFragment();
+        openFragment(hostListFragment);
+        Log.d("DEBUG", "Successfully created event on Parse");
+    }
+
     private class MenuItemOnClickListener implements android.widget.AdapterView.OnItemSelectedListener {
 
         @Override
@@ -1068,6 +1093,12 @@ public class HostFragment extends BaseFragment {
             return b;
         }
 
+    public void showProgressBar(){
+        circularFillableLoaders.setVisibility(View.VISIBLE);
+    }
 
+    public void hideProgressBar(){
+        circularFillableLoaders.setVisibility(View.GONE);
+    }
 
 }

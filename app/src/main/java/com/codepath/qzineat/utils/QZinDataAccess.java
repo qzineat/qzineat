@@ -3,8 +3,9 @@ package com.codepath.qzineat.utils;
 import android.util.Log;
 
 import com.codepath.qzineat.QZinEatApplication;
-import com.codepath.qzineat.interfaces.UserEventsListener;
+import com.codepath.qzineat.interfaces.DataUpdateListener;
 import com.codepath.qzineat.interfaces.UserEventCountListener;
+import com.codepath.qzineat.interfaces.UserEventsListener;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
@@ -23,6 +24,17 @@ import java.util.List;
  */
 public class QZinDataAccess {
 
+
+    public static void saveEvent(Event event, final DataUpdateListener dataUpdateListener){
+        event.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null){
+                    dataUpdateListener.onEventSave();
+                }
+            }
+        });
+    }
 
     public static void saveAttendee(final Event event, final int guestCount){
         final Attendee attendee = new Attendee();

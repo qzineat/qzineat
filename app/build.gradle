@@ -76,6 +76,7 @@ dependencies {
     compile 'com.parse:parseui-login-android:0.0.1'
 
     compile 'com.flaviofaria:kenburnsview:1.0.7' // Ken burns
+    compile 'com.mikhaellopez:circularfillableloaders:1.2.0' // Progress Bar
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

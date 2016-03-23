@@ -370,6 +370,26 @@
         </ScrollView>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+            android:id="@+id/circularFillableLoaders"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@mipmap/qeat"
+            app:cfl_border="true"
+            app:cfl_border_width="2dp"
+            app:cfl_progress="60"
+            app:cfl_wave_amplitude="0.08"
+            app:cfl_wave_color="@color/deep_accent"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>
 
 
