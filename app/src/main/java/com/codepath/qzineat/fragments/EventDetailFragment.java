@@ -121,7 +121,7 @@ public class EventDetailFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
 
         context = getActivity().getApplicationContext();
@@ -134,8 +134,13 @@ public class EventDetailFragment extends BaseFragment {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("objectId", event.getHost().getObjectId());
                 ProfileFragment profileFragment = new ProfileFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.addToBackStack(null);
+                profileFragment.setArguments(bundle);
                 transaction.replace(R.id.flContent, profileFragment);
                 transaction.commit();
             }

@@ -290,8 +290,10 @@ public class HostFragment extends BaseFragment {
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-
+                Snackbar snackbar = Snackbar.make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.accent));
+                snackbar.show();
             }
         });
 
@@ -488,13 +490,8 @@ public class HostFragment extends BaseFragment {
                 @Override
                 public void done(ParseException e) {
                     if (e == null)
-
                         Log.d("DEBUG", "Successfully created event on Parse");
-                        Snackbar snackbar = Snackbar
-                            .make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG)
-                            .setActionTextColor(getResources().getColor(R.color.accent));
 
-                        snackbar.show();
                         //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                         HostListFragment hostListFragment = new HostListFragment();
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();

@@ -56,6 +56,8 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
             filterItem, logOutItem, switchItem;
     private Bitmap bitmap;
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,7 +265,10 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
             // Below This requires fragment
             Fragment fragment = null;
             if(drawerItem.equals(profileItem)){
+                Bundle bundle = new Bundle();
+                bundle.putString("objectId",  User.getLoggedInUser().getObjectId());
                 fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
             }
 
             if(drawerItem.equals(userEventsItem)){
