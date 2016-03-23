@@ -640,6 +640,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             }
 
             getImages(evnt);
+            ivEventImage.setImageResource(R.drawable.ic_camera);
             Glide.with(getContext()).load(QZinUtil.getQZinImageUrl()).asBitmap().centerCrop().into(ivEventImage);
             etTitile.setText(evnt.getTitle());
             etTitile.setCursorVisible(false);
