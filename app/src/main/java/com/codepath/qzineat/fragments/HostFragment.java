@@ -38,6 +38,7 @@ import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.GeoUtil;
 import com.codepath.qzineat.utils.QZinUtil;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -76,6 +77,8 @@ public class HostFragment extends BaseFragment {
     private String imgDecodableString;
     private Date dateObject;
     Bitmap bitmap;
+
+    CircularFillableLoaders circularFillableLoaders;
 
     ArrayAdapter arrayAdapter;
     @Bind(R.id.ivEventImage)
@@ -175,14 +178,16 @@ public class HostFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        int count = this.getFragmentManager().getBackStackEntryCount();
-        final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
-        
         view = inflater.inflate(R.layout.host_layout, container, false);
         mainLayout = (LinearLayout) view.findViewById(R.id._linearLayout);
 
         ButterKnife.bind(this, view);
+
+        int count = this.getFragmentManager().getBackStackEntryCount();
+        final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
+        
+
+        circularFillableLoaders = (CircularFillableLoaders) view.findViewById(R.id.circularFillableLoaders); // Progress Bar
 
 //        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
 //        scrollView.setFocusableInTouchMode(true);
@@ -281,13 +286,20 @@ public class HostFragment extends BaseFragment {
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+                try{
+                    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+
+
+
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -412,6 +424,8 @@ public class HostFragment extends BaseFragment {
             return;
         }
 
+        showProgressBar();
+
         Boolean FLAG = true;
 
         String inputTitle = etTitile.getText().toString();
@@ -480,7 +494,7 @@ public class HostFragment extends BaseFragment {
             // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
 
-
+        hideProgressBar();
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
             User.getLoggedInUser().setIsHost(true);
@@ -1055,6 +1069,12 @@ public class HostFragment extends BaseFragment {
             return b;
         }
 
+    public void showProgressBar(){
+        circularFillableLoaders.setVisibility(View.VISIBLE);
+    }
 
+    public void hideProgressBar(){
+        circularFillableLoaders.setVisibility(View.GONE);
+    }
 
 }
