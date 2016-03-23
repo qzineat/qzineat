@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Review;
 
@@ -28,6 +29,7 @@ public class ReviewsRecyclerViewAdapter extends RecyclerView.Adapter<ReviewItemV
     @Override
     public ReviewItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate custom layout
@@ -37,15 +39,20 @@ public class ReviewsRecyclerViewAdapter extends RecyclerView.Adapter<ReviewItemV
     }
 
     @Override
-    public void onBindViewHolder(ReviewItemViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final ReviewItemViewHolder viewHolder, int position) {
         // 1. Get Event
         Review review = mReview.get(position);
         // 2. Populate user interface
         viewHolder.tvComment.setText(review.getComment());
         if(review.getReviewedBy().getProfileName() != null && !review.getReviewedBy().getProfileName().isEmpty()){
-            viewHolder.tvReviewedBy.setText(String.format("- By %s", review.getReviewedBy().getProfileName()));
+            viewHolder.tvReviewedBy.setText(review.getReviewedBy().getProfileName());
+            if (null != review.getReviewedBy().getImageFile() && !review.getReviewedBy().getImageFile().getUrl().isEmpty())
+                Glide.with(mContext).load(review.getReviewedBy().getImageFile().getUrl()).into(viewHolder.ivProfileImage);
+            else
+                Glide.with(mContext).load(R.mipmap.ic_profile_placeholder).into(viewHolder.ivProfileImage);
         }
     }
+
 
     @Override
     public int getItemCount() {
