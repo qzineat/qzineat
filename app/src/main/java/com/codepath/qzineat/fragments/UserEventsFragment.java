@@ -1,5 +1,6 @@
 package com.codepath.qzineat.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.UserEventRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
+import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.interfaces.UserEventsListener;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.ItemClickSupport;
@@ -43,6 +45,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
     protected String searchLocality;
     public boolean isSubscriberView;
 
+    CommunicationChannel mCommunicationChannel = null;
 
 
     @Nullable
@@ -73,7 +76,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
         super.onCreate(savedInstanceState);
 
         mEvents = new ArrayList<>();
-        recyclerViewAdapter = new UserEventRecyclerViewAdapter(mEvents, getContext());
+        recyclerViewAdapter = new UserEventRecyclerViewAdapter(mEvents, getContext(), this);
 
         // On Search
         if(getArguments() != null){
@@ -150,5 +153,19 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
 
         // Swipe container
         swipeContainer.setRefreshing(false);
+    }
+
+    public void openHostFragmentForEdit(String eventObjectId){
+        HostFragment fragment = HostFragment.newInstance(eventObjectId);
+        mCommunicationChannel.openFragment(fragment);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof CommunicationChannel){
+            mCommunicationChannel = (CommunicationChannel) context;
+        }
     }
 }

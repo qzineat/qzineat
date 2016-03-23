@@ -510,9 +510,7 @@ public class HostFragment extends BaseFragment {
 
                         //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                         HostListFragment hostListFragment = new HostListFragment();
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                        transaction.replace(R.id.flContent, hostListFragment);
-                        transaction.commit();
+                        openFragment(hostListFragment);
                     }
             });
 

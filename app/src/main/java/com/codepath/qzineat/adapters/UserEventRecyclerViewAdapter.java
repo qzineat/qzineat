@@ -1,7 +1,6 @@
 package com.codepath.qzineat.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,8 +10,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.activities.HostActivity;
-import com.codepath.qzineat.fragments.HostFragment;
+import com.codepath.qzineat.fragments.UserEventsFragment;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.QZinUtil;
@@ -33,14 +31,15 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
     public Context mContext;
     private String dateTime;
     private Event event;
-    private HostFragment mFragment;
+    private UserEventsFragment mFragment;
     private Bundle mBundle;
     private Context context;
     public int position;
 
-    public UserEventRecyclerViewAdapter(ArrayList<Event> events, Context context) {
+    public UserEventRecyclerViewAdapter(ArrayList<Event> events, Context context, UserEventsFragment fragment) {
         mEvents = events;
         mContext = context;
+        mFragment = fragment;
     }
 
     @Override
@@ -89,9 +88,7 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
             @Override
             public void onClick(View v) {
                 event = mEvents.get(position);
-                Intent i = new Intent(v.getContext(), HostActivity.class);
-                i.putExtra("eventObjectId", event.getObjectId());
-                v.getContext().startActivity(i);
+                mFragment.openHostFragmentForEdit(event.getObjectId());
             }
         });
     }
