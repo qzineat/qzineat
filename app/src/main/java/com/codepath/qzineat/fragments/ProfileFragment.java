@@ -59,6 +59,16 @@ public class ProfileFragment extends BaseFragment {
         drawer.setSelection(profileItem, false);
     }
 
+    public static EventDetailFragment newInstance(String eventObjectId){
+        EventDetailFragment fragment = new EventDetailFragment();
+        Bundle args = new Bundle();
+        args.putString("eventObjectId", eventObjectId);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,11 +131,17 @@ public class ProfileFragment extends BaseFragment {
 
         if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getProfileName() != null) {
+                evEdit.setVisibility(View.VISIBLE);
+            }
+        }
+
+        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+            if (User.getLoggedInUser().getProfileName() != null) {
                 tvProfileName.setText(User.getLoggedInUser().getProfileName());
             }
         }else {
             if (arrayList.get(0).getProfileName() != null) {
-                tvProfileName.setText(User.getLoggedInUser().getProfileName());
+                tvProfileName.setText(arrayList.get(0).getProfileName());
             }
         }
 
@@ -135,7 +151,7 @@ public class ProfileFragment extends BaseFragment {
             }
         }else {
             if (arrayList.get(0).getCity() != null) {
-                tvLocation.setText(User.getLoggedInUser().getCity());
+                tvLocation.setText(arrayList.get(0).getCity());
             }
         }
 
@@ -145,7 +161,7 @@ public class ProfileFragment extends BaseFragment {
             }
         }else {
             if (arrayList.get(0).getSpeciality() != null) {
-                tvSpeciality.setText(User.getLoggedInUser().getSpeciality());
+                tvSpeciality.setText(arrayList.get(0).getSpeciality());
             }
         }
 
@@ -156,7 +172,7 @@ public class ProfileFragment extends BaseFragment {
             }
         }else {
             if (arrayList.get(0).getPhone() != null) {
-                tvContact.setText(User.getLoggedInUser().getPhone());
+                tvContact.setText(arrayList.get(0).getPhone());
                 tvContact.setTextColor(Color.parseColor("#1976D2"));
             }
         }
@@ -167,7 +183,7 @@ public class ProfileFragment extends BaseFragment {
             }
         }else {
             if (arrayList.get(0).getEmail() != null) {
-                tvEmail.setText(User.getLoggedInUser().getEmail());
+                tvEmail.setText(arrayList.get(0).getEmail());
             }
         }
 
@@ -177,7 +193,7 @@ public class ProfileFragment extends BaseFragment {
             }
         }else {
             if (arrayList.get(0).getWebsite() != null) {
-                tvWebsite.setText(User.getLoggedInUser().getWebsite());
+                tvWebsite.setText(arrayList.get(0).getWebsite());
             }
         }
     }

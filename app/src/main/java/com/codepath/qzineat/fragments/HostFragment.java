@@ -41,7 +41,9 @@ import com.codepath.qzineat.utils.QZinUtil;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -294,11 +296,25 @@ public class HostFragment extends BaseFragment {
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.accent));
                 snackbar.show();
+                sendNotification();
+
             }
         });
 
 
         return view;
+
+    }
+
+    private void sendNotification() {
+
+        // Associate the device with a user
+        ParsePush parsePush = new ParsePush();
+        String id = ParseInstallation.getCurrentInstallation().getInstallationId();
+        ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
+        Log.d("Debug_pQuery", pQuery.toString());
+        pQuery.whereEqualTo("username", "XzEMLKMWopUGPEX39y7oDYxbz");// <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        parsePush.sendMessageInBackground("Your favorite host has an upcoming Event - " + etTitile.getText().toString() + " on " + tvDatePicker.getText().toString(), pQuery);
 
     }
 

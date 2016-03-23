@@ -210,7 +210,8 @@
                         android:layout_height="wrap_content"
                         android:text="Save"
                         android:textSize="15dp"
-                        android:id="@+id/btSave"/>
+                        android:id="@+id/btSave"
+                        android:background="@color/accent"/>
 
                 </LinearLayout>
 

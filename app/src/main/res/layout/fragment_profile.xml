@@ -279,9 +279,10 @@
                     android:layout_alignEnd="@+id/ll"
                     android:layout_below="@+id/ivbkgImage"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="7dp"
+                    android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/edit_pencil"
+                    android:visibility="invisible"
                     android:text="@string/Edit" />
 
             </RelativeLayout>

@@ -114,7 +114,10 @@ public class ProfileEditFragment  extends BaseFragment {
                 if (e == null)
                     Log.d("DEBUG", "Successfully created event on Parse");
                // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("objectId",  User.getLoggedInUser().getObjectId());
                 ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.setArguments(bundle);
                 openFragment(profileFragment);
             }
         });
