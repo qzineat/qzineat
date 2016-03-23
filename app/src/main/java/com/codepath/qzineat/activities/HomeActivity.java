@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
+import com.codepath.qzineat.fragments.EventDetailFragment;
 import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.utils.QZinUtil;
@@ -24,14 +26,24 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         QZinUtil.onActivityCreateSetTheme(this); // Change Theme
         setContentView(R.layout.activity_home);
 
-        // Ok Open Home Fragment or Hosted Events
-        if(QZinEatApplication.isHostView){
-            EnrollEventFragment fragment = new EnrollEventFragment();
+
+        String eventObjectId = getIntent().getStringExtra("eventObjectId");
+
+        if(eventObjectId != null && !eventObjectId.isEmpty()){ // Open Detail Fragment
+            EventDetailFragment fragment = EventDetailFragment.newInstance(eventObjectId);
             openFragment(fragment);
         }else {
-            HomeFragment fragment = new HomeFragment();
-            openFragment(fragment);
+            // Ok Open Home Fragment or Hosted Events
+            if(QZinEatApplication.isHostView){
+                EnrollEventFragment fragment = new EnrollEventFragment();
+                openFragment(fragment);
+            }else {
+                HomeFragment fragment = new HomeFragment();
+                openFragment(fragment);
+            }
         }
+
+
     }
 
 
@@ -41,7 +53,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.flContent, fragment)
-                .addToBackStack(fragment.getClass().getName())
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -51,6 +63,18 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            Log.d("DEBUG", this.getClass().toString()+"::"+ "Back stack count 0");
+            this.finish();
+        } else {
+            // TODO: Handle This
+            Log.d("DEBUG", "Please fix this -----");
+            Log.d("DEBUG", this.getClass().getName()+"::"+ "Back stack support count "+ getSupportFragmentManager().getBackStackEntryCount());
+            Log.d("DEBUG", this.getClass().getName()+"::"+ "Back stack count "+ getFragmentManager().getBackStackEntryCount());
+        }
+    }
 
     /*private void setupSearch(){
         View view = getLayoutInflater().inflate(R.layout.search_bar_home, null);
@@ -66,7 +90,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
                 if (hasFocus) {
                     v.clearFocus();
                     // Send to another activity
-                    Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                    Intent i = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(i);
                 }
             }
@@ -75,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
             @Override
             public void onClick(View v) {
                 // Send to another activity
-                Intent i = new Intent(getApplicationContext(), EventListActivity.class);
+                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(i);
             }
         });

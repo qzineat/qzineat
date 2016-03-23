@@ -56,7 +56,7 @@ public class ProfileFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Selected item in drawer..
-        drawer.setSelection(eventsItem, false);
+        drawer.setSelection(profileItem, false);
     }
 
     @Nullable
