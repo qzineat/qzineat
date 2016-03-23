@@ -75,6 +75,10 @@ public class ProfileFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
+        if(toolbar!=null){
+            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+        }
+
         String objectId = String.valueOf(getArguments().get("objectId"));
         ParseQuery<User> query = ParseQuery.getQuery(User.class);
         query.whereEqualTo("objectId", objectId);

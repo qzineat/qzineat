@@ -188,6 +188,11 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         ButterKnife.bind(this, view);
 
+        if(toolbar!=null){
+            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+        }
+
+
         int count = this.getFragmentManager().getBackStackEntryCount();
         final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
         

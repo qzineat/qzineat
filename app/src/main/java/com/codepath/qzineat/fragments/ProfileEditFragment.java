@@ -65,6 +65,7 @@ public class ProfileEditFragment  extends BaseFragment {
 
         if(toolbar!=null){
             toolbar.setTitle(getString(R.string.title_update_profile));
+            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
 
         setValues();

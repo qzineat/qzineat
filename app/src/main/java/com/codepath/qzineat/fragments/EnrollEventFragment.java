@@ -38,6 +38,10 @@ public class EnrollEventFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_enroll_event, container, false);
         ButterKnife.bind(this, view);
 
+        if(toolbar!=null){
+            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+        }
+
         vpPager.setAdapter(new EventsPagerAdapter(getChildFragmentManager()));
         tabStrip.setViewPager(vpPager);
 
