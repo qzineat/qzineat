@@ -58,8 +58,10 @@ public class EventListActivity extends AppCompatActivity {
     private ImageButton ibMapView;
 
 
-    HashMap<String, String> mMarkersToEventIdMap = new HashMap<String, String>();;
+    HashMap<String, String> mMarkersToEventIdMap = new HashMap<String, String>();
 
+    private Double maxSearchDistance = 30d;
+    private int resultLimit = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +118,10 @@ public class EventListActivity extends AppCompatActivity {
             // Default San Francisco
             sLatitude = 37.773972;
             sLongitude = -122.431297;
-            LatLng SanFrancisco = new LatLng(sLatitude, sLongitude);
-            map.addMarker(new MarkerOptions()
+            /*map.addMarker(new MarkerOptions()
                     .title("San Francisco")
                     .snippet("The most beautiful city in USA.")
-                    .position(SanFrancisco));
+                    .position(SanFrancisco));*/
 
         }
         if(sLatitude == null || sLongitude == null){
@@ -128,24 +129,26 @@ public class EventListActivity extends AppCompatActivity {
         }
 
         // Get Events
-        ParseGeoPoint point = new ParseGeoPoint();
+        final ParseGeoPoint point = new ParseGeoPoint();
         point.setLatitude(sLatitude);
         point.setLongitude(sLongitude);
+        final LatLng pointLatLang = new LatLng(sLatitude, sLongitude);
 
         ParseQuery<Event> locationQuery = ParseQuery.getQuery(Event.class);
         if(searchFood != null && !searchFood.isEmpty()){
             locationQuery.whereEqualTo("category", searchFood);
         }
-        locationQuery.whereWithinMiles("location", point, 30);
+        locationQuery.whereWithinMiles("location", point, maxSearchDistance);
         //locationQuery.whereNear("location", point); // this is 100 miles - but we can do whereWithinMiles if needed less
-        locationQuery.setLimit(100);
+        locationQuery.setLimit(resultLimit);
         locationQuery.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
                 if (e == null) {
                     Log.d("DEBUG", "Events Count - " + events.size());
-                    boolean first = true;
+                    boolean first = false;
                     mMarkersToEventIdMap.clear();
+
                     for (Event ev : events) {
                         if (ev.getLocation() != null) {
                             LatLng place = new LatLng(ev.getLocation().getLatitude(), ev.getLocation().getLongitude());
@@ -155,15 +158,21 @@ public class EventListActivity extends AppCompatActivity {
                                     .position(place)
                                     .icon(defaultMarker));
 
-                            if (first) {
+                            if (!first) {
                                 // Move camera to nearest place
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
                             }
 
                             mMarkersToEventIdMap.put(m.getId(), ev.getObjectId());
                         }
-                        first = false;
+                        first = true;
                     }
+
+                    if(!first){
+                        // Move camera to default place
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(pointLatLang, 12));
+                    }
+
                 } else {
                     Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
                 }
