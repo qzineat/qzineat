@@ -283,7 +283,8 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
 
 
             if(drawerItem.equals(filterItem)){
-                fragment = new AdvanceFragment();
+                //TODO: fragment = new AdvanceFragment(); - hack
+                fragment = new HomeFragment();
             }
 
             // Open Fragment
