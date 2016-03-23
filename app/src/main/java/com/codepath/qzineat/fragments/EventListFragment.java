@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
@@ -53,6 +54,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
     @Bind(R.id.tvWelcomeMsg) TextView tvWelcomeMsg;
 
     //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
+
+    final static int LIMIT_EVENT = 5;
 
 
     @Nullable
@@ -140,7 +143,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         //ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         // Configure limit and sort order
-        mainQuery.setLimit(10);
+        mainQuery.setLimit(LIMIT_EVENT);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
         if(lastCreatedAt != null){
@@ -233,14 +236,14 @@ public class EventListFragment extends Fragment implements EventListCallback {
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
 
-        /*rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if(lastCreatedAt != null){
-                    //getEvents();
+                if (lastCreatedAt != null) {
+                    getEvents();
                 }
             }
-        });*/
+        });
 
     }
 
