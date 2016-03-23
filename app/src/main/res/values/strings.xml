@@ -39,7 +39,7 @@
 
 
     <string name="Edit">Edit</string>
-    <string name="primary_search_hint">sushi, chicken</string>
+    <string name="primary_search_hint">sushi, taco</string>
     <string name="location_search_hint">city, state or zip code</string>
     <string name="search_icon">search icon</string>
     <string name="sub_events">Subscribed Events</string>

@@ -54,8 +54,8 @@ public class EventListActivity extends AppCompatActivity {
     private ImageButton btnSearchContent;
     private ImageView ivSearchClear1;
     private ImageView ivSearchClear2;
-    private ImageView ibListView;
-    private ImageView ibMapView;
+    private ImageButton ibListView;
+    private ImageButton ibMapView;
 
 
     HashMap<String, String> mMarkersToEventIdMap = new HashMap<String, String>();;
@@ -75,6 +75,7 @@ public class EventListActivity extends AppCompatActivity {
 
         isMapView = true;
         setupMap(null, null);
+        showhideIcons();
     }
 
     public void setupMap(final String searchFood, final String searchLocality){
@@ -204,22 +205,8 @@ public class EventListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(view);
 
-        ibListView = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ibListView);
-        ibMapView = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.ibMapView);
-        ibMapView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isMapView = true;
-                setupMap(null, null);
-            }
-        });
-        ibListView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isMapView = false;
-                setupEventList(null);
-            }
-        });
+        ibListView = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.ibListView);
+        ibMapView = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.ibMapView);
 
         btnSearchContent = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.btnSearchContent);
 
@@ -312,6 +299,23 @@ public class EventListActivity extends AppCompatActivity {
             }
         });
 
+        ibMapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMapView = true;
+                setupMap(null, null);
+                showhideIcons();
+            }
+        });
+        ibListView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMapView = false;
+                setupEventList(null);
+                showhideIcons();
+            }
+        });
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -341,4 +345,14 @@ public class EventListActivity extends AppCompatActivity {
             return null;
         }
     };
+
+    private void showhideIcons(){
+        if(isMapView){
+            ibMapView.setVisibility(View.GONE);
+            ibListView.setVisibility(View.VISIBLE);
+        }else {
+            ibMapView.setVisibility(View.VISIBLE);
+            ibListView.setVisibility(View.GONE);
+        }
+    }
 }
