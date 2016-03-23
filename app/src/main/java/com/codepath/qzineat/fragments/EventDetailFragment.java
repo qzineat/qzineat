@@ -69,6 +69,7 @@ public class EventDetailFragment extends BaseFragment {
     @Bind(R.id.tvAttendeesMaxCount) TextView tvAttendeesMaxCount;
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvAlcohol) TextView tvAlcohol;
+    @Bind(R.id.tvLine) TextView tvLine;
 
     // Review
     @Bind(R.id.ratingBar) RatingBar ratingBar;
@@ -235,7 +236,7 @@ public class EventDetailFragment extends BaseFragment {
                     mReviews.addAll(arrayList);
                     if(mReviews.isEmpty()){
                         tvNoReview.setVisibility(View.VISIBLE);
-                        //tvLine.setVisibility(View.VISIBLE);
+                        tvLine.setVisibility(View.VISIBLE);
                     }
                     recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
                     if (reviewList.size() > 0) {
