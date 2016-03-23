@@ -70,6 +70,8 @@ public class EventDetailFragment extends BaseFragment {
     @Bind(R.id.tvDescription) TextView tvDescription;
     @Bind(R.id.tvAlcohol) TextView tvAlcohol;
     @Bind(R.id.tvLine) TextView tvLine;
+    @Bind(R.id.tvMenuItem) TextView tvMenuItem;
+    @Bind(R.id.tvMenuCategory) TextView tvMenuCategory;
 
     // Review
     @Bind(R.id.ratingBar) RatingBar ratingBar;
@@ -78,6 +80,8 @@ public class EventDetailFragment extends BaseFragment {
     @Bind(R.id.llReviewBar) LinearLayout llReviewBar;
     @Bind(R.id.tvNoReview) TextView tvNoReview;
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
+
+
 
     private Event event;
     private String eventObjectId;
@@ -288,6 +292,9 @@ public class EventDetailFragment extends BaseFragment {
         }else {
             tvPrice.setText("FREE");
         }
+
+        tvMenuItem.setText(event.getItemCategory());
+        tvMenuCategory.setText(event.getCategory());
 
         int availability = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount();
         setAvalCount(availability);
