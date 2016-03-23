@@ -121,7 +121,7 @@ public class EventDetailFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_event_detail, container, false);
         ButterKnife.bind(this, view);
 
         context = getActivity().getApplicationContext();
@@ -134,8 +134,13 @@ public class EventDetailFragment extends BaseFragment {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("objectId", event.getHost().getObjectId());
                 ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.setArguments(bundle);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.addToBackStack(null);
                 transaction.replace(R.id.flContent, profileFragment);
                 transaction.commit();
             }
@@ -241,6 +246,7 @@ public class EventDetailFragment extends BaseFragment {
 
     private void populateEvent() {
 
+
         ParseQuery<User> query = ParseQuery.getQuery(User.class);
         query.whereEqualTo("objectId", event.getHost().getObjectId());
         query.findInBackground(new FindCallback<User>() {
@@ -253,9 +259,12 @@ public class EventDetailFragment extends BaseFragment {
                     Log.d("DEBUG", "User object" + arrayList.get(0).getEmail());
                     Log.d("DEBUG", "User object" + arrayList.get(0).getImageFile());
 
-                    Picasso.with(getContext()).load(arrayList.get(0).getImageFile().getUrl()).transform(transformation).into(ivProfileImage);
-                } else
-                    Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
+                    if (null != arrayList.get(0).getImageFile()) {
+                        Picasso.with(getContext()).load(arrayList.get(0).getImageFile().getUrl()).transform(transformation).into(ivProfileImage);
+                    } else {
+                        Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
+                    }
+                }
             }
         });
 
@@ -567,8 +576,9 @@ public class EventDetailFragment extends BaseFragment {
         Log.d("Debug_UserName", event.getHost().getUsername()); // host = event.getHost().getUsername();
         ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
         Log.d("Debug_pQuery", pQuery.toString());
-        pQuery.whereEqualTo("username", event.getHost().getUsername()); // <-- you'll probably want to target someone that's not the current user, so modify accordingly
-        parsePush.sendMessageInBackground("Hey your Event has a subscriber", pQuery);
+        pQuery.whereEqualTo("username", event.getHost().getUsername());// <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        parsePush.sendMessageInBackground("Hey your Event: " + event.getTitle() + " has a subscriber", pQuery);
+
     }
 
     private void changeSignUpButton(){

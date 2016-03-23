@@ -5,12 +5,19 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_gradient_transparent"
     >
+
+    <ImageView
+        android:layout_width="1800dp"
+        android:layout_height="180dp"
+        android:src="@drawable/qzineat"
+        android:paddingTop="40dp"
+        android:layout_gravity="center"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         >
     <LinearLayout android:background="@drawable/bg_gradient_transparent"

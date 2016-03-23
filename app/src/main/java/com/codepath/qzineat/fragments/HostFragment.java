@@ -45,7 +45,9 @@ import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 
 import java.io.ByteArrayOutputStream;
@@ -286,10 +288,6 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             }
         });
 
-
-
-
-
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -302,8 +300,6 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
-
-
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 try{
@@ -315,12 +311,29 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                Snackbar snackbar = Snackbar.make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.accent));
+                snackbar.show();
+                sendNotification();
 
             }
         });
 
 
         return view;
+
+    }
+
+    private void sendNotification() {
+
+        // Associate the device with a user
+        ParsePush parsePush = new ParsePush();
+        String id = ParseInstallation.getCurrentInstallation().getInstallationId();
+        ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
+        Log.d("Debug_pQuery", pQuery.toString());
+        pQuery.whereEqualTo("username", "XzEMLKMWopUGPEX39y7oDYxbz");// <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        parsePush.sendMessageInBackground("Your favorite host has an upcoming Event - " + etTitile.getText().toString() + " on " + tvDatePicker.getText().toString(), pQuery);
 
     }
 
@@ -411,7 +424,6 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         } else {
             evt = new Event();
         }
-
         setEventDetails(evt, context);
     }
 
@@ -516,7 +528,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             event.setHost(User.getLoggedInUser());
 
             QZinDataAccess.saveEvent(event, this);
-
+            
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }
 

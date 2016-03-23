@@ -361,8 +361,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        style="@style/QZinEatUI.Button"
-                        android:text="@string/save_event" />
+                        android:text="@string/save_event"
+                        android:background="@color/accent"/>
+                    <!--style="@style/QZinEatUI.Button" -->
                 </LinearLayout>
 
             </LinearLayout>
