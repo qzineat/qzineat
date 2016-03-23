@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -20,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -304,18 +302,18 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
                     Log.d("DEBUG", "Hey cheater... You did double click!!!");
                     return;
                 }*/
-                mLastClickTime = SystemClock.elapsedRealtime();
-                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                /*//mLastClickTime = SystemClock.elapsedRealtime();
+                //InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 try{
-                    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                //    inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }catch (Exception ex){
                     ex.printStackTrace();
-                }
+                }*/
 
 
                 saveEvent(getContext());
-                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
                 // TODO - Hack for creating Event
                 Snackbar snackbar = Snackbar.make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG);
