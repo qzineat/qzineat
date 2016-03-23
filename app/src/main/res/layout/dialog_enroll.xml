@@ -116,7 +116,6 @@
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/cc_button_color"
             android:text="Enroll"
             />
 
