@@ -63,6 +63,10 @@ public class ProfileEditFragment  extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile_edit, container, false);
         ButterKnife.bind(this, view);
 
+        if(toolbar!=null){
+            toolbar.setTitle(getString(R.string.title_update_profile));
+        }
+
         setValues();
 
         btSave.setOnClickListener(new View.OnClickListener() {
