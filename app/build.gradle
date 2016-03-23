@@ -77,6 +77,8 @@ dependencies {
 
     // Module dependency on ParseUI libraries sources
     compile 'com.parse:parseui-login-android:0.0.1'
+
+    compile 'com.flaviofaria:kenburnsview:1.0.7' // Ken burns
 }
 
 tasks.withType(JavaCompile) { options.encoding = "UTF-8" }

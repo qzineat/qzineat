@@ -55,6 +55,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
     //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
+    final static int LIMIT_EVENT = 5;
+
 
     @Nullable
     @Override
@@ -141,7 +143,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         //ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         // Configure limit and sort order
-        mainQuery.setLimit(10);
+        mainQuery.setLimit(LIMIT_EVENT);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
         if(lastCreatedAt != null){
@@ -237,7 +239,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if(lastCreatedAt != null){
+                if (lastCreatedAt != null) {
                     getEvents();
                 }
             }
