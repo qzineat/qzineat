@@ -251,6 +251,8 @@ public class EventDetailFragment extends BaseFragment {
 
             }
         });
+
+        setRating();
     }
 
     private void populateEvent() {
@@ -442,7 +444,7 @@ public class EventDetailFragment extends BaseFragment {
         query.countInBackground(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {
-                if(e!=null){
+                if (e != null) {
                     // TODO: network fail
                     e.printStackTrace();
                     return;
@@ -467,7 +469,7 @@ public class EventDetailFragment extends BaseFragment {
             }
         });
 
-        setRating();
+
     }
 
     private void hideReviewButton(){
