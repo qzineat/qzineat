@@ -87,23 +87,28 @@
                     />
                     <LinearLayout
                         android:id="@+id/llReviewBar"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_gravity="top"
                         android:layout_below="@id/ivProfileImage"
-                        android:gravity="end"
-                        android:layout_marginLeft="30dp"
                         android:visibility="visible"
                         >
 
+                    <!--android:orientation="vertical"-->
+                        <!--android:layout_gravity="top"-->
+
+                        <!--android:gravity="right"-->
+                        <!--android:layout_marginLeft="250dp"-->
+
                         <RatingBar
                             android:id="@+id/ratingBar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="15dp"
+                            android:layout_width="160dip"
+                            android:layout_height="32dip"
+                            android:layout_marginLeft="225dp"
                             android:numStars="5"
                             android:rating="0.0"
                             android:stepSize="0.1"
+                            android:scaleX="0.4"
+                            android:scaleY="0.4"
                             style="@style/foodRatingBar"
                             />
 
@@ -111,12 +116,12 @@
                 <TextView
                     android:id="@+id/tvTitle"
                     style="?textExtraLargeTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ivProfileImage"
+                    android:layout_below="@id/tvPrice"
                     android:paddingLeft="20dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="15dp"
+                    android:layout_marginBottom="10dp"
                     />
             </RelativeLayout>
 
@@ -126,7 +131,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Description"
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     />
 
 
