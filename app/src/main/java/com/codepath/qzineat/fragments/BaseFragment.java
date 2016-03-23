@@ -221,6 +221,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
 
             if(drawerItem.equals(switchItem)){
                 QZinUtil.changeTheme(getActivity());
+
                 return false;
             }
 

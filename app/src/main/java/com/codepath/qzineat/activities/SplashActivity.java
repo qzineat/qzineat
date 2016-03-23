@@ -9,7 +9,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.codepath.android.qzineat.R;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by glondhe on 3/15/16.
@@ -23,7 +22,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LeakCanary.install(getApplication());
         setContentView(R.layout.splashscreen);
         ImageView splashscreen = (ImageView) findViewById(R.id.splashscreen);
         RotateAnimation rotate = new RotateAnimation(180.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f,  Animation.RELATIVE_TO_SELF, 0.5f);
