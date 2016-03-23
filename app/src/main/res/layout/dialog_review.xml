@@ -15,7 +15,7 @@
         android:inputType="textMultiLine"
         android:lines="4"
         android:gravity="top"
-        android:hint="Tell us about event"
+        android:hint="@string/hint_review_comment"
         android:textSize="14sp"
         android:textColorHint="@color/color_gray"
         android:padding="16dp"
@@ -47,7 +47,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="Review"
             />
 
     </LinearLayout>

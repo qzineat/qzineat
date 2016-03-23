@@ -86,4 +86,5 @@
     <string name="et_event_name">Event Name</string>
     <string name="et_price">Price</string>
     <string name="et_address">Address</string>
+    <string name="hint_review_comment">Tell us more about this event</string>
 </resources>
