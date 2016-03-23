@@ -311,12 +311,13 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+                // TODO - Hack for creating Event
                 Snackbar snackbar = Snackbar.make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG);
                 View snackbarView = snackbar.getView();
                 snackbarView.setBackgroundColor(getResources().getColor(R.color.accent));
                 snackbar.show();
                 sendNotification();
-
             }
         });
 
@@ -1017,15 +1018,10 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
     @Override
     public void onEventSave() {
         hideProgressBar();
-        Log.d("DEBUG", "Successfully created event on Parse");
-        Snackbar snackbar = Snackbar
-                .make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG)
-                .setActionTextColor(getResources().getColor(R.color.accent));
-
-        snackbar.show();
         //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
         HostListFragment hostListFragment = new HostListFragment();
         openFragment(hostListFragment);
+        Log.d("DEBUG", "Successfully created event on Parse");
     }
 
     private class MenuItemOnClickListener implements android.widget.AdapterView.OnItemSelectedListener {
