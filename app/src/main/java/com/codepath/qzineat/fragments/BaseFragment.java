@@ -2,6 +2,8 @@ package com.codepath.qzineat.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,8 @@ import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,6 +54,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     protected PrimaryDrawerItem logInItem, profileItem, eventsItem,
             hostEventItem, userEventsItem,
             filterItem, logOutItem, switchItem;
+    private Bitmap bitmap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +110,8 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                     .withEmail(User.getLoggedInUser().getEmail());
             if(User.getLoggedInUser().getImageFile() != null
                     && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
-                profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+                bitmap = getBitMapImage(User.getLoggedInUser().getImageFile());
+                profileAccountItem.withIcon(bitmap);
             }else {
                 profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
             }
@@ -141,7 +147,8 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                     .withEmail(User.getLoggedInUser().getEmail());
             if(User.getLoggedInUser().getImageFile() != null
                     && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
-                profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
+                bitmap = getBitMapImage(User.getLoggedInUser().getImageFile());
+                profileAccountItem.withIcon(bitmap);
             }else {
                 profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
             }
@@ -151,6 +158,20 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                     .withEnabled(false)
                     .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
         }
+    }
+
+    private Bitmap getBitMapImage(ParseFile imageFile) {
+
+        ParseFile pFile = imageFile;
+        byte[] bitmapdata = new byte[0];  // here it throws error
+        try {
+            bitmapdata = pFile.getData();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        bitmap = BitmapFactory.decodeByteArray(bitmapdata, 0, bitmapdata.length);
+
+        return bitmap;
     }
 
     protected void setupDrawer(){

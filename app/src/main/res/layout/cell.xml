@@ -13,13 +13,17 @@
         cardview:cardBackgroundColor="#fff"
         cardview:cardElevation="4dp"
         cardview:cardCornerRadius="0dp"
-        android:padding="15dp">
+        android:padding="7dp">
 
     <ImageView
         android:id="@+id/_image"
-        android:layout_width="500px"
-        android:layout_height="300px"
-        android:padding="15dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="200px"
+        android:minWidth="300px"
+        android:maxHeight="200px"
+        android:maxWidth="300px"
+        android:padding="5dp" />
 
     <TextView
         android:id="@+id/_imageName"
