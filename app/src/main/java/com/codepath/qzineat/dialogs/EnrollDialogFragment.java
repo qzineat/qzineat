@@ -30,7 +30,7 @@ import butterknife.OnTextChanged;
 public class EnrollDialogFragment extends DialogFragment {
 
     @Bind(R.id.btnSubmit) Button btnSubmit;
-//    @Bind(R.id.btnCancel) Button btnCancel;
+    @Bind(R.id.btnCancel) Button btnCancel;
     @Bind(R.id.etGuestCount) EditText etGuestCount;
     @Bind(R.id.etCardNumber) EditText etCardNumber;
     @Bind(R.id.etCardDate) EditText etCardDate;
@@ -82,13 +82,13 @@ public class EnrollDialogFragment extends DialogFragment {
                 snackbar.show();
             }
         });
-//
-//        btnCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         return view;
     }

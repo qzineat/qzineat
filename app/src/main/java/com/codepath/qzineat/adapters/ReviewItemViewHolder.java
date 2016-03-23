@@ -20,6 +20,7 @@ public class ReviewItemViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.ivProfileImage) public ImageView ivProfileImage;
 
 
+
     public ReviewItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

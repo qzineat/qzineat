@@ -351,6 +351,7 @@
             </android.support.v7.widget.CardView>
 
                 <TextView
+                    android:id="@+id/tvReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -359,6 +360,29 @@
                     style="?textLargeBoldTitle"
                     android:textColor="@color/accent"
                     android:text="Reviews"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:height="1dp"
+                    android:layout_below="@id/tvReview"
+                    android:background="@color/horizontalRule"
+                    />
+
+                <TextView
+                    android:id="@+id/tvNoReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="5dp"
+                    style="?textSubTitle"
+                    android:text="Be the first one to review"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvReviews"

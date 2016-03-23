@@ -75,7 +75,7 @@ public class EventDetailFragment extends BaseFragment {
     @Bind(R.id.rvReviews) RecyclerView rvReviews;
     @Bind(R.id.llReview) LinearLayout llReview;
     @Bind(R.id.llReviewBar) LinearLayout llReviewBar;
-
+    @Bind(R.id.tvNoReview) TextView tvNoReview;
     @Bind(R.id.fabSignUp) FloatingActionButton fabSignUp;
 
     private Event event;
@@ -233,6 +233,9 @@ public class EventDetailFragment extends BaseFragment {
                     int curSize = recyclerViewAdapter.getItemCount();
                     ArrayList<Review> arrayList = new ArrayList<>(reviewList);
                     mReviews.addAll(arrayList);
+                    if(mReviews.size() == 0){
+                        tvNoReview.setVisibility(View.INVISIBLE);
+                    }
                     recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
                     if (reviewList.size() > 0) {
                         // set value for pagination

@@ -17,7 +17,7 @@
         android:padding="16dp"
         android:hint="Enter Guest Count"
         android:background="@drawable/bg_edit_text_dialog"
-        android:drawableRight="@mipmap/ic_mul_guest"
+        android:drawableRight="@drawable/ic_action_name"
         android:textColor="@android:color/black"
         android:textColorHint="@color/color_gray"
         android:textSize="14sp"
@@ -38,7 +38,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="-0.25dp"
             android:background="@drawable/bg_card_number_edit_text"
-            android:drawableRight="@mipmap/cc_number"
+            android:drawableRight="@drawable/ic_cc_number"
             android:hint="Card number"
             android:inputType="phone"
             android:padding="16dp"
@@ -60,7 +60,7 @@
                 android:layout_marginRight="-0.25dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_card_date_edit_text"
-                android:drawableRight="@mipmap/ic_cc_date"
+                android:drawableRight="@drawable/ic_cc_date"
                 android:hint="MM/YY"
                 android:inputType="date"
                 android:padding="16dp"
@@ -75,7 +75,7 @@
                 android:layout_marginLeft="-0.25dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_card_cvc_edit_text"
-                android:drawableRight="@mipmap/ic_lock"
+                android:drawableRight="@drawable/ic_cc_lock"
                 android:hint="CVC"
                 android:inputType="number"
                 android:padding="16dp"
@@ -94,7 +94,7 @@
         android:background="@drawable/bg_text_view_dialog"
         android:layout_marginBottom="20dp"
         android:padding="16dp"
-        android:drawableRight="@mipmap/ic_dollar"
+        android:drawableRight="@drawable/ic_cc_dollar"
         android:drawablePadding="3dp"
         android:text="20"
         android:textSize="14sp"
@@ -104,20 +104,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="end"
        >
-        <!--<Button-->
-            <!--android:id="@+id/btnCancel"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Cancel"-->
-            <!--/>-->
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            />
         <Button
             android:id="@+id/btnSubmit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="143dp"
-            android:layout_marginRight="25dp"
-            android:background="@color/md_light_blue_300"
+            android:background="@drawable/cc_button_color"
             android:text="Enroll"
             />
 
