@@ -136,7 +136,8 @@ public class SearchActivity extends AppCompatActivity {
 
         ParseQuery<Event> locationQuery = ParseQuery.getQuery(Event.class);
         if(searchFood != null && !searchFood.isEmpty()){
-            locationQuery.whereEqualTo("category", searchFood);
+            //locationQuery.whereEqualTo("category", searchFood);
+            locationQuery.whereContains("category", searchFood);
         }
         locationQuery.whereWithinMiles("location", point, maxSearchDistance);
         //locationQuery.whereNear("location", point); // this is 100 miles - but we can do whereWithinMiles if needed less
