@@ -16,10 +16,13 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
+import com.parse.GetCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.interceptors.ParseLogInterceptor;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -70,6 +73,33 @@ public class QZinEatApplication extends Application {
 
         // Drawer Image Loading
         //drawerImageLoader();
+
+        //loadEventwithReview();
+    }
+
+    private void loadEventwithReview(){
+        String eventObjectId = "l63bDS6eBy";
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.getInBackground(eventObjectId, new GetCallback<Event>() {
+
+            @Override
+            public void done(Event event, ParseException e) {
+                if (e == null) {
+                    String comment = "This was really good event. I enjoyed!! Love to go for your food in future!! Please host another event soon";
+                    // Save Review
+                    Review review = new Review();
+                    review.setComment(comment);
+                    review.setEvent(event);
+                    review.setReviewedBy(User.getLoggedInUser());
+                    review.setRating(4);
+                    review.saveInBackground();
+
+                    event.increment("numberOfReviews");
+                    event.increment("ratingSum", 3);
+                    event.saveInBackground();
+                }
+            }
+        });
     }
 
 

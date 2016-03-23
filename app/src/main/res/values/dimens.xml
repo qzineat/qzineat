@@ -27,7 +27,7 @@
     <dimen name="com_parse_ui_small_horizontal_spacing">8dp</dimen>
     <!-- Parse Login:End -->
 
-    <dimen name="detail_backdrop_height">350dp</dimen>
+    <dimen name="detail_backdrop_height">430dp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="home_text_margin">48dp</dimen>
