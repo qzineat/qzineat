@@ -466,6 +466,8 @@ public class EventDetailFragment extends BaseFragment {
                 }
             }
         });
+
+        setRating();
     }
 
     private void hideReviewButton(){
