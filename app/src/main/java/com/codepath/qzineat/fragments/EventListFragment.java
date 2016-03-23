@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
-import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
@@ -234,14 +233,14 @@ public class EventListFragment extends Fragment implements EventListCallback {
         WrapContentLinearLayoutManager layoutManager = new WrapContentLinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
 
-        rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        /*rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 if(lastCreatedAt != null){
-                    getEvents();
+                    //getEvents();
                 }
             }
-        });
+        });*/
 
     }
 
