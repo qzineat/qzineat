@@ -315,6 +315,9 @@ public class EventDetailFragment extends BaseFragment {
 
     private void setImages(Event evnt) {
 
+        ParseFile pf = event.getImageFile();
+
+
         pObject = evnt.getMediaObject();
         if(pObject != null) {
             List<ParseFile> pFileList = null;
@@ -352,7 +355,7 @@ public class EventDetailFragment extends BaseFragment {
                     cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
                     final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
                     imageView.setImageResource(android.R.color.transparent);
-                    Glide.with(getContext()).load(QZinUtil.getQZinImageUrl()).centerCrop().into(imageView);
+                    Glide.with(getContext()).load(pf.getUrl()).centerCrop().into(imageView);
                     mainLayout.addView(cell);
             }
         }
