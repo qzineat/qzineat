@@ -336,7 +336,7 @@ public class EventListActivity extends AppCompatActivity {
             String eventObjectId = mMarkersToEventIdMap.get(marker.getId());
             if(eventObjectId != null && !eventObjectId.isEmpty()){
                 // Redirect to detail event view
-                Intent intent = new Intent(getApplicationContext(), EventDetailActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 intent.putExtra("eventObjectId", eventObjectId);
                 startActivity(intent);
             }

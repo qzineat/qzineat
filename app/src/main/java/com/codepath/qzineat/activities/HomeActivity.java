@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
+import com.codepath.qzineat.fragments.EventDetailFragment;
 import com.codepath.qzineat.fragments.HomeFragment;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.utils.QZinUtil;
@@ -24,14 +25,24 @@ public class HomeActivity extends AppCompatActivity implements CommunicationChan
         QZinUtil.onActivityCreateSetTheme(this); // Change Theme
         setContentView(R.layout.activity_home);
 
-        // Ok Open Home Fragment or Hosted Events
-        if(QZinEatApplication.isHostView){
-            EnrollEventFragment fragment = new EnrollEventFragment();
+
+        String eventObjectId = getIntent().getStringExtra("eventObjectId");
+
+        if(eventObjectId != null && !eventObjectId.isEmpty()){ // Open Detail Fragment
+            EventDetailFragment fragment = EventDetailFragment.newInstance(eventObjectId);
             openFragment(fragment);
         }else {
-            HomeFragment fragment = new HomeFragment();
-            openFragment(fragment);
+            // Ok Open Home Fragment or Hosted Events
+            if(QZinEatApplication.isHostView){
+                EnrollEventFragment fragment = new EnrollEventFragment();
+                openFragment(fragment);
+            }else {
+                HomeFragment fragment = new HomeFragment();
+                openFragment(fragment);
+            }
         }
+
+
     }
 
 
