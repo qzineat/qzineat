@@ -5,10 +5,9 @@
     <item
         android:orderInCategory="1"
         android:id="@+id/menu_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@mipmap/ic_et_search"
         app:showAsAction="always"
         android:title="Search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:iconifiedByDefault="false"
         />
 </menu>

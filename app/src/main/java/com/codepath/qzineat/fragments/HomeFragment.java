@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -62,15 +63,19 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
         ButterKnife.bind(this, view);
 
 
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+
+
+
         /*CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Shyam");
 
         loadBackdrop(view);*/
 
-        /*CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(getString(R.string.drawer_event));
+        /*
 
         loadBackdrop(view);*/
 
@@ -93,12 +98,14 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
             }
         });
 
-
         loadBackdrop();
+
+        if(toolbar!=null){
+            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+        }
 
         return view;
     }
-
 
 
     private void loadBackdrop() {
