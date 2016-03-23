@@ -13,7 +13,7 @@
         android:background="@color/horizontalRule"
         />
     <ImageView
-        android:id="@+id/ivProfileImage"
+        android:id="@+id/ivProfileImage1"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
