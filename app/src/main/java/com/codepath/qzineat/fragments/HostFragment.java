@@ -281,10 +281,7 @@ public class HostFragment extends BaseFragment {
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btSave.setEnabled(false);
-                btSave.setClickable(false);
-                btSave.setFocusable(false);
-                btSave.setFocusableInTouchMode(false);
+
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
                     return;
                 }
@@ -293,10 +290,7 @@ public class HostFragment extends BaseFragment {
                 inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                btSave.setEnabled(true);
-                btSave.setClickable(true);
-                btSave.setFocusable(true);
-                btSave.setFocusableInTouchMode(true);
+
 
             }
         });
@@ -305,7 +299,6 @@ public class HostFragment extends BaseFragment {
         return view;
 
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
