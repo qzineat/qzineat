@@ -233,7 +233,7 @@ public class EventDetailFragment extends BaseFragment {
                     int curSize = recyclerViewAdapter.getItemCount();
                     ArrayList<Review> arrayList = new ArrayList<>(reviewList);
                     mReviews.addAll(arrayList);
-                    if(mReviews.size() == 0){
+                    if (mReviews.size() == 0) {
                         tvNoReview.setVisibility(View.INVISIBLE);
                     }
                     recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
@@ -369,8 +369,24 @@ public class EventDetailFragment extends BaseFragment {
             // Check I already Registered for this event or not
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
             query.whereEqualTo("event", event);
-            query.whereEqualTo("user", User.getLoggedInUser());
-            query.countInBackground(new CountCallback() {
+            query.whereEqualTo("subscribedBy", User.getLoggedInUser());
+
+            try {
+                int count = query.count();
+                if(count > 0){
+                    // I am already registered for this event
+                    changeSignUpButton();
+                    // Rating
+                    setupRatingBar();
+                }else {
+                    showFabRegister();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                showFabRegister();
+            }
+
+            /*query.countInBackground(new CountCallback() {
                 @Override
                 public void done(int count, ParseException e) {
                     if (e == null) {
@@ -386,7 +402,7 @@ public class EventDetailFragment extends BaseFragment {
                         e.printStackTrace();
                     }
                 }
-            });
+            });*/
         }else {
             showFabRegister();
         }
