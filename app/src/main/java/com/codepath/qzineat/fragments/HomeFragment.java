@@ -62,6 +62,16 @@ public class HomeFragment extends BaseFragment {
 
         loadBackdrop(view);*/
 
+        /*handler = new Handler();
+
+                final Runnable r = new Runnable() {
+                    public void run() {
+                        hideProgressBar();
+                    }
+                };
+
+                handler.postDelayed(r, 5000);*/
+
 
         fabSearch.setOnClickListener(new View.OnClickListener() {
             @Override

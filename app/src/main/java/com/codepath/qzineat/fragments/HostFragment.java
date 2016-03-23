@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -33,10 +34,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
+import com.codepath.qzineat.interfaces.DataUpdateListener;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
 import com.codepath.qzineat.utils.FragmentCode;
 import com.codepath.qzineat.utils.GeoUtil;
+import com.codepath.qzineat.utils.QZinDataAccess;
 import com.codepath.qzineat.utils.QZinUtil;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 import com.parse.GetCallback;
@@ -44,7 +47,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -62,9 +64,10 @@ import static java.lang.Integer.parseInt;
 /**
  * Created by glondhe on 3/1/16.
  */
-public class HostFragment extends BaseFragment {
+public class HostFragment extends BaseFragment implements DataUpdateListener {
 
 
+    Handler handler;
 
     public static final int DAILOG_FRAGMENT = 1;
     private static final int RESULT_OK = -1 ;
@@ -283,13 +286,24 @@ public class HostFragment extends BaseFragment {
             }
         });
 
+
+
+
+
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                showProgressBar();
+
+
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                    Log.d("DEBUG", "Hey cheater... You did double click!!!");
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
+
+
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 try{
@@ -299,10 +313,8 @@ public class HostFragment extends BaseFragment {
                 }
 
 
-
                 saveEvent(getContext());
                 getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
 
             }
         });
@@ -399,6 +411,7 @@ public class HostFragment extends BaseFragment {
         } else {
             evt = new Event();
         }
+
         setEventDetails(evt, context);
     }
 
@@ -406,25 +419,29 @@ public class HostFragment extends BaseFragment {
 
         // Validations
         if (!validateTitle()) {
+            hideProgressBar();
             return;
         }
         if (!validateCharge()) {
+            hideProgressBar();
             return;
         }
         if (!validateVenue()) {
+            hideProgressBar();
             return;
         }
         if (!validateDesc()) {
+            hideProgressBar();
             return;
         }
         if (!validateDate()) {
+            hideProgressBar();
             return;
         }
         if (!validateTime()) {
+            hideProgressBar();
             return;
         }
-
-        showProgressBar();
 
         Boolean FLAG = true;
 
@@ -494,26 +511,11 @@ public class HostFragment extends BaseFragment {
             // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
 
-        hideProgressBar();
+
         if (FLAG == true) {
             event.setHost(User.getLoggedInUser());
-            User.getLoggedInUser().setIsHost(true);
-            event.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null)
 
-                        Log.d("DEBUG", "Successfully created event on Parse");
-                        Snackbar snackbar = Snackbar
-                            .make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG)
-                            .setActionTextColor(getResources().getColor(R.color.accent));
-
-                        snackbar.show();
-                        //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
-                        HostListFragment hostListFragment = new HostListFragment();
-                        openFragment(hostListFragment);
-                    }
-            });
+            QZinDataAccess.saveEvent(event, this);
 
         }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }
@@ -998,6 +1000,20 @@ public class HostFragment extends BaseFragment {
                 android.R.layout.simple_list_item_1, list);
         MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         sMenuItem.setAdapter(MenuitemAdapter);
+    }
+
+    @Override
+    public void onEventSave() {
+        hideProgressBar();
+        Log.d("DEBUG", "Successfully created event on Parse");
+        Snackbar snackbar = Snackbar
+                .make(view, "    Event created Successfully!!", Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.accent));
+
+        snackbar.show();
+        //Toast.makeText(context, "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+        HostListFragment hostListFragment = new HostListFragment();
+        openFragment(hostListFragment);
     }
 
     private class MenuItemOnClickListener implements android.widget.AdapterView.OnItemSelectedListener {
