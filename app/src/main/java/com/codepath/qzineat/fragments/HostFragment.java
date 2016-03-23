@@ -336,8 +336,8 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         String id = ParseInstallation.getCurrentInstallation().getInstallationId();
         ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
         Log.d("Debug_pQuery", pQuery.toString());
-        pQuery.whereEqualTo("username", "XzEMLKMWopUGPEX39y7oDYxbz");// <-- you'll probably want to target someone that's not the current user, so modify accordingly
-        parsePush.sendMessageInBackground("Your favorite host has an upcoming Event - " + etTitile.getText().toString() + " on " + tvDatePicker.getText().toString(), pQuery);
+        pQuery.whereEqualTo("username", "DYCWx2cVpTGzgiKkIP2kpGqE8");// <-- you'll probably want to target someone that's not the current user, so modify accordingly
+        parsePush.sendMessageInBackground("Your fav host has a new Event: " + etTitile.getText().toString() + " on " + tvDatePicker.getText().toString(), pQuery);
 
     }
 
