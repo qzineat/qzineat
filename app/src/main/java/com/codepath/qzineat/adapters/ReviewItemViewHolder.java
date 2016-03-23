@@ -17,7 +17,7 @@ public class ReviewItemViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.tvComment) public TextView tvComment;
     @Bind(R.id.tvReviewedBy) public TextView tvReviewedBy;
-    @Bind(R.id.ivProfileImage) public ImageView ivProfileImage;
+    @Bind(R.id.ivProfileImage1) public ImageView ivProfileImage;
 
 
 
