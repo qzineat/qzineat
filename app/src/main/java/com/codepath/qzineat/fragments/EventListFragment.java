@@ -1,6 +1,5 @@
 package com.codepath.qzineat.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,15 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
-import com.codepath.qzineat.interfaces.CommunicationChannel;
 import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
@@ -47,25 +45,18 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
     private ArrayList<Event> mEvents;
     private EventsRecyclerViewAdapter recyclerViewAdapter;
-    CommunicationChannel mCommunicationChannel = null;
 
     @Bind(R.id.rvEvents) RecyclerView rvEvents;
-    @Bind(R.id.tvWelcomeName) TextView tvWelcomeName;
-    @Bind(R.id.tvWelcomeMsg) TextView tvWelcomeMsg;
-
-    //@Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
-
-    final static int LIMIT_EVENT = 5;
-
+    @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_eventslist, container, false);
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
         ButterKnife.bind(this, view);
 
         // Setup refresh listener which triggers new data loading
-        //swipeContainer.setOnRefreshListener(mRefreshListener);
+        swipeContainer.setOnRefreshListener(mRefreshListener);
 
         // Setup RecyclerView
         setupRecyclerView();
@@ -73,19 +64,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
         // Item click support
         setupItemClick();
 
-        // TODO: old Shining UI.....
-        //view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
-
-        rvEvents.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
-
-        rvEvents.setNestedScrollingEnabled(false);
-
-        if(User.isUserLoggedIn() && !User.getLoggedInUser().getProfileName().isEmpty()){
-            tvWelcomeName.setText(String.format("Hi, %s", User.getLoggedInUser().getProfileName()));
-        }else {
-            tvWelcomeName.setText(getString(R.string.welcome_title));
-        }
-        tvWelcomeMsg.setText(getString(R.string.welcome_msg));
+        // Shining UI.....
+        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_layout_background));
 
 
         return view;
@@ -143,7 +123,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         //ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         // Configure limit and sort order
-        mainQuery.setLimit(LIMIT_EVENT);
+        mainQuery.setLimit(3);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
         if(lastCreatedAt != null){
@@ -157,7 +137,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         }
 
         if(isSubscriberView){
-            Log.d("DEBIG", "I am in Subscriber");
+            Log.d("DEBIG","I am in Subscriber");
             // Search on Attendee
             ParseQuery<Attendee> attendeeParseQuery = ParseQuery.getQuery(Attendee.class);
             attendeeParseQuery.whereEqualTo("user", User.getLoggedInUser());
@@ -171,8 +151,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
                 public void done(List<Attendee> attendees, ParseException e) {
                     if (e == null) {
                         ArrayList<Event> arrayList = new ArrayList<>();
-                        for (Attendee a : attendees) {
-                            if (a.getEvent() != null) {
+                        for(Attendee a: attendees){
+                            if(a.getEvent()!= null){
                                 arrayList.add(a.getEvent());
                             }
                         }
@@ -197,16 +177,16 @@ public class EventListFragment extends Fragment implements EventListCallback {
                         ArrayList<Event> arrayList = new ArrayList<>(events);
 
                         // TODO: Not Good....
-                        if (User.isUserLoggedIn()) {
-                            for (Event ev : arrayList) {
+                        if(User.isUserLoggedIn()){
+                            for(Event ev : arrayList){
                                 ParseRelation relation = ev.getRelation("attendees");
                                 ParseQuery query = relation.getQuery();
                                 query.whereEqualTo("subscribedBy", User.getLoggedInUser());
                                 try {
-                                    if (query.count() > 0) {
+                                    if(query.count() > 0){
                                         ev.setIsEnrolled(true);
                                     }
-                                } catch (Exception ex) {
+                                }catch (Exception ex){
                                     ex.printStackTrace();
                                 }
 
@@ -222,7 +202,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
                     } else {
                         Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
                     }
-                    //swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
                 }
             });
         }
@@ -239,7 +219,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if (lastCreatedAt != null) {
+                if(lastCreatedAt != null){
                     getEvents();
                 }
             }
@@ -261,8 +241,10 @@ public class EventListFragment extends Fragment implements EventListCallback {
         @Override
         public void onItemClicked(RecyclerView recyclerView, int position, View v) {
             Event event = mEvents.get(position);
-            EventDetailFragment fragment = EventDetailFragment.newInstance(event.getObjectId());
-            mCommunicationChannel.openFragment(fragment); // Tell activity to open this fragment
+
+            Intent intent = new Intent(getContext(), HomeActivity.class);
+            intent.putExtra("eventObjectId", event.getObjectId());
+            startActivity(intent);
         }
     };
 
@@ -309,15 +291,4 @@ public class EventListFragment extends Fragment implements EventListCallback {
             }
         }
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if(context instanceof CommunicationChannel){
-            mCommunicationChannel = (CommunicationChannel) context;
-        }
-    }
-
-
 }
