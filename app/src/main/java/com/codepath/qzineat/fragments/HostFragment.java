@@ -294,11 +294,11 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
                 showProgressBar();
 
-
+/*
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
                     Log.d("DEBUG", "Hey cheater... You did double click!!!");
                     return;
-                }
+                }*/
                 mLastClickTime = SystemClock.elapsedRealtime();
                 InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
