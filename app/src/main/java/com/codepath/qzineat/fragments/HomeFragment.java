@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewSwitcher;
@@ -31,6 +33,8 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
     @Bind(R.id.backdrop) KenBurnsView backdrop;
     @Bind(R.id.viewSwitcher) ViewSwitcher mViewSwitcher;
     @Bind(R.id.backdrop2) KenBurnsView backdrop2;
+    @Bind(R.id.appbar) AppBarLayout appbar;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
 
     Handler handler;
     private static final int TRANSITIONS_TO_SWITCH = 3;
@@ -63,8 +67,6 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
         ButterKnife.bind(this, view);
 
 
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
 
 
 
@@ -99,8 +101,12 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
 
         loadBackdrop();
 
-        if (toolbar != null) {
-            toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+
+        appbar.addOnOffsetChangedListener(mOffsetChangedListener);
+
+        if(toolbar != null){
+            toolbar.inflateMenu(R.menu.event_menu);
+            toolbar.getMenu().findItem(R.id.menu_search).setOnMenuItemClickListener(mMenuItemClickListener);
         }
 
         return view;
@@ -135,4 +141,36 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
             mTransitionsCount = 0;
         }
     }
+
+    private AppBarLayout.OnOffsetChangedListener mOffsetChangedListener = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+            if (toolbar != null) {
+                if(Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()){
+                    // COLLAPSED
+                    toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
+                    toolbar.getMenu().findItem(R.id.menu_search).setVisible(true);
+                }else {
+                    toolbar.setLogo(android.R.color.transparent);
+                    toolbar.getMenu().findItem(R.id.menu_search).setVisible(false);
+                }
+            }
+        }
+    };
+
+    private MenuItem.OnMenuItemClickListener mMenuItemClickListener = new MenuItem.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            switch (item.getItemId()){
+                case R.id.menu_search:
+                    Intent i = new Intent(getContext(), SearchActivity.class);
+                    startActivity(i);
+                    break;
+            }
+
+            return true;
+        }
+    };
 }

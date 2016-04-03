@@ -9,5 +9,6 @@
         app:showAsAction="always"
         android:title="Search"
         app:iconifiedByDefault="false"
+        android:visible="false"
         />
 </menu>
