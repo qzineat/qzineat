@@ -14,8 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+
 import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.interfaces.CommunicationChannel;
@@ -57,7 +58,6 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     private Bitmap bitmap;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    protected void createDrawerHeader(){
+    protected void createDrawerHeader() {
         drawerHeader = new AccountHeaderBuilder()
                 .withActivity(getActivity())
                 .addProfiles(profileAccountItem)
@@ -89,7 +89,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     }
 
 
-    protected void createDrawerItemsHost(){
+    protected void createDrawerItemsHost() {
         // if log in
         profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.mipmap.ic_account_white).withSelectedIcon(R.mipmap.ic_profile_image).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.mipmap.ic_food_drink_white).withSelectedIcon(R.mipmap.ic_food_drink_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
@@ -106,19 +106,19 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.mipmap.ic_setting_white).withSelectedIcon(R.mipmap.ic_settings_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
 
         // Profile Account
-        if(User.isUserLoggedIn()){
+        if (User.isUserLoggedIn()) {
             profileAccountItem = new ProfileDrawerItem()
                     .withName(User.getLoggedInUser().getProfileName())
                     .withEmail(User.getLoggedInUser().getEmail());
-            if(User.getLoggedInUser().getImageFile() != null
-                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+            if (User.getLoggedInUser().getImageFile() != null
+                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()) {
                 bitmap = getBitMapImage(User.getLoggedInUser().getImageFile());
                 profileAccountItem.withIcon(bitmap);
-            }else {
+            } else {
                 profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
             }
 
-        }else {
+        } else {
             profileAccountItem = new ProfileDrawerItem()
                     .withEnabled(false)
                     .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
@@ -126,7 +126,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     }
 
 
-    protected void createDrawerItems(){
+    protected void createDrawerItems() {
         // if log in
         profileItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_profile)).withIcon(R.mipmap.ic_profile_placeholder).withSelectedIcon(R.mipmap.ic_profile_image).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
         userEventsItem = new PrimaryDrawerItem().withName(getString(R.string.drawer_my_event)).withIcon(R.mipmap.ic_food_drink).withSelectedIcon(R.mipmap.ic_food_drink_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
@@ -143,19 +143,19 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         filterItem = new PrimaryDrawerItem().withName(getString(R.string.filters)).withIcon(R.mipmap.ic_settings).withSelectedIcon(R.mipmap.ic_settings_orange).withSelectedTextColor(getResources().getColor(R.color.deep_accent));
 
         // Profile Account
-        if(User.isUserLoggedIn()){
+        if (User.isUserLoggedIn()) {
             profileAccountItem = new ProfileDrawerItem()
                     .withName(User.getLoggedInUser().getProfileName())
                     .withEmail(User.getLoggedInUser().getEmail());
-            if(User.getLoggedInUser().getImageFile() != null
-                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+            if (User.getLoggedInUser().getImageFile() != null
+                    && !User.getLoggedInUser().getImageFile().getUrl().isEmpty()) {
                 bitmap = getBitMapImage(User.getLoggedInUser().getImageFile());
                 profileAccountItem.withIcon(bitmap);
-            }else {
+            } else {
                 profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
             }
 
-        }else {
+        } else {
             profileAccountItem = new ProfileDrawerItem()
                     .withEnabled(false)
                     .withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
@@ -176,11 +176,11 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         return bitmap;
     }
 
-    protected void setupDrawer(){
+    protected void setupDrawer() {
 
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             createDrawerItemsHost();
-        }else{
+        } else {
             createDrawerItems();
         }
 
@@ -196,10 +196,10 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                 .build();
 
 
-        if(User.isUserLoggedIn()){
+        if (User.isUserLoggedIn()) {
             drawer.addItem(profileItem);
             drawer.addItem(eventsItem);
-            if(QZinEatApplication.isHostView){
+            if (QZinEatApplication.isHostView) {
                 drawer.addItem(hostEventItem);
                 switchItem.withName(getString(R.string.switch_search)).withIcon(R.mipmap.ic_swap_white); // Footer Change
                 userEventsItem.withName(getString(R.string.drawer_hosted_event));
@@ -213,7 +213,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
             }
             drawer.addItem(logOutItem);
             drawer.addStickyFooterItem(switchItem);
-        }else {
+        } else {
             drawer.addItem(logInItem);
             drawer.addItem(eventsItem);
             drawer.addItem(filterItem);
@@ -230,10 +230,9 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
         drawer.setToolbar(getActivity(), toolbar);
     }
 
-    private Drawer.OnDrawerItemClickListener mDrawerItemClickListener = new Drawer.OnDrawerItemClickListener(){
+    private Drawer.OnDrawerItemClickListener mDrawerItemClickListener = new Drawer.OnDrawerItemClickListener() {
         @Override
         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-
 
 
             // No Search Bar
@@ -242,20 +241,20 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
             }*/
 
 
-            if(drawerItem.equals(switchItem)){
+            if (drawerItem.equals(switchItem)) {
                 QZinUtil.changeTheme(getActivity());
 
                 return false;
             }
 
 
-            if(drawerItem.equals(logInItem)){
+            if (drawerItem.equals(logInItem)) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 return false;
             }
 
-            if(drawerItem.equals(logOutItem)){
+            if (drawerItem.equals(logOutItem)) {
                 User.getLoggedInUser().logout();
                 getActivity().finish();
                 getActivity().startActivity(new Intent(getActivity(), getActivity().getClass()));
@@ -264,22 +263,22 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
 
             // Below This requires fragment
             Fragment fragment = null;
-            if(drawerItem.equals(profileItem)){
+            if (drawerItem.equals(profileItem)) {
                 Bundle bundle = new Bundle();
-                bundle.putString("objectId",  User.getLoggedInUser().getObjectId());
+                bundle.putString("objectId", User.getLoggedInUser().getObjectId());
                 fragment = new ProfileFragment();
                 fragment.setArguments(bundle);
             }
 
-            if(drawerItem.equals(userEventsItem)){
+            if (drawerItem.equals(userEventsItem)) {
                 fragment = new EnrollEventFragment();
             }
 
-            if(drawerItem.equals(hostEventItem)){
+            if (drawerItem.equals(hostEventItem)) {
                 fragment = new HostFragment();
             }
 
-            if(drawerItem.equals(eventsItem)){
+            if (drawerItem.equals(eventsItem)) {
                 /*if(llSearch != null){
                     llSearch.setVisibility(View.VISIBLE); // Only on Event List
                 }*/
@@ -287,7 +286,7 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
             }
 
 
-            if(drawerItem.equals(filterItem)){
+            if (drawerItem.equals(filterItem)) {
                 //TODO: fragment = new AdvanceFragment(); - hack
                 fragment = new HomeFragment();
             }
@@ -325,12 +324,12 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if(context instanceof CommunicationChannel){
+        if (context instanceof CommunicationChannel) {
             mCommunicationChannel = (CommunicationChannel) context;
         }
     }
 
-    protected void openFragment(Fragment fragment){
+    protected void openFragment(Fragment fragment) {
         mCommunicationChannel.openFragment(fragment);
     }
 
@@ -346,12 +345,12 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
 
     private BadgeStyle getBadgeStyle() {
 
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             return new BadgeStyle()
                     .withTextColor(getResources().getColor(R.color.badge_bg_color))
                     .withColorRes(R.color.badge_text_color);
 
-        }else {
+        } else {
             return new BadgeStyle()
                     .withTextColor(getResources().getColor(R.color.badge_text_color))
                     .withColorRes(R.color.badge_bg_color);
@@ -369,9 +368,9 @@ public class BaseFragment extends Fragment implements UserEventCountListener, Dr
                 .withName(User.getLoggedInUser().getProfileName())
                 .withEmail(User.getLoggedInUser().getEmail());
 
-        if(!User.getLoggedInUser().getImageFile().getUrl().isEmpty()){
+        if (!User.getLoggedInUser().getImageFile().getUrl().isEmpty()) {
             profileAccountItem.withIcon(User.getLoggedInUser().getImageFile().getUrl());
-        }else {
+        } else {
             profileAccountItem.withIcon(getResources().getDrawable(R.drawable.ic_profile_placeholder));
         }
 

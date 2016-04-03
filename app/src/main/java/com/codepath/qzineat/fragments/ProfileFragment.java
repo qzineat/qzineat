@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.models.User;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.parse.FindCallback;
@@ -34,15 +34,24 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends BaseFragment {
 
 
-    @Bind(R.id.ivProfileImage) ImageView ivProfileImage;
-    @Bind(R.id.tvProfileName) TextView tvProfileName;
-    @Bind(R.id.ivbkgImage) ImageView ivbkgImage;
-    @Bind(R.id.tvLocation) TextView tvLocation;
-    @Bind(R.id.tvSpeciality) TextView tvSpeciality;
-    @Bind(R.id.tvContact) TextView tvContact;
-    @Bind(R.id.tvEmail) TextView tvEmail;
-    @Bind(R.id.tvWebsite) TextView tvWebsite;
-    @Bind(R.id.evEdit) ImageView evEdit;
+    @Bind(R.id.ivProfileImage)
+    ImageView ivProfileImage;
+    @Bind(R.id.tvProfileName)
+    TextView tvProfileName;
+    @Bind(R.id.ivbkgImage)
+    ImageView ivbkgImage;
+    @Bind(R.id.tvLocation)
+    TextView tvLocation;
+    @Bind(R.id.tvSpeciality)
+    TextView tvSpeciality;
+    @Bind(R.id.tvContact)
+    TextView tvContact;
+    @Bind(R.id.tvEmail)
+    TextView tvEmail;
+    @Bind(R.id.tvWebsite)
+    TextView tvWebsite;
+    @Bind(R.id.evEdit)
+    ImageView evEdit;
 
 
     Transformation transformation = new RoundedTransformationBuilder()
@@ -59,7 +68,7 @@ public class ProfileFragment extends BaseFragment {
         drawer.setSelection(profileItem, false);
     }
 
-    public static EventDetailFragment newInstance(String eventObjectId){
+    public static EventDetailFragment newInstance(String eventObjectId) {
         EventDetailFragment fragment = new EventDetailFragment();
         Bundle args = new Bundle();
         args.putString("eventObjectId", eventObjectId);
@@ -75,7 +84,7 @@ public class ProfileFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
 
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
 
@@ -115,87 +124,87 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        return  view;
+        return view;
     }
 
     private void setProfileDetails(ArrayList<User> arrayList) {
 
         ivbkgImage.setBackgroundResource(R.drawable.user_profile_gb);
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())){
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getImageFile() != null) {
                 Picasso.with(getContext()).load(User.getLoggedInUser().getImageFile().getUrl()).transform(transformation).into(ivProfileImage);
             } else
                 Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
-        }else {
+        } else {
             if (arrayList.get(0).getImageFile() != null) {
                 Picasso.with(getContext()).load(arrayList.get(0).getImageFile().getUrl()).transform(transformation).into(ivProfileImage);
-            }else
+            } else
                 Picasso.with(getContext()).load(R.mipmap.ic_profile_placeholder).transform(transformation).into(ivProfileImage);
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getProfileName() != null) {
                 evEdit.setVisibility(View.VISIBLE);
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getProfileName() != null) {
                 tvProfileName.setText(User.getLoggedInUser().getProfileName());
             }
-        }else {
+        } else {
             if (arrayList.get(0).getProfileName() != null) {
                 tvProfileName.setText(arrayList.get(0).getProfileName());
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getCity() != null) {
                 tvLocation.setText(User.getLoggedInUser().getCity());
             }
-        }else {
+        } else {
             if (arrayList.get(0).getCity() != null) {
                 tvLocation.setText(arrayList.get(0).getCity());
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getSpeciality() != null) {
                 tvSpeciality.setText(User.getLoggedInUser().getSpeciality());
             }
-        }else {
+        } else {
             if (arrayList.get(0).getSpeciality() != null) {
                 tvSpeciality.setText(arrayList.get(0).getSpeciality());
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getPhone() != null) {
                 tvContact.setText(User.getLoggedInUser().getPhone());
                 tvContact.setTextColor(Color.parseColor("#1976D2"));
             }
-        }else {
+        } else {
             if (arrayList.get(0).getPhone() != null) {
                 tvContact.setText(arrayList.get(0).getPhone());
                 tvContact.setTextColor(Color.parseColor("#1976D2"));
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getEmail() != null) {
                 tvEmail.setText(User.getLoggedInUser().getEmail());
             }
-        }else {
+        } else {
             if (arrayList.get(0).getEmail() != null) {
                 tvEmail.setText(arrayList.get(0).getEmail());
             }
         }
 
-        if(arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
+        if (arrayList.get(0).getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             if (User.getLoggedInUser().getWebsite() != null) {
                 tvWebsite.setText(User.getLoggedInUser().getWebsite());
             }
-        }else {
+        } else {
             if (arrayList.get(0).getWebsite() != null) {
                 tvWebsite.setText(arrayList.get(0).getWebsite());
             }

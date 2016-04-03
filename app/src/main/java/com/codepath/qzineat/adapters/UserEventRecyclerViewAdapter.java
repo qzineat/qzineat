@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.fragments.UserEventsFragment;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.User;
@@ -117,7 +117,7 @@ public class UserEventRecyclerViewAdapter extends RecyclerView.Adapter<UserItemV
             Date date = sf.parse(rawJsonDate);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(qzinFormat);
             relativeDate = simpleDateFormat.format(date).toString();
-            
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

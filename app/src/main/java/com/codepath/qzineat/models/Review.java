@@ -8,7 +8,7 @@ import com.parse.ParseUser;
  * Created by Shyam Rokde on 3/10/16.
  */
 @ParseClassName("Review")
-public class Review extends ParseObject{
+public class Review extends ParseObject {
     // Rating = 1 to 5
     // Rating by User
     // Rating for Event

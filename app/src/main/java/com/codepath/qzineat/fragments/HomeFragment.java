@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ViewSwitcher;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.SearchActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.flaviofaria.kenburnsview.RandomTransitionGenerator;
@@ -44,7 +44,7 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
         // Selected item in drawer..
         drawer.setSelection(eventsItem, false);
 
-        HomeEventListFragment fragment = new  HomeEventListFragment();
+        HomeEventListFragment fragment = new HomeEventListFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.flEventListContent, fragment)
@@ -61,7 +61,6 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_home_fragment, container, false);
         ButterKnife.bind(this, view);
-
 
 
         CollapsingToolbarLayout collapsingToolbar =
@@ -100,7 +99,7 @@ public class HomeFragment extends BaseFragment implements KenBurnsView.Transitio
 
         loadBackdrop();
 
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
 

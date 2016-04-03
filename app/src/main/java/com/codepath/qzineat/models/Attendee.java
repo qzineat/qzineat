@@ -10,7 +10,8 @@ import com.parse.ParseUser;
 @ParseClassName("Attendee")
 public class Attendee extends ParseObject {
 
-    public Attendee(){}
+    public Attendee() {
+    }
 
 
     Event event;

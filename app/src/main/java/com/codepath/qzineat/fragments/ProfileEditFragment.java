@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 /**
  * Created by glondhe on 3/11/16.
  */
-public class ProfileEditFragment  extends BaseFragment {
+public class ProfileEditFragment extends BaseFragment {
 
     public static final int DAILOG_FRAGMENT = 1;
     @Bind(R.id.ivProfileImage)
@@ -63,7 +63,7 @@ public class ProfileEditFragment  extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_profile_edit, container, false);
         ButterKnife.bind(this, view);
 
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setTitle(getString(R.string.title_update_profile));
             toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
@@ -91,14 +91,14 @@ public class ProfileEditFragment  extends BaseFragment {
 
     private void setNewValues() {
 
-        try{
-            if ( ivProfileImage.getDrawable() != null) {
+        try {
+            if (ivProfileImage.getDrawable() != null) {
                 bitmap = ((BitmapDrawable) ivProfileImage.getDrawable()).getBitmap();
                 byte[] text = BitMapToString(bitmap);
                 ParseFile File = new ParseFile("EventImage.txt", text);
                 User.getLoggedInUser().setImageFile(File);
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
@@ -114,9 +114,9 @@ public class ProfileEditFragment  extends BaseFragment {
             public void done(ParseException e) {
                 if (e == null)
                     Log.d("DEBUG", "Successfully created event on Parse");
-               // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "Successfully created event on Parse", Toast.LENGTH_SHORT).show();
                 Bundle bundle = new Bundle();
-                bundle.putString("objectId",  User.getLoggedInUser().getObjectId());
+                bundle.putString("objectId", User.getLoggedInUser().getObjectId());
                 ProfileFragment profileFragment = new ProfileFragment();
                 profileFragment.setArguments(bundle);
                 openFragment(profileFragment);
@@ -172,7 +172,7 @@ public class ProfileEditFragment  extends BaseFragment {
                     Bitmap photo = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
                     ivProfileImage.setImageBitmap(photo);
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED){
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getContext(), "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
             }
@@ -182,11 +182,11 @@ public class ProfileEditFragment  extends BaseFragment {
         }
     }
 
-    public byte [] BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+    public byte[] BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return b;
     }
 }

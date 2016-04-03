@@ -3,8 +3,8 @@ package com.codepath.qzineat.utils;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,9 +19,10 @@ import java.util.Random;
 public class QZinUtil {
     /**
      * Usage: 23 March @ 9:00pm
+     *
      * @return
      */
-    public static String getShortDate(Date inputDate){
+    public static String getShortDate(Date inputDate) {
         String format = "d MMM @ h:mma"; // 23 Mar @ 9:00pm
         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
         return sdf.format(inputDate).replace("AM", "am").replace("PM", "pm");
@@ -38,9 +39,10 @@ public class QZinUtil {
 
     /**
      * Get Random Image URL
+     *
      * @return
      */
-    public static String getQZinImageUrl(){
+    public static String getQZinImageUrl() {
         Random rand = new Random();
         int randomNum = rand.nextInt((3 - 1) + 1);
 
@@ -57,13 +59,12 @@ public class QZinUtil {
     }
 
     public static void onActivityCreateSetTheme(Activity activity) {
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             activity.setTheme(R.style.HostQZinTheme);
-        }else {
+        } else {
             activity.setTheme(R.style.AppTheme);
         }
     }
-
 
 
 }

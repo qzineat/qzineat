@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.fragments.EnrollEventFragment;
 import com.codepath.qzineat.fragments.EventDetailFragment;
 import com.codepath.qzineat.fragments.HomeFragment;

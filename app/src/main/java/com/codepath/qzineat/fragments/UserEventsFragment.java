@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.QZinEatApplication;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.UserEventRecyclerViewAdapter;
@@ -79,7 +79,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
         recyclerViewAdapter = new UserEventRecyclerViewAdapter(mEvents, getContext(), this);
 
         // On Search
-        if(getArguments() != null){
+        if (getArguments() != null) {
             searchFood = getArguments().getString("searchFood");
             searchLocality = getArguments().getString("searchLocality");
             isSubscriberView = getArguments().getBoolean("isSubscriberView");
@@ -92,7 +92,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
     protected Date lastCreatedAt; // used for pagination
 
     protected void getEvents() {
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             QZinDataAccess.findHostedEvents(lastCreatedAt, this);
         }
     }
@@ -104,7 +104,6 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
     }
 
 
-
     private void setupRecyclerView() {
         rvEvents.setAdapter(recyclerViewAdapter);
 
@@ -114,7 +113,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
         rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if(lastCreatedAt != null){
+                if (lastCreatedAt != null) {
                     getEvents();
                 }
             }
@@ -155,7 +154,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
         swipeContainer.setRefreshing(false);
     }
 
-    public void openHostFragmentForEdit(String eventObjectId){
+    public void openHostFragmentForEdit(String eventObjectId) {
         HostFragment fragment = HostFragment.newInstance(eventObjectId);
         mCommunicationChannel.openFragment(fragment);
     }
@@ -164,7 +163,7 @@ public class UserEventsFragment extends Fragment implements UserEventsListener {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if(context instanceof CommunicationChannel){
+        if (context instanceof CommunicationChannel) {
             mCommunicationChannel = (CommunicationChannel) context;
         }
     }

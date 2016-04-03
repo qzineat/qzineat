@@ -16,7 +16,7 @@ import java.util.Date;
 public class Event extends ParseObject {
 
 
-    public Event(){
+    public Event() {
         // Required for Parse
     }
 
@@ -35,7 +35,7 @@ public class Event extends ParseObject {
     }
 
     public void setImageUrl(String imageUrl) {
-        put("imageUrl" , imageUrl);
+        put("imageUrl", imageUrl);
     }
 
     public ParseFile getImageFile() {
@@ -43,7 +43,7 @@ public class Event extends ParseObject {
     }
 
     public void setImageFile(ParseFile imageFile) {
-        put("imageFile" , imageFile);
+        put("imageFile", imageFile);
     }
 
     public String getTitle() {
@@ -145,7 +145,7 @@ public class Event extends ParseObject {
         put("host", host);
     }
 
-    public ParseRelation<Attendee> getAttendeeRelation(){
+    public ParseRelation<Attendee> getAttendeeRelation() {
         return getRelation("attendees");
     }
 
@@ -153,7 +153,7 @@ public class Event extends ParseObject {
         getAttendeeRelation().add(attendee);
     }
 
-    public void removeAttendee(Attendee attendee){
+    public void removeAttendee(Attendee attendee) {
         getAttendeeRelation().remove(attendee);
     }
 
@@ -204,7 +204,7 @@ public class Event extends ParseObject {
     }
 
     public void setMediaObject(ParseObject pObject) {
-        put("mediaFiles" , pObject);
+        put("mediaFiles", pObject);
     }
 
     public ParseObject getMediaObject() {

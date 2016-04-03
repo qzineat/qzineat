@@ -17,9 +17,9 @@ public class PastEventsFragment extends UserEventsFragment {
 
     @Override
     protected void getEvents() {
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             QZinDataAccess.findPastHostEvents(lastCreatedAt, this);
-        }else {
+        } else {
             QZinDataAccess.findPastSubscribedEvents(lastCreatedAt, this);
         }
     }

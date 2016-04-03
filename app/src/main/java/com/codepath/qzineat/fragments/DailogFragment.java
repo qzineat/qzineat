@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 
 import java.io.ByteArrayOutputStream;
 
@@ -33,7 +33,7 @@ public class DailogFragment extends DialogFragment {
     @Bind(R.id.btCamera)
     Button btCamera;
 
-    private static final int RESULT_OK = -1 ;
+    private static final int RESULT_OK = -1;
     private View view;
     private static final int CAMERA_REQUEST = 1888;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -100,7 +100,7 @@ public class DailogFragment extends DialogFragment {
 
             } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
                 {
-                     photo = (Bitmap) data.getExtras().get("data");
+                    photo = (Bitmap) data.getExtras().get("data");
 //                    ivEventImage.setImageBitmap(photo);
                     returnToHostfragment();
                 }
@@ -121,10 +121,10 @@ public class DailogFragment extends DialogFragment {
 
         Bundle bundle = new Bundle();
 
-        if(imgDecodableString != null) {
+        if (imgDecodableString != null) {
             bundle.putString("imgDecodableString", imgDecodableString);
         }
-        if(photo != null) {
+        if (photo != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();

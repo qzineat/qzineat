@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.codepath.android.qzineat"
+        applicationId "com.codepath.qzineat"
         minSdkVersion 21
         multiDexEnabled true
         targetSdkVersion 23

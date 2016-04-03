@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.interfaces.EventListCallback;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.QZinUtil;

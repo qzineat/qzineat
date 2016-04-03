@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.interfaces.DataUpdateListener;
 import com.codepath.qzineat.models.Event;
@@ -70,7 +70,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
     Handler handler;
 
     public static final int DAILOG_FRAGMENT = 1;
-    private static final int RESULT_OK = -1 ;
+    private static final int RESULT_OK = -1;
     private static final int CAMERA_REQUEST = 1888;
     private static int RESULT_LOAD_IMAGE = 1;
     public static StringBuilder date;
@@ -87,10 +87,14 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
     @Bind(R.id.ivEventImage)
     ImageView ivEventImage;
 
-    @Bind(R.id.tilTitle) TextInputLayout tilTitle;
-    @Bind(R.id.tilCharge) TextInputLayout tilCharge;
-    @Bind(R.id.tilVenue) TextInputLayout tilVenue;
-    @Bind(R.id.tilDesc) TextInputLayout tilDesc;
+    @Bind(R.id.tilTitle)
+    TextInputLayout tilTitle;
+    @Bind(R.id.tilCharge)
+    TextInputLayout tilCharge;
+    @Bind(R.id.tilVenue)
+    TextInputLayout tilVenue;
+    @Bind(R.id.tilDesc)
+    TextInputLayout tilDesc;
     @Bind(R.id.tilDate)
     TextInputLayout tilDate;
 
@@ -144,7 +148,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
     private boolean flag = false;
     private long mLastClickTime = 0;
 
-    public static HostFragment newInstance(String eventObjectId){
+    public static HostFragment newInstance(String eventObjectId) {
         HostFragment fragment = new HostFragment();
         Bundle args = new Bundle();
         args.putString("eventObjectId", eventObjectId);
@@ -186,14 +190,14 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         ButterKnife.bind(this, view);
 
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
 
 
         int count = this.getFragmentManager().getBackStackEntryCount();
         final Fragment frag = getFragmentManager().getFragments().get(count > 0 ? count - 1 : count);
-        
+
 
         circularFillableLoaders = (CircularFillableLoaders) view.findViewById(R.id.circularFillableLoaders); // Progress Bar
 
@@ -213,7 +217,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         ivEventImage.setImageResource(R.drawable.ic_camera);
         //Glide.with(this).load(getResources().(R.drawable.ic_camera)).centerCrop().into(ivEventImage);
 
-        if(logInIntent != null && !User.isUserLoggedIn()){
+        if (logInIntent != null && !User.isUserLoggedIn()) {
             // Send me to event list
             Fragment eventListFragment = new EventListFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -221,7 +225,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             transaction.commit();
         }
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             eventObjectId = getArguments().getString("eventObjectId");
             if (eventObjectId != null && !eventObjectId.isEmpty()) {
                 getEvent();
@@ -348,7 +352,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         try {
             // This is login request
-            if(requestCode == FragmentCode.HOST_FRAGMENT_LOGIN_CODE){
+            if (requestCode == FragmentCode.HOST_FRAGMENT_LOGIN_CODE) {
                 logInIntent = data;
                 return;
             }
@@ -372,7 +376,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 //                  Glide.with(this).load(QZinUtil.getQZinImageUrl()).centerCrop().into(ivEventImage);
                     ivEventImage.setImageResource(R.drawable.ic_camera);
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED){
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getContext(), "You haven't picked Image",
                         Toast.LENGTH_LONG).show();
             }
@@ -403,14 +407,14 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         TextView text = (TextView) cell.findViewById(R.id._imageName);
         //  Glide.with(mContext).load(imgUrl).asBitmap().centerCrop().into(images[i]);
         imageView.setImageBitmap(photo);
-  //      text.setText("#" + (1));
+        //      text.setText("#" + (1));
         mainLayout.addView(cell);
     }
 
     private void saveEvent(final Context context) {
 
         // Parse Save
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             eventObjectId = getArguments().getString("eventObjectId");
             if (eventObjectId != null && !eventObjectId.isEmpty()) {
                 ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
@@ -500,16 +504,16 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         if (!String.valueOf(spAlcohol.getSelectedItem()).equalsIgnoreCase("Choose")) {
             event.setAlcohol(spAlcohol.getSelectedItem().toString());
         }
-        try{
-            if ( mediaListImages.size() > 0 ) {
+        try {
+            if (mediaListImages.size() > 0) {
 
                 pObject = new ParseObject("mediaFiles");
                 ArrayList<ParseFile> pFileList = new ArrayList<ParseFile>();
                 ParseFile pFile;
-                for ( int i=0; i<mediaListImages.size(); i++ ) {
+                for (int i = 0; i < mediaListImages.size(); i++) {
                     byte[] imgData = BitMapToString(mediaListImages.get(i));
                     pFile = new ParseFile("EventImage.txt", imgData);
-                    if (i==0) event.setImageFile(pFile);
+                    if (i == 0) event.setImageFile(pFile);
                     pFile.save();
                     pFileList.add(pFile);
                 }
@@ -517,12 +521,12 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
                 pObject.addAll("mediaFiles", pFileList);
                 pObject.saveEventually();
                 event.setMediaObject(pObject);
-            }else {
+            } else {
                 pObject = new ParseObject("mediaFiles");
                 event.setMediaObject(pObject);
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             // TODO: GlideBitmapDrawable cannot be cast to android.graphics.drawable.BitmapDrawable
         }
@@ -532,8 +536,9 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             event.setHost(User.getLoggedInUser());
 
             QZinDataAccess.saveEvent(event, this);
-            
-        }else Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
+
+        } else
+            Toast.makeText(getContext(), "All entries are Mandatory!!", Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateTitle() {
@@ -547,6 +552,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         return true;
     }
+
     private boolean validateDate() {
         if (tvDatePicker.getText().toString().trim().isEmpty()) {
             tilDate.setError(getString(R.string.err_msg_required));
@@ -558,6 +564,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         return true;
     }
+
     private boolean validateTime() {
         if (tvTimePicker.getText().toString().trim().isEmpty()) {
             tilTime.setError(getString(R.string.err_msg_required));
@@ -569,6 +576,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         return true;
     }
+
     private boolean validateCharge() {
         if (etCharge.getText().toString().trim().isEmpty()) {
             tilCharge.setError(getString(R.string.err_msg_required));
@@ -612,22 +620,21 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
     }
 
 
-
     private Event getEvent() {
-            // Construct query to execute
-            ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-            // TODO: check later that we can get Event with all attendees or not
-            Log.d("DEBUG_eventObjectId", eventObjectId.toString());
-            query.include("mediaFiles");
-            query.getInBackground(eventObjectId, new GetCallback<Event>() {
-                @Override
-                public void done(Event object, ParseException e) {
-                    if (e == null) {
-                        evt = object;
-                        setValues(evt);
-                    }
+        // Construct query to execute
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        // TODO: check later that we can get Event with all attendees or not
+        Log.d("DEBUG_eventObjectId", eventObjectId.toString());
+        query.include("mediaFiles");
+        query.getInBackground(eventObjectId, new GetCallback<Event>() {
+            @Override
+            public void done(Event object, ParseException e) {
+                if (e == null) {
+                    evt = object;
+                    setValues(evt);
                 }
-            });
+            }
+        });
         return evt;
     }
 
@@ -636,9 +643,9 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         if (evnt != null) {
             ParseFile pf = evnt.getImageFile();
             String imgUrl;
-            if(pf != null && !pf.getUrl().isEmpty()){
+            if (pf != null && !pf.getUrl().isEmpty()) {
                 imgUrl = pf.getUrl();
-            }else {
+            } else {
                 imgUrl = QZinUtil.getQZinImageUrl();
             }
 
@@ -659,10 +666,10 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
             etDesc.setText(evnt.getDescription().toString());
             int pos;
             if (evnt.getAlcohol().toString() == "Yes") pos = 3;
-                    else pos = 2;
+            else pos = 2;
             spAlcohol.setSelection(pos);
-            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount())+1);
-        //    sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
+            spGuest.setSelection(arrayAdapter.getPosition(evnt.getAttendeesMaxCount()) + 1);
+            //    sMenuCategory.setSelection(MenuCategoryAdapter.getPosition(evnt.getCategory())+1);
             sMenuCategory.setSelection(3);
             setMenuItemJapanese();
             sMenuItem.setSelection(1);
@@ -726,7 +733,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 
         DateFormat formatter = new SimpleDateFormat("dd MMM yy hh:mm aa"); // Make sure user insert date into edittext in this format.
         Date dateObject = null;
-        String dob_var=(dateString);
+        String dob_var = (dateString);
         try {
             dateObject = formatter.parse(dob_var);
         } catch (java.text.ParseException e) {
@@ -1001,7 +1008,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         MenuitemAdapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         sMenuItem.setAdapter(MenuitemAdapter);
     }
-    
+
     private void setMenuItemVegan() {
 
         List<String> list = new ArrayList<String>();
@@ -1033,7 +1040,7 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             parent.getItemAtPosition(position);
-            if (-1 == position);
+            if (-1 == position) ;
             else {
                 String choice = MenuCategoryAdapter.getItem(position);
 
@@ -1078,30 +1085,30 @@ public class HostFragment extends BaseFragment implements DataUpdateListener {
 //        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
 //    }
 
-        private void setListAdapter() {
-            List list = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
-                if (i == 0) list.add("Choose");
-                else list.add(i);
-            }
-            arrayAdapter = new ArrayAdapter<>(this.getActivity(),
-                    android.R.layout.simple_spinner_item, list);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+    private void setListAdapter() {
+        List list = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            if (i == 0) list.add("Choose");
+            else list.add(i);
         }
+        arrayAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+    }
 
-        public byte [] BitMapToString(Bitmap bitmap){
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte [] b=baos.toByteArray();
-            String temp=Base64.encodeToString(b, Base64.DEFAULT);
-            return b;
-        }
+    public byte[] BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return b;
+    }
 
-    public void showProgressBar(){
+    public void showProgressBar() {
         circularFillableLoaders.setVisibility(View.VISIBLE);
     }
 
-    public void hideProgressBar(){
+    public void hideProgressBar() {
         circularFillableLoaders.setVisibility(View.GONE);
     }
 

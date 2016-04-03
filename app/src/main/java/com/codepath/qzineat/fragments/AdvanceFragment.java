@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
+
 
 public class AdvanceFragment extends Fragment {
 

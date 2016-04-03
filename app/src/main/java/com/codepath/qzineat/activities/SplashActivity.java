@@ -8,7 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
+
 
 /**
  * Created by glondhe on 3/15/16.

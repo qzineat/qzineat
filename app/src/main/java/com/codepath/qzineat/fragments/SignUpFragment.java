@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.ParseException;
@@ -26,11 +26,16 @@ import butterknife.ButterKnife;
  */
 public class SignUpFragment extends Fragment {
 
-    @Bind(R.id.create_account) Button createAccountButton;
-    @Bind(R.id.signup_email_input) EditText etUsername;
-    @Bind(R.id.signup_password_input) EditText etPassword;
-    @Bind(R.id.signup_confirm_password_input) EditText etConfirmPassword;
-    @Bind(R.id.signup_name_input) EditText etName;
+    @Bind(R.id.create_account)
+    Button createAccountButton;
+    @Bind(R.id.signup_email_input)
+    EditText etUsername;
+    @Bind(R.id.signup_password_input)
+    EditText etPassword;
+    @Bind(R.id.signup_confirm_password_input)
+    EditText etConfirmPassword;
+    @Bind(R.id.signup_name_input)
+    EditText etName;
 
     public ParseInstallation installation;
 
@@ -45,7 +50,7 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
-    private void setupSignUp(){
+    private void setupSignUp() {
         createAccountButton.setOnClickListener(mCreateAccountListener);
     }
 
@@ -53,7 +58,7 @@ public class SignUpFragment extends Fragment {
         @Override
         public void onClick(View v) {
             // Validate fields
-            if(isValid()){
+            if (isValid()) {
                 User user = new User();
                 user.setUsername(etUsername.getText().toString().trim());
                 user.setPassword(etPassword.getText().toString().trim());
@@ -90,24 +95,24 @@ public class SignUpFragment extends Fragment {
         }
     };
 
-    private boolean isValid(){
+    private boolean isValid() {
 
-        if(etUsername.getText().toString().trim().isEmpty()){
+        if (etUsername.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.signup_no_email_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(etPassword.getText().toString().trim().isEmpty()){
+        if (etPassword.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.login_no_password_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())){
+        if (!etPassword.getText().toString().trim().equals(etConfirmPassword.getText().toString().trim())) {
             Toast.makeText(getContext(), getString(R.string.signup_mismatch_confirm_password_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(etName.getText().toString().trim().isEmpty()){
+        if (etName.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.signup_no_name_toast), Toast.LENGTH_SHORT).show();
             return false;
         }

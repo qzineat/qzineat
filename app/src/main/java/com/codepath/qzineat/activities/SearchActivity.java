@@ -17,7 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.fragments.EventListFragment;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.utils.GeoUtil;
@@ -186,6 +186,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /**
      * EventList - List View
+     *
      * @param args
      */
     public void setupEventList(Bundle args){

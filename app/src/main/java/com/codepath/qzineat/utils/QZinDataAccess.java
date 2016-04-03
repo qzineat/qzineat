@@ -25,18 +25,18 @@ import java.util.List;
 public class QZinDataAccess {
 
 
-    public static void saveEvent(Event event, final DataUpdateListener dataUpdateListener){
+    public static void saveEvent(Event event, final DataUpdateListener dataUpdateListener) {
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e == null){
+                if (e == null) {
                     dataUpdateListener.onEventSave();
                 }
             }
         });
     }
 
-    public static void saveAttendee(final Event event, final int guestCount){
+    public static void saveAttendee(final Event event, final int guestCount) {
         final Attendee attendee = new Attendee();
         attendee.setGuestCount(guestCount);
         attendee.setSubscribedBy(User.getLoggedInUser());
@@ -46,7 +46,7 @@ public class QZinDataAccess {
         attendee.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException ex) {
-                if(ex != null){
+                if (ex != null) {
                     ex.printStackTrace();
                     return;
                 }
@@ -73,14 +73,14 @@ public class QZinDataAccess {
         });
     }
 
-    public static void findUserEventsCount(final UserEventCountListener listener){
+    public static void findUserEventsCount(final UserEventCountListener listener) {
         Log.d("DEBUG", "findUserEventsCount");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
 
         // When host
-        if(QZinEatApplication.isHostView) {
+        if (QZinEatApplication.isHostView) {
             ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
             query.whereEqualTo("host", User.getCurrentUser());
             query.countInBackground(new CountCallback() {
@@ -92,7 +92,7 @@ public class QZinDataAccess {
                 }
             });
 
-        }else {
+        } else {
             ParseQuery<Attendee> query = ParseQuery.getQuery(Attendee.class);
             query.whereEqualTo("subscribedBy", User.getLoggedInUser());
             query.countInBackground(new CountCallback() {
@@ -108,47 +108,47 @@ public class QZinDataAccess {
     }
 
 
-    public static void findUpcomingHostEvents(Date eventDate, UserEventsListener listener){
+    public static void findUpcomingHostEvents(Date eventDate, UserEventsListener listener) {
         Log.d("DEBUG", "findUpcomingHostedEvents");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
 
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             getHostedEvents(eventDate, listener, true);
         }
     }
 
-    public static void findPastHostEvents(Date eventDate, UserEventsListener listener){
+    public static void findPastHostEvents(Date eventDate, UserEventsListener listener) {
         Log.d("DEBUG", "findPastHostedEvents");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
 
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             getHostedEvents(eventDate, listener, false);
         }
     }
 
-    public static void findHostedEvents(Date eventDate, UserEventsListener listener){
+    public static void findHostedEvents(Date eventDate, UserEventsListener listener) {
         Log.d("DEBUG", "findHostedEvents");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
 
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             getAllHostedEvents(eventDate, listener);
         }
     }
 
 
-    public static void getAllHostedEvents(Date eventDate, final UserEventsListener listener){
+    public static void getAllHostedEvents(Date eventDate, final UserEventsListener listener) {
 
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.whereEqualTo("host", User.getCurrentUser());
         query.orderByDescending("date");
 
-        if(eventDate != null){ // paging
+        if (eventDate != null) { // paging
             query.whereLessThan("date", eventDate);
         }
         query.setLimit(10);
@@ -170,19 +170,19 @@ public class QZinDataAccess {
         });
     }
 
-    public static void getHostedEvents(Date eventDate, final UserEventsListener listener, boolean upComing){
+    public static void getHostedEvents(Date eventDate, final UserEventsListener listener, boolean upComing) {
         // Today
         Date today = new Date();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.whereEqualTo("host", User.getCurrentUser());
         query.orderByAscending("date");
-        if(upComing){
+        if (upComing) {
             query.whereGreaterThan("date", today);
-        }else {
+        } else {
             query.whereLessThan("date", today);
         }
 
-        if(eventDate != null){ // paging
+        if (eventDate != null) { // paging
             query.whereGreaterThan("date", eventDate);
         }
         query.setLimit(10);
@@ -203,31 +203,31 @@ public class QZinDataAccess {
         });
     }
 
-    public static void findPastSubscribedEvents(Date lastCreatedAt, UserEventsListener listener){
+    public static void findPastSubscribedEvents(Date lastCreatedAt, UserEventsListener listener) {
         Log.d("DEBUG", "findPastSubscribedEvents");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             return;
         }
         getSubscriberEventsByDay(lastCreatedAt, listener, false);
     }
 
 
-    public static void findUpcomingSubscribedEvents(Date lastCreatedAt, UserEventsListener listener){
+    public static void findUpcomingSubscribedEvents(Date lastCreatedAt, UserEventsListener listener) {
         Log.d("DEBUG", "findUpcomingSubscribedEvents");
-        if(!User.isUserLoggedIn()){
+        if (!User.isUserLoggedIn()) {
             return;
         }
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             return;
         }
 
         getSubscriberEventsByDay(lastCreatedAt, listener, true);
     }
 
-    public static void getSubscriberEventsByDay(Date lastCreatedAt, final UserEventsListener listener, boolean upComing){
+    public static void getSubscriberEventsByDay(Date lastCreatedAt, final UserEventsListener listener, boolean upComing) {
 
         //1. Event Date greater than today
         //2. Order by Event Date Asc order - this will used as paging - not possible
@@ -238,9 +238,9 @@ public class QZinDataAccess {
         Log.d("DEBUG", "today - " + today.toString());
 
         ParseQuery<Event> innerQuery = ParseQuery.getQuery(Event.class);
-        if(upComing){
+        if (upComing) {
             innerQuery.whereGreaterThan("date", today);
-        }else {
+        } else {
             innerQuery.whereLessThan("date", today);
         }
 
@@ -251,7 +251,7 @@ public class QZinDataAccess {
         attendeeParseQuery.whereMatchesQuery("event", innerQuery);
         attendeeParseQuery.orderByAscending("createdAt");
         attendeeParseQuery.setLimit(10);
-        if(lastCreatedAt != null){ // paging
+        if (lastCreatedAt != null) { // paging
             attendeeParseQuery.whereGreaterThan("createdAt", lastCreatedAt);
             Log.d("DEBUG", "lastCreatedAt - " + lastCreatedAt.toString());
         }
@@ -261,8 +261,8 @@ public class QZinDataAccess {
             public void done(List<Attendee> attendees, ParseException e) {
                 if (e == null) {
                     ArrayList<Event> arrayList = new ArrayList<>();
-                    for(Attendee a: attendees){
-                        if(a.getEvent()!= null){
+                    for (Attendee a : attendees) {
+                        if (a.getEvent() != null) {
                             arrayList.add(a.getEvent());
                         }
                     }
@@ -271,7 +271,7 @@ public class QZinDataAccess {
                         // set value for pagination
 
                         Date lastCreatedAt = attendees.get(attendees.size() - 1).getCreatedAt();
-                        if(arrayList.size() > 0) {
+                        if (arrayList.size() > 0) {
                             listener.onEventsSearch(lastCreatedAt, arrayList);
                         }
                     }

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,14 +19,15 @@ import butterknife.ButterKnife;
 public class HostListFragment extends BaseFragment {
 
 
-    @Bind(R.id.ibPlus) ImageButton ibPlus;
+    @Bind(R.id.ibPlus)
+    ImageButton ibPlus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Event List
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             UserEventsFragment userEventsFragment = new UserEventsFragment();
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.replace(R.id.flContainerHEL, userEventsFragment);

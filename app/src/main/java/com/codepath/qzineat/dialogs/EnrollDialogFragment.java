@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.utils.FragmentCode;
 
 import butterknife.Bind;
@@ -148,12 +148,14 @@ public class EnrollDialogFragment extends DialogFragment {
             s.replace(0, s.length(), concatString(getDigitArray(s, CARD_NUMBER_TOTAL_DIGITS), CARD_NUMBER_DIVIDER_POSITION, CARD_NUMBER_DIVIDER));
         }
     }
+
     @OnTextChanged(value = R.id.etCardDate, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     protected void onCardDateTextChanged(Editable s) {
         if (!isInputCorrect(s, CARD_DATE_TOTAL_SYMBOLS, CARD_DATE_DIVIDER_MODULO, CARD_DATE_DIVIDER)) {
             s.replace(0, s.length(), concatString(getDigitArray(s, CARD_DATE_TOTAL_DIGITS), CARD_DATE_DIVIDER_POSITION, CARD_DATE_DIVIDER));
         }
     }
+
     @OnTextChanged(value = R.id.etCardCVC, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     protected void onCardCVCTextChanged(Editable s) {
         if (s.length() > CARD_CVC_TOTAL_SYMBOLS) {

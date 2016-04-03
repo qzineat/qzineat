@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
 import com.codepath.qzineat.adapters.WrapContentLinearLayoutManager;
 import com.codepath.qzineat.dialogs.EnrollDialogFragment;
@@ -73,9 +73,9 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
 
         rvEvents.setNestedScrollingEnabled(false);
 
-        if(User.isUserLoggedIn() && !User.getLoggedInUser().getProfileName().isEmpty()){
+        if (User.isUserLoggedIn() && !User.getLoggedInUser().getProfileName().isEmpty()) {
             tvWelcomeName.setText(String.format("Hi, %s", User.getLoggedInUser().getProfileName()));
-        }else {
+        } else {
             tvWelcomeName.setText(getString(R.string.welcome_title));
         }
         tvWelcomeMsg.setText(getString(R.string.welcome_msg));
@@ -108,18 +108,18 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
 
         List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
         ParseQuery<Event> mainQuery;
-        if (searchFood != null){
+        if (searchFood != null) {
             //query.whereStartsWith("title", searchQuery);
             //query.whereMatches("title", "Michael", "i");
             //ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("category", searchFood);
-            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
+            ParseQuery<Event> q2 = ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
             queries.add(q2);
 
             //ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("locality", searchLocality); // TODO: This need geo search
             //queries.add(q3);
 
             mainQuery = ParseQuery.or(queries);
-        }else{
+        } else {
             mainQuery = ParseQuery.getQuery(Event.class);
         }
 
@@ -128,55 +128,54 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
         mainQuery.setLimit(LIMIT_EVENT);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
-        if(lastCreatedAt != null){
+        if (lastCreatedAt != null) {
             mainQuery.whereLessThan("createdAt", lastCreatedAt);
         }
 
-        if(searchLocality != null && !searchLocality.isEmpty()){
+        if (searchLocality != null && !searchLocality.isEmpty()) {
             mainQuery.whereEqualTo("locality", searchLocality);
         }
 
 
-            mainQuery.findInBackground(new FindCallback<Event>() {
-                @Override
-                public void done(List<Event> events, ParseException e) {
-                    if (e == null) {
-                        Log.d("DEBUG", "Response Size - " + events.size());
-                        int curSize = recyclerViewAdapter.getItemCount();
-                        ArrayList<Event> arrayList = new ArrayList<>(events);
+        mainQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e == null) {
+                    Log.d("DEBUG", "Response Size - " + events.size());
+                    int curSize = recyclerViewAdapter.getItemCount();
+                    ArrayList<Event> arrayList = new ArrayList<>(events);
 
-                        // TODO: Not Good....
-                        if (User.isUserLoggedIn()) {
-                            for (Event ev : arrayList) {
-                                ParseRelation relation = ev.getRelation("attendees");
-                                ParseQuery query = relation.getQuery();
-                                query.whereEqualTo("subscribedBy", User.getLoggedInUser());
-                                try {
-                                    if (query.count() > 0) {
-                                        ev.setIsEnrolled(true);
-                                    }
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
+                    // TODO: Not Good....
+                    if (User.isUserLoggedIn()) {
+                        for (Event ev : arrayList) {
+                            ParseRelation relation = ev.getRelation("attendees");
+                            ParseQuery query = relation.getQuery();
+                            query.whereEqualTo("subscribedBy", User.getLoggedInUser());
+                            try {
+                                if (query.count() > 0) {
+                                    ev.setIsEnrolled(true);
                                 }
-
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
                             }
-                        }
 
-                        mEvents.addAll(arrayList);
-                        recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
-                        if (events.size() > 0) {
-                            // set value for pagination
-                            lastCreatedAt = mEvents.get(mEvents.size() - 1).getCreatedAt();
                         }
-                    } else {
-                        Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
                     }
-                    //swipeContainer.setRefreshing(false);
+
+                    mEvents.addAll(arrayList);
+                    recyclerViewAdapter.notifyItemRangeInserted(curSize, arrayList.size());
+                    if (events.size() > 0) {
+                        // set value for pagination
+                        lastCreatedAt = mEvents.get(mEvents.size() - 1).getCreatedAt();
+                    }
+                } else {
+                    Log.e("ERROR", "Error Loading events" + e); // Don't notify this to user..
                 }
-            });
+                //swipeContainer.setRefreshing(false);
+            }
+        });
 
     }
-
 
 
     private void setupRecyclerView() {
@@ -186,7 +185,6 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
         rvEvents.setLayoutManager(layoutManager);
 
     }
-
 
 
     private final ItemClickSupport.OnItemClickListener mEventClickListener = new ItemClickSupport.OnItemClickListener() {
@@ -223,9 +221,9 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
         super.onActivityResult(requestCode, resultCode, data);
 
         // Enroll for event
-        if(resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE){
+        if (resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE) {
             Log.d("DEBUG", "Message Received on Enroll..");
-            if(data.getStringExtra("position") != null && !data.getStringExtra("position").isEmpty()){
+            if (data.getStringExtra("position") != null && !data.getStringExtra("position").isEmpty()) {
                 int position = Integer.parseInt(data.getStringExtra("position"));
                 Event event = mEvents.get(position);
                 QZinDataAccess.saveAttendee(event, data.getIntExtra("guestCount", 1));
@@ -246,7 +244,7 @@ public class HomeEventListFragment extends Fragment implements EventListCallback
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if(context instanceof CommunicationChannel){
+        if (context instanceof CommunicationChannel) {
             mCommunicationChannel = (CommunicationChannel) context;
         }
     }

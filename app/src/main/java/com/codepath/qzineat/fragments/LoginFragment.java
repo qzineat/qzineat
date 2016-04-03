@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.models.User;
 import com.parse.LogInCallback;
@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void setupLogin(){
+    private void setupLogin() {
 
         signupButton.setOnClickListener(mSignUpButtonListener);
 
@@ -77,12 +77,12 @@ public class LoginFragment extends Fragment {
 
     }
 
-    private boolean isValid(){
-        if(etUsername.getText().toString().trim().isEmpty()){
+    private boolean isValid() {
+        if (etUsername.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.login_no_username_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(etPassword.getText().toString().trim().isEmpty()){
+        if (etPassword.getText().toString().trim().isEmpty()) {
             Toast.makeText(getContext(), getString(R.string.login_no_password_toast), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -94,7 +94,7 @@ public class LoginFragment extends Fragment {
         @Override
         public void onClick(View v) {
 
-            if(!isValid()){
+            if (!isValid()) {
                 return;
             }
 
@@ -109,7 +109,7 @@ public class LoginFragment extends Fragment {
                         if (e != null) {
                             if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                                 Toast.makeText(getContext(), getString(R.string.login_invalid_credentials_toast), Toast.LENGTH_SHORT).show();
-                            }else {
+                            } else {
                                 Toast.makeText(getContext(), getString(R.string.login_failed_unknown_toast), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -166,7 +166,6 @@ public class LoginFragment extends Fragment {
                     .commit();
         }
     };
-
 
 
 }

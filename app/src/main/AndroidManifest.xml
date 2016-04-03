@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.codepath.android.qzineat"
+<manifest package="com.codepath.qzineat"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -20,16 +20,16 @@
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
     <permission
-        android:name="com.codepath.android.qzineat.permission.C2D_MESSAGE"
+        android:name="com.codepath.qzineat.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
 
-    <uses-permission android:name="com.codepath.android.qzineat.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="com.codepath.qzineat.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 
     <permission
-        android:name="com.codepath.android.qzineat.permission.MAPS_RECEIVE"
+        android:name="com.codepath.qzineat.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
     <permission
         android:name="android.permission.ACCESS_FINE_LOCATION"
@@ -102,7 +102,7 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 
                 <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
-                <category android:name="com.codepath.android.qzineat"/>
+                <category android:name="com.codepath.qzineat"/>
             </intent-filter>
         </receiver>
 

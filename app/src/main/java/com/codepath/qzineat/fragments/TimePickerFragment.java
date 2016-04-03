@@ -8,7 +8,7 @@ import android.text.format.DateFormat;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 
 import java.util.Calendar;
 
@@ -48,7 +48,7 @@ public class TimePickerFragment extends DialogFragment implements
         else if (datetime.get(Calendar.AM_PM) == Calendar.PM)
             am_pm = "PM";
 
-        String strHrsToShow = (datetime.get(Calendar.HOUR) == 0) ?"12":datetime.get(Calendar.HOUR)+"";
+        String strHrsToShow = (datetime.get(Calendar.HOUR) == 0) ? "12" : datetime.get(Calendar.HOUR) + "";
         EditText tvTimePicker = (EditText) getActivity().findViewById(R.id.tvTimePicker);
         tvTimePicker.setText(strHrsToShow + ":" + datetime.get(Calendar.MINUTE) + " " + am_pm);
     }

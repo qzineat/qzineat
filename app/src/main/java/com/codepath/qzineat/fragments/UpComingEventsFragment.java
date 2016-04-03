@@ -17,9 +17,9 @@ public class UpComingEventsFragment extends UserEventsFragment {
 
     @Override
     protected void getEvents() {
-        if(QZinEatApplication.isHostView){
+        if (QZinEatApplication.isHostView) {
             QZinDataAccess.findUpcomingHostEvents(lastCreatedAt, this);
-        }else {
+        } else {
             QZinDataAccess.findUpcomingSubscribedEvents(lastCreatedAt, this);
         }
     }

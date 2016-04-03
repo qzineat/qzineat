@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
 import com.codepath.qzineat.models.Attendee;
 import com.codepath.qzineat.models.Event;
 import com.codepath.qzineat.models.Review;
@@ -70,14 +69,13 @@ public class QZinEatApplication extends Application {
         ParseFacebookUtils.initialize(getApplicationContext());
 
 
-
         // Drawer Image Loading
         //drawerImageLoader();
 
         //loadEventwithReview();
     }
 
-    private void loadEventwithReview(){
+    private void loadEventwithReview() {
         String eventObjectId = "l63bDS6eBy";
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.getInBackground(eventObjectId, new GetCallback<Event>() {
@@ -103,7 +101,7 @@ public class QZinEatApplication extends Application {
     }
 
 
-    private void drawerImageLoader(){
+    private void drawerImageLoader() {
         //initialize and create the image loader logic
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override

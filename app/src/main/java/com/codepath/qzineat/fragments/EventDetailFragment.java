@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.LoginActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.ReviewsRecyclerViewAdapter;
@@ -104,7 +104,7 @@ public class EventDetailFragment extends BaseFragment {
             .borderWidth(3)
             .build();
 
-    public static EventDetailFragment newInstance(String eventObjectId){
+    public static EventDetailFragment newInstance(String eventObjectId) {
         EventDetailFragment fragment = new EventDetailFragment();
         Bundle args = new Bundle();
         args.putString("eventObjectId", eventObjectId);
@@ -164,13 +164,13 @@ public class EventDetailFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Enroll for event
-        if(resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE){
+        if (resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE) {
             Log.d("DEBUG", "Message Received on Enroll..");
             saveAttendee(data.getIntExtra("guestCount", 1));
         }
 
         // Save Review
-        if(resultCode == FragmentCode.EVENT_DETAIL_REVIEW_FRAGMENT_RESULT_CODE){
+        if (resultCode == FragmentCode.EVENT_DETAIL_REVIEW_FRAGMENT_RESULT_CODE) {
             Log.d("DEBUG", "Message Received on Review..");
 
             saveReview(data.getIntExtra("rating", 1), data.getStringExtra("comment"));
@@ -221,13 +221,13 @@ public class EventDetailFragment extends BaseFragment {
 
     private Date reviewLastCreatedAt;
 
-    private void getReviews(){
+    private void getReviews() {
         ParseQuery<Review> query = ParseQuery.getQuery(Review.class);
         query.include("reviewedBy");
         query.whereEqualTo("event", event);
         query.setLimit(3);
         query.orderByDescending("createdAt");
-        if(reviewLastCreatedAt != null){
+        if (reviewLastCreatedAt != null) {
             query.whereLessThan("createdAt", reviewLastCreatedAt);
         }
         query.findInBackground(new FindCallback<Review>() {
@@ -238,7 +238,7 @@ public class EventDetailFragment extends BaseFragment {
                     int curSize = recyclerViewAdapter.getItemCount();
                     ArrayList<Review> arrayList = new ArrayList<>(reviewList);
                     mReviews.addAll(arrayList);
-                    if(mReviews.isEmpty()){
+                    if (mReviews.isEmpty()) {
                         tvNoReview.setVisibility(View.VISIBLE);
                         tvLine.setVisibility(View.VISIBLE);
                     }
@@ -283,15 +283,15 @@ public class EventDetailFragment extends BaseFragment {
         tvTitle.setText(event.getTitle());
         tvDate.setText(QZinUtil.getShortDate(event.getDate()));
 
-        if(event.getAddress() != null) {
+        if (event.getAddress() != null) {
             tvLocation.setText(event.getAddress());
-        }else{
+        } else {
             tvLocation.setVisibility(View.GONE);
         }
 
-        if(event.getPrice() > 0){
+        if (event.getPrice() > 0) {
             tvPrice.setText(String.format("$%d", event.getPrice()));
-        }else {
+        } else {
             tvPrice.setText("FREE");
         }
 
@@ -304,9 +304,9 @@ public class EventDetailFragment extends BaseFragment {
         tvDescription.setText(event.getDescription());
         ParseFile pf = event.getImageFile();
         String imgUrl;
-        if(pf != null && !pf.getUrl().isEmpty()){
+        if (pf != null && !pf.getUrl().isEmpty()) {
             imgUrl = pf.getUrl();
-        }else {
+        } else {
             imgUrl = QZinUtil.getQZinImageUrl();
         }
         //Glide.with(getContext()).load(imgUrl).centerCrop().into(ivEventImage);
@@ -319,7 +319,7 @@ public class EventDetailFragment extends BaseFragment {
 
 
         pObject = evnt.getMediaObject();
-        if(pObject != null) {
+        if (pObject != null) {
             List<ParseFile> pFileList = null;
             try {
                 pFileList = (ArrayList<ParseFile>) pObject.fetchIfNeeded().get("mediaFiles");
@@ -352,18 +352,17 @@ public class EventDetailFragment extends BaseFragment {
 
                 }
             } else {
-                    cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
-                    final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
-                    imageView.setImageResource(android.R.color.transparent);
-                    Glide.with(getContext()).load(pf.getUrl()).centerCrop().into(imageView);
-                    mainLayout.addView(cell);
+                cell = LayoutInflater.from(getContext()).inflate(R.layout.cell_list, null);
+                final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+                imageView.setImageResource(android.R.color.transparent);
+                Glide.with(getContext()).load(pf.getUrl()).centerCrop().into(imageView);
+                mainLayout.addView(cell);
             }
         }
     }
 
 
-
-    public void setAvalCount(int availability){
+    public void setAvalCount(int availability) {
         tvAttendeesMaxCount.setText(String.format("%d seats left of %d", availability, event.getAttendeesMaxCount()));
     }
 
@@ -372,10 +371,10 @@ public class EventDetailFragment extends BaseFragment {
      */
     private void setupFabButton() {
 
-        if(User.isUserLoggedIn()){
+        if (User.isUserLoggedIn()) {
             // Hello :) I am host - don't show me SignUp Button
-            if(event.getHost() != null
-                    && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
+            if (event.getHost() != null
+                    && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())) {
                 fabSignUp.setVisibility(View.GONE);
                 return;
             }
@@ -387,12 +386,12 @@ public class EventDetailFragment extends BaseFragment {
 
             try {
                 int count = query.count();
-                if(count > 0){
+                if (count > 0) {
                     // I am already registered for this event
                     changeSignUpButton();
                     // Rating
                     setupRatingBar();
-                }else {
+                } else {
                     showFabRegister();
                 }
             } catch (ParseException e) {
@@ -417,7 +416,7 @@ public class EventDetailFragment extends BaseFragment {
                     }
                 }
             });*/
-        }else {
+        } else {
             showFabRegister();
         }
 
@@ -425,8 +424,8 @@ public class EventDetailFragment extends BaseFragment {
 
     private void setupRatingBar() {
         // Hello :) I am host - don't show me Review Button
-        if(event.getHost() != null
-                && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())){
+        if (event.getHost() != null
+                && event.getHost().getObjectId().equals(User.getLoggedInUser().getObjectId())) {
             hideReviewButton();
             hideRatingBar();
             return;
@@ -434,7 +433,7 @@ public class EventDetailFragment extends BaseFragment {
 
         // Check Date
         Date today = new Date();
-        if(today.compareTo(event.getDate()) <= 0){
+        if (today.compareTo(event.getDate()) <= 0) {
             hideReviewButton(); // Btn
             hideRatingBar();
             return;
@@ -475,21 +474,22 @@ public class EventDetailFragment extends BaseFragment {
 
     }
 
-    private void hideReviewButton(){
+    private void hideReviewButton() {
         llReview.setVisibility(View.GONE);
     }
-    private void showReviewButton(){
+
+    private void showReviewButton() {
         llReview.setVisibility(View.VISIBLE);
     }
 
-    private void saveReview(int rating, String comment){
+    private void saveReview(int rating, String comment) {
         // Update Event
         event.increment("numberOfReviews");
         event.increment("ratingSum", rating);
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e==null){
+                if (e == null) {
                     setRating();
                 }
             }
@@ -509,16 +509,17 @@ public class EventDetailFragment extends BaseFragment {
     }
 
 
-    private void showRatingBar(){
+    private void showRatingBar() {
         llReviewBar.setVisibility(View.VISIBLE);
         ratingBar.setIsIndicator(true);
         hideReviewButton();
     }
-    private void hideRatingBar(){
+
+    private void hideRatingBar() {
         llReviewBar.setVisibility(View.GONE);
     }
 
-    private void setRating(){
+    private void setRating() {
         showRatingBar();
 
         double d = event.getRatingSum() * 1.0 / event.getNumberOfReviews();
@@ -526,7 +527,7 @@ public class EventDetailFragment extends BaseFragment {
         ratingBar.setIsIndicator(true);
     }
 
-    private void showFabRegister(){
+    private void showFabRegister() {
         fabSignUp.setVisibility(View.VISIBLE);
         fabSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -555,7 +556,7 @@ public class EventDetailFragment extends BaseFragment {
         });
     }
 
-    private void saveAttendee(final int guestCount){
+    private void saveAttendee(final int guestCount) {
         // Change Button
         changeSignUpButton();
 
@@ -572,9 +573,9 @@ public class EventDetailFragment extends BaseFragment {
             public void done(ParseException ex) {
                 if (ex == null) {
                     int avl;
-                    if(guestCount == 0){
+                    if (guestCount == 0) {
                         avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - 1;
-                    }else {
+                    } else {
                         avl = event.getAttendeesMaxCount() - event.getAttendeesAvailableCount() - guestCount;
                     }
 
@@ -616,7 +617,7 @@ public class EventDetailFragment extends BaseFragment {
 
     }
 
-    private void changeSignUpButton(){
+    private void changeSignUpButton() {
         fabSignUp.setBackgroundColor(Color.GREEN);
         fabSignUp.setVisibility(View.VISIBLE);
         fabSignUp.setEnabled(false);

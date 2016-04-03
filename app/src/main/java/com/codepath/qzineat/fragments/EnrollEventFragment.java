@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.adapters.EventsPagerAdapter;
 
 import butterknife.Bind;
@@ -38,7 +38,7 @@ public class EnrollEventFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_enroll_event, container, false);
         ButterKnife.bind(this, view);
 
-        if(toolbar!=null){
+        if (toolbar != null) {
             toolbar.setLogo(R.drawable.ic_qzineat_logo_final);
         }
 

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.codepath.android.qzineat.R;
+import com.codepath.qzineat.R;
 import com.codepath.qzineat.activities.HomeActivity;
 import com.codepath.qzineat.adapters.EndlessRecyclerViewScrollListener;
 import com.codepath.qzineat.adapters.EventsRecyclerViewAdapter;
@@ -84,12 +84,12 @@ public class EventListFragment extends Fragment implements EventListCallback {
         recyclerViewAdapter = new EventsRecyclerViewAdapter(mEvents, getContext(), this);
 
         // On Search
-        if(getArguments() != null){
+        if (getArguments() != null) {
             searchFood = getArguments().getString("searchFood");
             searchLocality = getArguments().getString("searchLocality");
             isProfileView = getArguments().getBoolean("isProfileView");
             isSubscriberView = getArguments().getBoolean("isSubscriberView");
-           // Log.d("DEBUG", searchQuery);
+            // Log.d("DEBUG", searchQuery);
         }
 
         // Populate Data
@@ -106,18 +106,18 @@ public class EventListFragment extends Fragment implements EventListCallback {
 
         List<ParseQuery<Event>> queries = new ArrayList<ParseQuery<Event>>();
         ParseQuery<Event> mainQuery;
-        if (searchFood != null){
+        if (searchFood != null) {
             //query.whereStartsWith("title", searchQuery);
             //query.whereMatches("title", "Michael", "i");
             //ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereContains("category", searchFood);
-            ParseQuery<Event> q2 =  ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
+            ParseQuery<Event> q2 = ParseQuery.getQuery(Event.class).whereMatches("category", searchFood, "i");
             queries.add(q2);
 
             //ParseQuery<Event> q3 = ParseQuery.getQuery(Event.class).whereEqualTo("locality", searchLocality); // TODO: This need geo search
             //queries.add(q3);
 
             mainQuery = ParseQuery.or(queries);
-        }else{
+        } else {
             mainQuery = ParseQuery.getQuery(Event.class);
         }
 
@@ -126,24 +126,24 @@ public class EventListFragment extends Fragment implements EventListCallback {
         mainQuery.setLimit(3);
         mainQuery.orderByDescending("createdAt");
         mainQuery.include("host");
-        if(lastCreatedAt != null){
+        if (lastCreatedAt != null) {
             mainQuery.whereLessThan("createdAt", lastCreatedAt);
         }
-        if(isProfileView){
+        if (isProfileView) {
             mainQuery.whereEqualTo("host", User.getCurrentUser());
         }
-        if(searchLocality != null && !searchLocality.isEmpty()){
+        if (searchLocality != null && !searchLocality.isEmpty()) {
             mainQuery.whereEqualTo("locality", searchLocality);
         }
 
-        if(isSubscriberView){
-            Log.d("DEBIG","I am in Subscriber");
+        if (isSubscriberView) {
+            Log.d("DEBIG", "I am in Subscriber");
             // Search on Attendee
             ParseQuery<Attendee> attendeeParseQuery = ParseQuery.getQuery(Attendee.class);
             attendeeParseQuery.whereEqualTo("user", User.getLoggedInUser());
             attendeeParseQuery.include("event");
             attendeeParseQuery.orderByDescending("createdAt");
-            if(lastCreatedAt != null){
+            if (lastCreatedAt != null) {
                 attendeeParseQuery.whereLessThan("createdAt", lastCreatedAt);
             }
             attendeeParseQuery.findInBackground(new FindCallback<Attendee>() {
@@ -151,8 +151,8 @@ public class EventListFragment extends Fragment implements EventListCallback {
                 public void done(List<Attendee> attendees, ParseException e) {
                     if (e == null) {
                         ArrayList<Event> arrayList = new ArrayList<>();
-                        for(Attendee a: attendees){
-                            if(a.getEvent()!= null){
+                        for (Attendee a : attendees) {
+                            if (a.getEvent() != null) {
                                 arrayList.add(a.getEvent());
                             }
                         }
@@ -167,7 +167,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
                     }
                 }
             });
-        }else {
+        } else {
             mainQuery.findInBackground(new FindCallback<Event>() {
                 @Override
                 public void done(List<Event> events, ParseException e) {
@@ -177,16 +177,16 @@ public class EventListFragment extends Fragment implements EventListCallback {
                         ArrayList<Event> arrayList = new ArrayList<>(events);
 
                         // TODO: Not Good....
-                        if(User.isUserLoggedIn()){
-                            for(Event ev : arrayList){
+                        if (User.isUserLoggedIn()) {
+                            for (Event ev : arrayList) {
                                 ParseRelation relation = ev.getRelation("attendees");
                                 ParseQuery query = relation.getQuery();
                                 query.whereEqualTo("subscribedBy", User.getLoggedInUser());
                                 try {
-                                    if(query.count() > 0){
+                                    if (query.count() > 0) {
                                         ev.setIsEnrolled(true);
                                     }
-                                }catch (Exception ex){
+                                } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }
 
@@ -209,7 +209,6 @@ public class EventListFragment extends Fragment implements EventListCallback {
     }
 
 
-
     private void setupRecyclerView() {
         rvEvents.setAdapter(recyclerViewAdapter);
 
@@ -219,7 +218,7 @@ public class EventListFragment extends Fragment implements EventListCallback {
         rvEvents.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                if(lastCreatedAt != null){
+                if (lastCreatedAt != null) {
                     getEvents();
                 }
             }
@@ -273,9 +272,9 @@ public class EventListFragment extends Fragment implements EventListCallback {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Enroll for event
-        if(resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE){
+        if (resultCode == FragmentCode.ENROLL_DIALOG_FRAGMENT_RESULT_CODE) {
             Log.d("DEBUG", "Message Received on Enroll..");
-            if(data.getStringExtra("position") != null && !data.getStringExtra("position").isEmpty()){
+            if (data.getStringExtra("position") != null && !data.getStringExtra("position").isEmpty()) {
                 int position = Integer.parseInt(data.getStringExtra("position"));
                 Event event = mEvents.get(position);
                 QZinDataAccess.saveAttendee(event, data.getIntExtra("guestCount", 1));

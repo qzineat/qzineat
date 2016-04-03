@@ -16,16 +16,16 @@ import java.util.Locale;
  */
 public class GeoUtil {
 
-    public static Address getGeoAddress(Context context, String address){
+    public static Address getGeoAddress(Context context, String address) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
             ArrayList<Address> addressList = (ArrayList<Address>) geocoder.getFromLocationName(address, 1);
 
-            for(Address add : addressList){
+            for (Address add : addressList) {
                 Log.d("DEBUG", add.toString());
             }
 
-            if(addressList.size() > 0){
+            if (addressList.size() > 0) {
                 return addressList.get(0);
             }
         } catch (IOException e) {
@@ -35,24 +35,24 @@ public class GeoUtil {
         return null;
     }
 
-    public static ParseGeoPoint getLocation(Address address){
+    public static ParseGeoPoint getLocation(Address address) {
         // latitude of 40.0 degrees and -30.0 degrees longitude
         // ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
         ParseGeoPoint point = null;
         try {
             point = new ParseGeoPoint(address.getLatitude(), address.getLongitude());
-        }catch (Exception e){
-            if (point == null){
+        } catch (Exception e) {
+            if (point == null) {
                 point = new ParseGeoPoint(Double.parseDouble("37.373698"), Double.parseDouble("-122.020303"));
 
             }
         }
-        Log.d("DEBUG","Printing point" + point );
+        Log.d("DEBUG", "Printing point" + point);
         return point;
     }
 
-    public static String getLocality(Address address){
-        if(address != null && address.getLocality() != null){
+    public static String getLocality(Address address) {
+        if (address != null && address.getLocality() != null) {
             return address.getLocality();
         }
         return "";
