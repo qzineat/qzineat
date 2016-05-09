@@ -6,15 +6,15 @@
               android:gravity="start">
 
     <LinearLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingEnd="10dp"
         android:layout_gravity="center_vertical"
+        android:layout_weight="0.15"
         >
         <ImageButton
             android:id="@+id/ibListView"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:src="@mipmap/ic_format_list_numbers"
             android:background="@android:color/transparent"
@@ -23,7 +23,7 @@
             />
         <ImageButton
             android:id="@+id/ibMapView"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:src="@mipmap/ic_google_maps_search"
@@ -33,10 +33,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="260dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        android:layout_weight="0.70">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -45,30 +45,32 @@
             android:id="@+id/llSearch1"
             >
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:src="@mipmap/ic_et_search"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/search_icon"/>
+                android:contentDescription="@string/search_icon"
+                android:layout_weight="0.15"/>
 
             <EditText
                 android:id="@+id/etSearch1"
-                android:layout_width="@dimen/search_edit_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/primary_search_hint"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_vertical"
                 android:textCursorDrawable="@null"
-                style="?searchEditText"/>
+                style="?searchEditText"
+                android:layout_weight="0.70"/>
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:id="@+id/ivSearchClear1"
                 android:src="@drawable/ic_close_white"
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"
-                />
+                android:layout_weight="0.15"/>
         </LinearLayout>
 
         <LinearLayout
@@ -78,15 +80,16 @@
             android:id="@+id/llSearch2"
             >
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:src="@mipmap/ic_et_search"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/search_icon"/>
+                android:contentDescription="@string/search_icon"
+                android:layout_weight="0.15"/>
 
             <EditText
                 android:id="@+id/etSearch2"
-                android:layout_width="@dimen/search_edit_size"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:hint="@string/location_search_hint"
@@ -94,27 +97,34 @@
                 android:layout_gravity="center_vertical"
                 android:textCursorDrawable="@null"
                 style="?searchEditText"
-                />
+                android:layout_weight="0.70"/>
             <ImageView
-                android:layout_width="25dp"
+                android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:id="@+id/ivSearchClear2"
                 android:src="@drawable/ic_close_white"
                 android:layout_gravity="center_vertical"
                 android:visibility="invisible"
-                />
+                android:layout_weight="0.15"/>
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/btnSearchContent"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_search_btn"
-        android:layout_gravity="left"
-        />
+        android:layout_weight="0.15"
+        android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        >
+        <ImageButton
+            android:id="@+id/btnSearchContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_search_btn"/>
+    </LinearLayout>
+
 
 </LinearLayout>
