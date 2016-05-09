@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.Settings;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -73,6 +74,11 @@ public class QZinEatApplication extends Application {
         //drawerImageLoader();
 
         //loadEventwithReview();
+
+        Settings.System.putInt(getContentResolver(),
+                Settings.System.ACCELEROMETER_ROTATION,
+                0);
+
     }
 
     private void loadEventwithReview() {

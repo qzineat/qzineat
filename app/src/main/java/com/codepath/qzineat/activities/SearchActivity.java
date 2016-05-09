@@ -57,6 +57,8 @@ public class SearchActivity extends AppCompatActivity {
     private ImageButton ibListView;
     private ImageButton ibMapView;
 
+    GoogleMap gmap;
+
 
     HashMap<String, String> mMarkersToEventIdMap = new HashMap<String, String>();
 
@@ -76,27 +78,13 @@ public class SearchActivity extends AppCompatActivity {
         setupSearch();
 
         isMapView = true;
-        setupMap(null, null);
+        initMap();
         showhideIcons();
     }
 
     public void setupMap(final String searchFood, final String searchLocality){
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        mapFragment = SupportMapFragment.newInstance();
-        fragmentManager.beginTransaction().replace(R.id.flContent, mapFragment).commit();
 
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    loadMap(map, searchFood, searchLocality);
-                }
-            });
-        } else {
-            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
-        }
     }
 
     // TODO: based on current location
@@ -161,7 +149,7 @@ public class SearchActivity extends AppCompatActivity {
 
                             if (!first) {
                                 // Move camera to nearest place
-                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(place, 12));
                             }
 
                             mMarkersToEventIdMap.put(m.getId(), ev.getObjectId());
@@ -169,9 +157,10 @@ public class SearchActivity extends AppCompatActivity {
                         first = true;
                     }
 
+                    
                     if(!first){
                         // Move camera to default place
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(pointLatLang, 12));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(pointLatLang, 12));
                     }
 
                 } else {
@@ -294,7 +283,8 @@ public class SearchActivity extends AppCompatActivity {
 
                 try {
                     if(isMapView){
-                        setupMap(etSearch1.getText().toString(), etSearch2.getText().toString());
+                        //setupMap(etSearch1.getText().toString(), etSearch2.getText().toString());
+                        loadMap(gmap, etSearch1.getText().toString(), etSearch2.getText().toString());
                     }else {
                         Bundle args = new Bundle();
                         args.putString("searchFood", etSearch1.getText().toString());
@@ -314,7 +304,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 isMapView = true;
-                setupMap(null, null);
+                //setupMap(null, null);
+                initMap();
                 showhideIcons();
             }
         });
@@ -364,6 +355,25 @@ public class SearchActivity extends AppCompatActivity {
         }else {
             ibMapView.setVisibility(View.VISIBLE);
             ibListView.setVisibility(View.GONE);
+        }
+    }
+
+    private void initMap(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        mapFragment = SupportMapFragment.newInstance();
+        fragmentManager.beginTransaction().replace(R.id.flContent, mapFragment).commit();
+
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    gmap = map;
+                    gmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    loadMap(gmap, null, null);
+                }
+            });
+        } else {
+            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -39,6 +39,7 @@
         android:protectionLevel="dangerous"/>
 
     <uses-feature android:name="android.hardware.screen.portrait" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name="com.codepath.qzineat.QZinEatApplication"
